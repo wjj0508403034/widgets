@@ -1,0 +1,39 @@
+{
+  "name": "huoyun-widgets",
+  "version": "1.0.0",
+  "description": "html5 widgets ui",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://wjj0508403034@github.com/wjj0508403034/widgets.git"
+  },
+  "keywords": [
+    "html5",
+    "widgets",
+    "ui"
+  ],
+  "author": "wjj0508403034@126.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wjj0508403034/widgets/issues"
+  },
+  "homepage": "https://github.com/wjj0508403034/widgets#readme",
+  "devDependencies": {
+    "admin-lte": "^2.3.11",
+    "angular": "^1.6.5",
+    "babel-preset-es2015": "^6.24.1",
+    "bootstrap": "^3.3.7",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify": "^1.0.0",
+    "gulp-minify-html": "^1.0.6",
+    "jquery": "2.2.3",
+    "ng-dialog": "^1.3.0"
+  }
+}

@@ -1,0 +1,26 @@
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: white !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
+}
+.widget-tip.alert.alert-success {
+  background: transparent;
+  border: none;
+  position: absolute;
+  left: 50%;
+  top: 90%;
+  width: 300px;
+  word-wrap: break-word;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
