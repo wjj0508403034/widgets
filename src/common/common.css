@@ -1,0 +1,11 @@
+.box .box-header .box-title {
+  font-weight: normal;
+  font-size: 14px;
+  color: #676767;
+}
+
+.box .box-header .box-tools .input-group .btn {
+  padding: 4px 15px;
+  margin-left: 10px;
+  font-size: 12px;
+}

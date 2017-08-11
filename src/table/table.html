@@ -1,0 +1,50 @@
+<div class="box widgets-table">
+  <div class="box-header">
+    <h3 class="box-title">
+      <i class="fa fa-server" aria-hidden="true"></i>
+      <span ng-bind="options.title"></span>
+    </h3>
+
+    <div class="box-tools">
+      <div class="input-group input-group-sm">
+        <button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)" ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)">
+          <i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i>
+          <span ng-bind="button.label"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="box-body table-responsive no-padding">
+    <table class="table table-hover table-bordered">
+      <tbody>
+        <tr class="no-hover">
+          <th ng-repeat="column in options.columns" ng-show="columnVisibility(column)" column-name="{{column.name}}" column-type="{{column.type}}" ng-style="columnStyle(column)">
+            <div ng-if="column.headerTemplateUrl" ng-include="column.headerTemplateUrl"></div>
+            <div ng-if="!column.headerTemplateUrl" ng-bind="column.label">
+            </div>
+          </th>
+        </tr>
+        <tr ng-show="source.content.length === 0">
+          <td class="empty-table" colspan="*">
+            <i class="fa fa-database"></i>
+            <span>暂无数据</span>
+          </td>
+        </tr>
+        <tr ng-show="source.content.length > 0" ng-repeat="lineData in source.content" ng-click="onLineClicked(lineData,$index)" ng-class="{true: 'selected', false: ''}[lineData.$$selected]">
+          <td class="table-column" column-name="{{column.name}}" column-type="{{column.type}} " ng-repeat="column in options.columns" ng-show="columnVisibility(column)" ng-style="columnStyle(column)">
+            <div ng-if="column.templateUrl" ng-include="column.templateUrl"></div>
+            <div ng-if="!column.templateUrl" ng-switch="column.type">
+              <span ng-switch-when="date " ng-bind="lineData[column.name] | date: getDateFilter() "></span>
+              <span ng-switch-default ng-bind="lineData[column.name] "></span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box-footer clearfix ">
+    <div class="pull-left table-footer-total"></div>
+    <div widgets-pagination ng-show="source.totalPages" page-data="source" on-paging-changed="onPagingChangedHandler(pageIndex) "></div>
+  </div>
+</div>

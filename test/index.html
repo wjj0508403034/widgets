@@ -1,6 +1,8 @@
 <html ng-app="Demo">
 
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>HuoYun Widgets Demo</title>
 
   <link href="./../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -10,7 +12,6 @@
   <link href="./index.css" rel="stylesheet">
 
   <script src="./../node_modules/jquery/dist/jquery.js"></script>
-  <script src="./../node_modules/jquery/dist/jquery.slim.min.js"></script>
   <script src="./../node_modules/bootstrap/dist/js/bootstrap.js"></script>
   <script src="./../node_modules/angular/angular.js"></script>
   <script src="./../node_modules/ng-dialog/js/ngDialog.js"></script>
@@ -22,6 +23,7 @@
 <body ng-controller="DemoController">
   <button ng-click="showDialog()">Dialog</button>
   <button ng-click="showTip()">Show Tip</button>
+  <div widgets-table options="tableOptions" source="dataSource"></div>
 </body>
 
 </html>

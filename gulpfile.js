@@ -8,6 +8,7 @@ const angularTemplatecache = require('gulp-angular-templatecache');
 const es = require('event-stream');
 const babel = require('gulp-babel');
 const concat = require('gulp-concat');
+const bom = require('gulp-bom');
 
 const DestFolder = "dist";
 const SourceFolder = "src";
@@ -42,11 +43,12 @@ gulp.task('build', ['clean', 'concat-css'], function() {
       presets: ['es2015']
     }))
     .pipe(concat(`${ModuleName}.js`))
-    .pipe(minify({
-      ext: {
-        src: '.js',
-        min: '.min.js'
-      }
-    }))
+    // .pipe(minify({
+    //   ext: {
+    //     src: '.js',
+    //     min: '.min.js'
+    //   }
+    // }))
+    .pipe(bom())
     .pipe(gulp.dest(DestFolder));
 });
