@@ -84,5 +84,27 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip",
       totalElements: 26,
       totalPages: 2
     };
+
+    $scope.videoOptions = {
+      title: "test.mp4",
+      fps: 15,
+      buttons: [{
+        name: "add",
+        label: "添加",
+        appendClass: "btn-primary",
+        onClick: function() {
+          console.log(this)
+        }
+      }, {
+        name: "cancel",
+        label: "取消",
+        onClick: function() {
+          console.log(this)
+        }
+      }],
+    };
+    $scope.src = "http://116.236.198.27:8083/201706120744414665428/Datalog/compress/201706120749214391572/right.avi_4.mp4";
   }
+
+
 ]);

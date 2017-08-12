@@ -1,0 +1,9 @@
+.widgets-video-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.widgets-video-player .box-footer {
+  background: #d2d6de;
+}
