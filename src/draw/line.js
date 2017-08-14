@@ -84,6 +84,12 @@ angular.module('huoyun.widget').factory("Line", ["Point", "draw", function(Point
     return `y=${this.k}x+${this.b}`;
   };
 
+  Line.prototype.remove = function() {
+    if (this.svgline) {
+      this.svgline.remove();
+    }
+  };
+
   Line.prototype.inline = function(point) {
     return (this.endPoint.y - this.startPoint.y) * (point.x - this.startPoint.x) ===
       (this.endPoint.x - this.startPoint.x) * (point.y - this.startPoint.y);

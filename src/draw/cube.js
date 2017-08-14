@@ -141,8 +141,9 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
           this.drawHorizontalGuideline();
           this.drawVerticalGuideline();
           this.drawCube();
-          this.hideGuideLinesAndPoints();
+          this.removeGuideLinesAndPoints();
           this.disableDrawing();
+          //this.polyline.selectize();
         }
       } else if (!isEnd) {
         this.guideline1.draw();
@@ -167,6 +168,10 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
       this.verticalGuideline = Line.VerticalLine(this.point10).setSvg(this.svg);
       this.point11 = this.verticalGuideline.crossingPoint(line2_of_rect2);
       this.verticalGuideline.setEndPoint(this.point11).draw();
+    };
+
+    Cube.prototype.select = function() {
+
     };
 
     Cube.prototype.drawCube = function() {
@@ -199,6 +204,15 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
       this.guideline2.style(style);
       this.verticalGuideline.style(style);
       this.horizontalGuideline.style(style);
+    };
+
+    Cube.prototype.removeGuideLinesAndPoints = function() {
+      this.rect1.remove();
+      this.rect2.remove();
+      this.guideline1.remove();
+      this.guideline2.remove();
+      this.verticalGuideline.remove();
+      this.horizontalGuideline.remove();
     };
 
     return Cube;

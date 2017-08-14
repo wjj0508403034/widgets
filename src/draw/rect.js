@@ -37,6 +37,12 @@ angular.module('huoyun.widget').factory("Rect", ["Point", "draw", "Line",
       return this;
     };
 
+    Rect.prototype.remove = function() {
+      if (this.polyline) {
+        this.polyline.remove();
+      }
+    };
+
     Rect.prototype.setStartPoint = function(point) {
       this.startPoint = point;
       return this;
