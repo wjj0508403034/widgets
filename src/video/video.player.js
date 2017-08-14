@@ -9,6 +9,7 @@ angular.module('huoyun.widget').directive('widgetsVideoPlayer', ["$log", "Video"
     return {
       restrict: 'A',
       scope: {
+        svgOptions: "=",
         options: "=",
         src: "=",
       },

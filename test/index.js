@@ -7,8 +7,12 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
-angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip",
-  function($scope, Dialog, Tip) {
+angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw",
+  function($scope, Dialog, Tip, Draw) {
+
+    $scope.svgOptions = {
+      line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200))
+    };
 
     $scope.showDialog = function() {
       Dialog.showError({})
