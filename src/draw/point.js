@@ -11,5 +11,18 @@ angular.module('huoyun.widget').factory("Point", [function() {
     return [this.x, this.y];
   };
 
+  Point.prototype.jsonValue = function() {
+    return {
+      x: this.x,
+      y: this.y
+    };
+  };
+
+  Point.prototype.add = function(x, y) {
+    return new Point(this.x + x, this.y + y);
+  };
+
+
+
   return Point;
 }]);

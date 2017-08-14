@@ -9,13 +9,10 @@ angular.module('huoyun.widget').directive("widgetsStoryBoard", ["$log", "svgHelp
       },
       link: function($scope, elem, attrs) {
         var svg = svgHelper.generateSVG(elem);
-        svgHelper.drawLine(svg, $scope.svgOptions.line);
-        var path = 'M 100 200 C 200 100 300 0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100'
-        svg.plain("水平消失线").font({ size: 42.5, family: 'Verdana' }).fill('#f06')
+        $scope.svgOptions.line.setSvg(svg).draw().text("水平消失线");
 
         var cube = new Draw.Cube();
-        cube.setHorizontalLine($scope.svgOptions.line);
-        cube.setSvg(svg);
+        cube.setHorizontalLine($scope.svgOptions.line).setSvg(svg).enableDrawing();
 
 
       }

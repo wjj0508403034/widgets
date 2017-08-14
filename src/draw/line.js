@@ -19,10 +19,22 @@ angular.module('huoyun.widget').factory("Line", ["Point", "draw", function(Point
 
   Line.prototype.setStartPoint = function(point) {
     this.startPoint = point;
+    return this;
   };
 
   Line.prototype.setSvg = function(svg) {
     this.svg = svg;
+    this.svgline = this.svg.line().stroke(drawProvider.line.stroke);
+    return this;
+  };
+
+  Line.prototype.style = function(style) {
+    if (!this.svg) {
+      throw new Error("Line not set story board");
+    }
+
+    this.svgline.style(style);
+    return this;
   };
 
   Line.prototype.setEndPoint = function(point) {
@@ -33,27 +45,39 @@ angular.module('huoyun.widget').factory("Line", ["Point", "draw", function(Point
     this.k = 0;
     if (this.startPoint.x !== this.endPoint.x) {
       this.k = (this.endPoint.y - this.startPoint.y) * 1.0 / (this.endPoint.x - this.startPoint.x);
+    } else {
+      this.k = Infinity;
     }
     this.b = this.startPoint.y - this.k * this.startPoint.x;
+    return this;
   };
 
-  Line.prototype.drawToCrossLine = function(line, point) {
-    this.setEndPoint(point);
-    var crossingPoint = this.crossingPoint(line);
-    if (crossingPoint) {
-      this.setEndPoint(crossingPoint);
+  Line.prototype.valid = function() {
+    if (!this.startPoint) {
+      throw new Error("Line not set start point");
     }
 
-    if (!this.svgline) {
-      this.svgline = this.svg.line(this.value()).stroke(drawProvider.line.stroke);
-    } else {
-      this.svgline.plot(this.value());
+    if (!this.endPoint) {
+      throw new Error("Line not set end point");
     }
+
+    if (!this.svg) {
+      throw new Error("Line not set story board");
+    }
+
+    return this;
   };
 
-  Line.prototype.canCrossWithLine = function(line, point) {
-    this.setEndPoint(point);
-    return !!this.crossingPoint(line);
+  Line.prototype.draw = function() {
+    this.valid().svgline.plot(this.value());
+    return this;
+  };
+
+  Line.prototype.text = function(text) {
+    this.valid();
+    var textPosition = this.startPoint.add(0, -10).jsonValue();
+    this.svg.plain(text).font(drawProvider.text.font).fill(drawProvider.text.fill).attr(textPosition);
+    return this;
   };
 
   Line.prototype.formula = function() {
@@ -69,14 +93,35 @@ angular.module('huoyun.widget').factory("Line", ["Point", "draw", function(Point
     if (this.k === line2.k) {
       return;
     }
+    var x = null;
+    var y = null;
+    if (this.k === Infinity) {
+      x = this.startPoint.x;
+      y = line2.k * x + line2.b;
+      return new Point(x, y);
+    }
 
-    var x = (line2.b - this.b) * 1.0 / (this.k - line2.k);
-    var y = (this.k * line2.b - line2.k * this.b) * 1.0 / (this.k - line2.k);
+    if (line2.k === Infinity) {
+      x = line2.startPoint.x;
+      y = this.k * x + this.b;
+      return new Point(x, y);
+    }
+
+    x = (line2.b - this.b) * 1.0 / (this.k - line2.k);
+    y = (this.k * line2.b - line2.k * this.b) * 1.0 / (this.k - line2.k);
     return new Point(x, y);
   };
 
   Line.prototype.value = function() {
     return [this.startPoint.value(), this.endPoint.value()];
+  };
+
+  Line.HorizontalLine = function(point) {
+    return new Line(point, point.add(10, 0));
+  };
+
+  Line.VerticalLine = function(point) {
+    return new Line(point, point.add(0, 10));
   };
 
   return Line;

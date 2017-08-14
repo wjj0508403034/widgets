@@ -183,6 +183,525 @@ angular.module('huoyun.widget').factory("Dialog", ['$q', 'ngDialog', function ($
 }]);
 'use strict';
 
+angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "Rect", "draw", function (Point, Line, svgHelper, Rect, drawProvider) {
+
+  function Cube() {
+
+    this.polyline = null;
+
+    /**
+     * 车尾矩形框
+     */
+    this.rect1 = null;
+
+    /**
+     * 整车矩形框
+     */
+    this.rect2 = null;
+
+    /**
+     * 车轮边线，辅助线1
+     */
+    this.guideline1 = null;
+
+    /**
+     * 辅助线2
+     */
+    this.guideline2 = null;
+
+    this.verticalGuideline = null;
+    this.horizontalGuideline = null;
+
+    /**
+     * 水平消失线
+     */
+    this.horizontalLine = null;
+
+    /**
+     * 水平消失线与车轮边线交点
+     */
+    this.horizontalLineCrossingPoint = null;
+
+    /**
+     * 第一条辅助线与整车矩形框交点
+     */
+    this.point9 = null;
+
+    this.point10 = null;
+    this.point11 = null;
+  }
+
+  Cube.prototype.setHorizontalLine = function (line) {
+    this.horizontalLine = line;
+    return this;
+  };
+
+  Cube.prototype.disableDrawing = function () {
+    if (!this.svg) {
+      throw new Error("Cube not set story board");
+    }
+
+    this.svg.off("mousedown");
+    this.svg.off("mousemove");
+
+    return this;
+  };
+
+  Cube.prototype.enableDrawing = function () {
+    if (!this.svg) {
+      throw new Error("Cube not set story board");
+    }
+    var that = this;
+    this.svg.on("mousedown", function (event) {
+      var point = new Point(event.offsetX, event.offsetY);
+      if (!that.drawing) {
+        that.drawing = "rect1";
+        that.rect1 = new Rect();
+        that.rect1.setSvg(that.svg).setStartPoint(point);
+      } else {
+        if (that.drawing === "rect1") {
+          that.drawRect1(point, true);
+        } else if (that.drawing === "rect2") {
+          that.drawRect2(point, true);
+        } else if (that.drawing === "guideline1") {
+          that.drawGuideline1(point, true);
+        }
+      }
+    });
+
+    this.svg.on("mousemove", function (event) {
+      var point = new Point(event.offsetX, event.offsetY);
+      if (that.drawing === "rect1") {
+        that.drawRect1(point, false);
+        return;
+      }
+
+      if (that.drawing === "rect2") {
+        that.drawRect2(point, false);
+        return;
+      }
+
+      if (that.drawing === "guideline1") {
+        that.drawGuideline1(point, false);
+      }
+    });
+    return this;
+  };
+
+  Cube.prototype.setSvg = function (svg) {
+    this.svg = svg;
+    this.polyline = this.svg.polyline().fill(drawProvider.fill).stroke(drawProvider.line.stroke);
+    return this;
+  };
+
+  Cube.prototype.drawRect1 = function (point, isEnd) {
+    this.rect1.setEndPoint(point).draw();
+    if (isEnd) {
+      this.drawing = "rect2";
+      this.rect2 = new Rect();
+      this.rect2.setSvg(this.svg).setStartPoint(this.rect1.startPoint);
+    }
+  };
+
+  Cube.prototype.drawRect2 = function (point, isEnd) {
+    this.rect2.setEndPoint(point).draw();
+    if (isEnd) {
+      this.drawing = "guideline1";
+      this.guideline1 = new Line();
+      this.guideline1.setSvg(this.svg).setStartPoint(this.rect1.getPoint2());
+    }
+  };
+
+  Cube.prototype.drawGuideline1 = function (point, isEnd) {
+    this.horizontalLineCrossingPoint = this.guideline1.setEndPoint(point).crossingPoint(this.horizontalLine);
+    if (this.horizontalLineCrossingPoint) {
+      this.guideline1.setEndPoint(this.horizontalLineCrossingPoint).draw();
+      if (isEnd) {
+        this.drawing = "end";
+        this.drawGuideline2();
+        this.drawHorizontalGuideline();
+        this.drawVerticalGuideline();
+        this.drawCube();
+        this.hideGuideLinesAndPoints();
+        this.disableDrawing();
+      }
+    } else if (!isEnd) {
+      this.guideline1.draw();
+    }
+  };
+
+  Cube.prototype.drawGuideline2 = function () {
+    this.guideline2 = new Line(this.rect1.startPoint, this.horizontalLineCrossingPoint);
+    this.guideline2.setSvg(this.svg).draw();
+  };
+
+  Cube.prototype.drawHorizontalGuideline = function () {
+    var line2_of_rect2 = this.rect2.getLine2();
+    this.point9 = line2_of_rect2.crossingPoint(this.guideline1);
+    this.horizontalGuideline = Line.HorizontalLine(this.point9).setSvg(this.svg);
+    this.point10 = this.horizontalGuideline.crossingPoint(this.guideline2);
+    this.horizontalGuideline.setEndPoint(this.point10).draw();
+  };
+
+  Cube.prototype.drawVerticalGuideline = function () {
+    var line2_of_rect2 = this.rect2.getLine3();
+    this.verticalGuideline = Line.VerticalLine(this.point10).setSvg(this.svg);
+    this.point11 = this.verticalGuideline.crossingPoint(line2_of_rect2);
+    this.verticalGuideline.setEndPoint(this.point11).draw();
+  };
+
+  Cube.prototype.drawCube = function () {
+    var points = [];
+    points.push(this.rect1.getPoint1().value());
+    points.push(this.rect1.getPoint2().value());
+    points.push(this.rect1.getPoint3().value());
+    points.push(this.rect1.getPoint4().value());
+    points.push(this.rect1.getPoint1().value());
+    points.push(this.rect1.getPoint4().value());
+    points.push(this.point11.value());
+    points.push(this.rect2.getPoint3().value());
+    points.push(this.rect1.getPoint3().value());
+    points.push(this.rect1.getPoint2().value());
+    points.push(this.point9.value());
+    points.push(this.rect2.getPoint3().value());
+    points.push(this.point9.value());
+    points.push(this.point10.value());
+    points.push(this.point11.value());
+    points.push(this.point10.value());
+    points.push(this.rect1.getPoint1().value());
+    this.polyline.plot(points);
+  };
+
+  Cube.prototype.hideGuideLinesAndPoints = function () {
+    var style = { "display": "none" };
+    this.rect1.style(style);
+    this.rect2.style(style);
+    this.guideline1.style(style);
+    this.guideline2.style(style);
+    this.verticalGuideline.style(style);
+    this.horizontalGuideline.style(style);
+  };
+
+  return Cube;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').provider("draw", function () {
+
+  this.line = {
+    stroke: {
+      color: '#f06',
+      width: 1,
+      linecap: 'round'
+    }
+  };
+
+  this.fill = "rgba(109, 33, 33, 0.25)";
+
+  this.text = {
+    font: {
+      size: 18,
+      family: 'Verdana'
+    },
+    fill: "#f06"
+  };
+
+  this.$get = function () {
+    return this;
+  };
+});
+'use strict';
+
+angular.module('huoyun.widget').factory("Draw", ["Point", "Line", "Cube", function (Point, Line, Cube) {
+
+  return {
+    Point: Point,
+    Line: Line,
+    Cube: Cube
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("Line", ["Point", "draw", function (Point, drawProvider) {
+
+  function Line(startPoint, endPoint) {
+    this.startPoint = null;
+    this.endPoint = null;
+    this.k = null;
+    this.svgline = null;
+
+    if (startPoint) {
+      this.setStartPoint(startPoint);
+    }
+
+    if (endPoint) {
+      this.setEndPoint(endPoint);
+    }
+  }
+
+  Line.prototype.setStartPoint = function (point) {
+    this.startPoint = point;
+    return this;
+  };
+
+  Line.prototype.setSvg = function (svg) {
+    this.svg = svg;
+    this.svgline = this.svg.line().stroke(drawProvider.line.stroke);
+    return this;
+  };
+
+  Line.prototype.style = function (style) {
+    if (!this.svg) {
+      throw new Error("Line not set story board");
+    }
+
+    this.svgline.style(style);
+    return this;
+  };
+
+  Line.prototype.setEndPoint = function (point) {
+    if (!this.startPoint) {
+      throw new Error("Must set line start point first.");
+    }
+    this.endPoint = point;
+    this.k = 0;
+    if (this.startPoint.x !== this.endPoint.x) {
+      this.k = (this.endPoint.y - this.startPoint.y) * 1.0 / (this.endPoint.x - this.startPoint.x);
+    } else {
+      this.k = Infinity;
+    }
+    this.b = this.startPoint.y - this.k * this.startPoint.x;
+    return this;
+  };
+
+  Line.prototype.valid = function () {
+    if (!this.startPoint) {
+      throw new Error("Line not set start point");
+    }
+
+    if (!this.endPoint) {
+      throw new Error("Line not set end point");
+    }
+
+    if (!this.svg) {
+      throw new Error("Line not set story board");
+    }
+
+    return this;
+  };
+
+  Line.prototype.draw = function () {
+    this.valid().svgline.plot(this.value());
+    return this;
+  };
+
+  Line.prototype.text = function (text) {
+    this.valid();
+    var textPosition = this.startPoint.add(0, -10).jsonValue();
+    this.svg.plain(text).font(drawProvider.text.font).fill(drawProvider.text.fill).attr(textPosition);
+    return this;
+  };
+
+  Line.prototype.formula = function () {
+    return 'y=' + this.k + 'x+' + this.b;
+  };
+
+  Line.prototype.inline = function (point) {
+    return (this.endPoint.y - this.startPoint.y) * (point.x - this.startPoint.x) === (this.endPoint.x - this.startPoint.x) * (point.y - this.startPoint.y);
+  };
+
+  Line.prototype.crossingPoint = function (line2) {
+    if (this.k === line2.k) {
+      return;
+    }
+    var x = null;
+    var y = null;
+    if (this.k === Infinity) {
+      x = this.startPoint.x;
+      y = line2.k * x + line2.b;
+      return new Point(x, y);
+    }
+
+    if (line2.k === Infinity) {
+      x = line2.startPoint.x;
+      y = this.k * x + this.b;
+      return new Point(x, y);
+    }
+
+    x = (line2.b - this.b) * 1.0 / (this.k - line2.k);
+    y = (this.k * line2.b - line2.k * this.b) * 1.0 / (this.k - line2.k);
+    return new Point(x, y);
+  };
+
+  Line.prototype.value = function () {
+    return [this.startPoint.value(), this.endPoint.value()];
+  };
+
+  Line.HorizontalLine = function (point) {
+    return new Line(point, point.add(10, 0));
+  };
+
+  Line.VerticalLine = function (point) {
+    return new Line(point, point.add(0, 10));
+  };
+
+  return Line;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("Point", [function () {
+
+  function Point(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  Point.prototype.value = function () {
+    return [this.x, this.y];
+  };
+
+  Point.prototype.jsonValue = function () {
+    return {
+      x: this.x,
+      y: this.y
+    };
+  };
+
+  Point.prototype.add = function (x, y) {
+    return new Point(this.x + x, this.y + y);
+  };
+
+  return Point;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("Rect", ["Point", "draw", "Line", function (Point, drawProvider, Line) {
+
+  /**
+   * 矩形
+   *   point3(endPoint) line3        point4
+   *           ==========================
+   *           =                        =
+   *           =                        =
+   *   line2   =                        =  line4
+   *           =                        =
+   *           ==========================
+   *        point2        line1        point1(startPoint)
+   */
+  function Rect() {
+    this.startPoint = null;
+    this.endPoint = null;
+    this.polyline = null;
+  }
+
+  Rect.prototype.setSvg = function (svg) {
+    this.svg = svg;
+    this.polyline = this.svg.polyline().fill(drawProvider.fill).stroke(drawProvider.line.stroke);
+    return this;
+  };
+
+  Rect.prototype.style = function (style) {
+    if (!this.polyline) {
+      throw new Error("Line not set story board");
+    }
+
+    this.polyline.style(style);
+    return this;
+  };
+
+  Rect.prototype.setStartPoint = function (point) {
+    this.startPoint = point;
+    return this;
+  };
+
+  Rect.prototype.setEndPoint = function (point) {
+    this.endPoint = point;
+    return this;
+  };
+
+  Rect.prototype.draw = function () {
+    var points = [];
+    points.push(this.getPoint1().value());
+    points.push(this.getPoint2().value());
+    points.push(this.getPoint3().value());
+    points.push(this.getPoint4().value());
+    points.push(this.getPoint1().value());
+    this.polyline.plot(points);
+    return this;
+  };
+
+  Rect.prototype.getPoint1 = function () {
+    return this.startPoint;
+  };
+
+  Rect.prototype.getPoint2 = function () {
+    return new Point(this.endPoint.x, this.startPoint.y);
+  };
+
+  Rect.prototype.getPoint3 = function () {
+    return this.endPoint;
+  };
+
+  Rect.prototype.getPoint4 = function () {
+    return new Point(this.startPoint.x, this.endPoint.y);
+  };
+
+  Rect.prototype.getLine2 = function () {
+    return new Line(this.getPoint2(), this.getPoint3());
+  };
+
+  Rect.prototype.getLine3 = function () {
+    return new Line(this.getPoint3(), this.getPoint4());
+  };
+
+  return Rect;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive("widgetsStoryBoard", ["$log", "svgHelper", "Draw", function ($log, svgHelper, Draw) {
+  return {
+    restrict: "A",
+    scope: {
+      svgOptions: "="
+    },
+    link: function link($scope, elem, attrs) {
+      var svg = svgHelper.generateSVG(elem);
+      $scope.svgOptions.line.setSvg(svg).draw().text("水平消失线");
+
+      var cube = new Draw.Cube();
+      cube.setHorizontalLine($scope.svgOptions.line).setSvg(svg).enableDrawing();
+    }
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("svgHelper", ["draw", function (drawProvider) {
+  return {
+    generateSVG: function generateSVG(elem) {
+      var svgId = 'svg' + new Date().getTime();
+      var storyBoardContainer = angular.element("<div class='svg-story-board-container'></div>").attr("id", svgId);
+      storyBoardContainer.css("height", "100%").css("width", "100%");
+      elem.append(storyBoardContainer);
+      var svg = SVG(svgId);
+      svg.size("100%", "100%");
+      return svg;
+    },
+
+    drawLine: function drawLine(svg, line) {
+      svg.line(line.value()).stroke(drawProvider.line.stroke);
+    },
+
+    updateLine: function updateLine(line, point1, point2) {
+      return line.plot([point1.value(), point2.value()]);
+    },
+
+    drawLineByPoints: function drawLineByPoints(svg, point1, point2) {
+      return svg.line([point1.value(), point2.value()]).stroke(drawProvider.line.stroke);
+    }
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').directive('widgetsPagination', function () {
   return {
     restrict: 'A',
@@ -786,323 +1305,6 @@ angular.module('huoyun.widget').provider("video", function () {
     return this;
   };
 });
-'use strict';
-
-angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "Rect", function (Point, Line, svgHelper, Rect) {
-
-  function Cube() {
-    /**
-     * 车尾矩形框
-     */
-    this.rect1 = null;
-
-    /**
-     * 整车矩形框
-     */
-    this.rect2 = null;
-
-    /**
-     * 车轮边线
-     */
-    this.line1 = null;
-
-    /**
-     * 水平消失线
-     */
-    this.horizontalLine = null;
-
-    /**
-     * 水平消失线与车轮边线交点
-     */
-    this.horizontalLineCrossingPoint = null;
-  }
-
-  Cube.prototype.setHorizontalLine = function (line) {
-    this.horizontalLine = line;
-  };
-
-  Cube.prototype.setSvg = function (svg) {
-    this.svg = svg;
-    var that = this;
-
-    svg.mousedown(function (event) {
-      var point = new Point(event.offsetX, event.offsetY);
-      if (!that.drawing) {
-        that.drawing = "rect1";
-        that.rect1 = new Rect();
-        that.rect1.setSvg(that.svg);
-        that.rect1.startPoint = point;
-      } else {
-        if (that.drawing === "rect1") {
-          that.rect1.endToPoint(point);
-          that.drawing = "rect2";
-          that.rect2 = new Rect();
-          that.rect2.setSvg(that.svg);
-          that.rect2.startPoint = that.rect1.startPoint;
-        } else if (that.drawing === "rect2") {
-          that.rect2.endToPoint(point);
-          that.drawing = "line1";
-          that.line1 = new Line();
-          that.line1.setSvg(that.svg);
-          that.line1.setStartPoint(that.rect1.getSecondPoint());
-        } else if (that.drawing === "line1") {
-          if (that.line1.canCrossWithLine(that.horizontalLine, point)) {
-            that.drawing = "end";
-            that.line1.drawToCrossLine(that.horizontalLine, point);
-          }
-        }
-      }
-    });
-
-    svg.mousemove(function (event) {
-      var point = new Point(event.offsetX, event.offsetY);
-      if (that.drawing === "rect1") {
-        that.rect1.drawToPoint(point);
-        return;
-      }
-
-      if (that.drawing === "rect2") {
-        that.rect2.drawToPoint(point);
-        return;
-      }
-
-      if (that.drawing === "line1") {
-        that.line1.drawToCrossLine(that.horizontalLine, point);
-      }
-
-      // if (that.drawing) {
-      //   var point = new Point(event.offsetX, event.offsetY);
-      //   var crossingPoint = that.getHorizontalLineCrossingPoint(point);
-      //   that.wire(crossingPoint || point);
-      // }
-    });
-  };
-
-  Cube.prototype.getHorizontalLineCrossingPoint = function (point) {
-    var line = new Line(this.point1, point);
-    return this.horizontalLine.crossingPoint(line);
-  };
-
-  Cube.prototype.wire = function (point) {
-    if (this.line1) {
-      svgHelper.updateLine(this.line1, this.point1, point);
-    } else {
-      this.line1 = svgHelper.drawLineByPoints(this.svg, this.point1, point);
-    }
-  };
-
-  return Cube;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').provider("draw", function () {
-
-  this.line = {
-    stroke: {
-      color: '#f06',
-      width: 3,
-      linecap: 'round'
-    }
-  };
-
-  this.fill = "rgba(109, 33, 33, 0.25)";
-
-  this.$get = function () {
-    return this;
-  };
-});
-'use strict';
-
-angular.module('huoyun.widget').factory("Draw", ["Point", "Line", "Cube", function (Point, Line, Cube) {
-
-  return {
-    Point: Point,
-    Line: Line,
-    Cube: Cube
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("Line", ["Point", "draw", function (Point, drawProvider) {
-
-  function Line(startPoint, endPoint) {
-    this.startPoint = null;
-    this.endPoint = null;
-    this.k = null;
-    this.svgline = null;
-
-    if (startPoint) {
-      this.setStartPoint(startPoint);
-    }
-
-    if (endPoint) {
-      this.setEndPoint(endPoint);
-    }
-  }
-
-  Line.prototype.setStartPoint = function (point) {
-    this.startPoint = point;
-  };
-
-  Line.prototype.setSvg = function (svg) {
-    this.svg = svg;
-  };
-
-  Line.prototype.setEndPoint = function (point) {
-    if (!this.startPoint) {
-      throw new Error("Must set line start point first.");
-    }
-    this.endPoint = point;
-    this.k = 0;
-    if (this.startPoint.x !== this.endPoint.x) {
-      this.k = (this.endPoint.y - this.startPoint.y) * 1.0 / (this.endPoint.x - this.startPoint.x);
-    }
-    this.b = this.startPoint.y - this.k * this.startPoint.x;
-  };
-
-  Line.prototype.drawToCrossLine = function (line, point) {
-    this.setEndPoint(point);
-    var crossingPoint = this.crossingPoint(line);
-    if (crossingPoint) {
-      this.setEndPoint(crossingPoint);
-    }
-
-    if (!this.svgline) {
-      this.svgline = this.svg.line(this.value()).stroke(drawProvider.line.stroke);
-    } else {
-      this.svgline.plot(this.value());
-    }
-  };
-
-  Line.prototype.canCrossWithLine = function (line, point) {
-    this.setEndPoint(point);
-    return !!this.crossingPoint(line);
-  };
-
-  Line.prototype.formula = function () {
-    return 'y=' + this.k + 'x+' + this.b;
-  };
-
-  Line.prototype.inline = function (point) {
-    return (this.endPoint.y - this.startPoint.y) * (point.x - this.startPoint.x) === (this.endPoint.x - this.startPoint.x) * (point.y - this.startPoint.y);
-  };
-
-  Line.prototype.crossingPoint = function (line2) {
-    if (this.k === line2.k) {
-      return;
-    }
-
-    var x = (line2.b - this.b) * 1.0 / (this.k - line2.k);
-    var y = (this.k * line2.b - line2.k * this.b) * 1.0 / (this.k - line2.k);
-    return new Point(x, y);
-  };
-
-  Line.prototype.value = function () {
-    return [this.startPoint.value(), this.endPoint.value()];
-  };
-
-  return Line;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("Point", [function () {
-
-  function Point(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  Point.prototype.value = function () {
-    return [this.x, this.y];
-  };
-
-  return Point;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("Rect", ["Point", "draw", function (Point, drawProvider) {
-
-  function Rect() {
-    this.startPoint = null;
-    this.endPoint = null;
-    this.polyline = null;
-  }
-
-  Rect.prototype.setSvg = function (svg) {
-    this.svg = svg;
-  };
-
-  Rect.prototype.drawToPoint = function (point) {
-    var pointArray = this.getPointArray(this.startPoint, point);
-    if (!this.polyline) {
-      this.polyline = this.svg.polyline(pointArray).fill(drawProvider.fill).stroke(drawProvider.line.stroke);
-    } else {
-      this.polyline.plot(pointArray);
-    }
-  };
-
-  Rect.prototype.endToPoint = function (point) {
-    this.endPoint = point;
-    this.polyline.plot(this.getPointArray(this.startPoint, this.endPoint));
-  };
-
-  Rect.prototype.getPointArray = function (startPoint, endPoint) {
-    return [startPoint.value(), [startPoint.x, endPoint.y], endPoint.value(), [endPoint.x, startPoint.y], startPoint.value()];
-  };
-
-  Rect.prototype.getSecondPoint = function () {
-    return new Point(this.endPoint.x, this.startPoint.y);
-  };
-
-  return Rect;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive("widgetsStoryBoard", ["$log", "svgHelper", "Draw", function ($log, svgHelper, Draw) {
-  return {
-    restrict: "A",
-    scope: {
-      svgOptions: "="
-    },
-    link: function link($scope, elem, attrs) {
-      var svg = svgHelper.generateSVG(elem);
-      svgHelper.drawLine(svg, $scope.svgOptions.line);
-      var path = 'M 100 200 C 200 100 300 0 400 100 C 500 200 600 300 700 200 C 800 100 900 100 900 100';
-      svg.plain("水平消失线").font({ size: 42.5, family: 'Verdana' }).fill('#f06');
-
-      var cube = new Draw.Cube();
-      cube.setHorizontalLine($scope.svgOptions.line);
-      cube.setSvg(svg);
-    }
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("svgHelper", ["draw", function (drawProvider) {
-  return {
-    generateSVG: function generateSVG(elem) {
-      var svgId = 'svg' + new Date().getTime();
-      var storyBoardContainer = angular.element("<div class='svg-story-board-container'></div>").attr("id", svgId);
-      storyBoardContainer.css("height", "100%").css("width", "100%");
-      elem.append(storyBoardContainer);
-      var svg = SVG(svgId);
-      svg.size("100%", "100%");
-      return svg;
-    },
-
-    drawLine: function drawLine(svg, line) {
-      svg.line(line.value()).stroke(drawProvider.line.stroke);
-    },
-
-    updateLine: function updateLine(line, point1, point2) {
-      return line.plot([point1.value(), point2.value()]);
-    },
-
-    drawLineByPoints: function drawLineByPoints(svg, point1, point2) {
-      return svg.line([point1.value(), point2.value()]).stroke(drawProvider.line.stroke);
-    }
-  };
-}]);
 'use strict';
 
 angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
