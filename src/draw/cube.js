@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "Rect", "draw",
-  function(Point, Line, svgHelper, Rect, drawProvider) {
+angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "Rect", "draw", "Timeline",
+  function(Point, Line, svgHelper, Rect, drawProvider, Timeline) {
 
     function Cube() {
 
@@ -108,7 +108,7 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
 
     Cube.prototype.setSvg = function(svg) {
       this.svg = svg;
-      this.polyline = this.svg.polyline().fill(drawProvider.fill)
+      this.polyline = this.svg.polyline().fill(drawProvider.randomColor())
         .stroke(drawProvider.line.stroke);
       return this;
     };
