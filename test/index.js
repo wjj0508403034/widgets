@@ -11,7 +11,15 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
   function($scope, Dialog, Tip, Draw) {
 
     $scope.svgOptions = {
-      line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200))
+      line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200)),
+      objects: [],
+      callbacks: [],
+      registerObjectCreate: function(callback) {
+        this.callbacks.push(callback);
+      },
+      afterSvgInit: function(svg) {
+        this.line.setSvg(svg).draw().text("水平消失线");
+      }
     };
 
     $scope.showDialog = function() {
@@ -97,7 +105,15 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         label: "添加",
         appendClass: "btn-primary",
         onClick: function() {
-          console.log(this)
+          var object = new Draw.Cube();
+          object.setHorizontalLine($scope.svgOptions.line);
+          //var that = this;
+
+          $scope.svgOptions.callbacks.forEach(function(callback) {
+            callback(object);
+          });
+          //$scope.svgOptions.objects.push(new Draw.Cube());
+          //console.log(this)
         }
       }, {
         name: "cancel",

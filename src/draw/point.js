@@ -11,7 +11,7 @@ angular.module('huoyun.widget').factory("Point", [function() {
     return [this.x, this.y];
   };
 
-  Point.prototype.jsonValue = function() {
+  Point.prototype.getData = function() {
     return {
       x: this.x,
       y: this.y

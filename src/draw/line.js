@@ -75,7 +75,7 @@ angular.module('huoyun.widget').factory("Line", ["Point", "draw", function(Point
 
   Line.prototype.text = function(text) {
     this.valid();
-    var textPosition = this.startPoint.add(0, -10).jsonValue();
+    var textPosition = this.startPoint.add(0, -10).getData();
     this.svg.plain(text).font(drawProvider.text.font).fill(drawProvider.text.fill).attr(textPosition);
     return this;
   };

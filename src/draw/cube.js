@@ -1,11 +1,22 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "Rect", "draw", "Timeline",
-  function(Point, Line, svgHelper, Rect, drawProvider, Timeline) {
+angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw", "Timeline", "Quadrilateral",
+  function(Point, Line, Rect, drawProvider, Timeline, Quadrilateral) {
 
     function Cube() {
-
+      this.timeline = new Timeline();
+      this.svgGroup = null;
       this.polyline = null;
+
+      /**
+       * 立方体6个面，分别定义为1,2,3,4,5,6
+       */
+      this.surface1 = null;
+      this.surface2 = null;
+      this.surface3 = null;
+      this.surface4 = null;
+      this.surface5 = null;
+      this.surface6 = null;
 
       /**
        * 车尾矩形框
@@ -106,10 +117,33 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
       return this;
     };
 
+    Cube.prototype.add = function(obj) {
+      if (obj && typeof obj.getSvgObj === "function") {
+        this.svgGroup.add(obj.getSvgObj());
+      }
+    };
+
     Cube.prototype.setSvg = function(svg) {
       this.svg = svg;
+      var parentBox = this.svg.rbox();
+      this.svgGroup = this.svg.group();
+      this.svgGroup.path(`M0,0L${parentBox.width},${parentBox.height}`);
       this.polyline = this.svg.polyline().fill(drawProvider.randomColor())
         .stroke(drawProvider.line.stroke);
+      this.svgGroup.add(this.polyline);
+
+      var that = this;
+      [1, 2, 3, 4, 5, 6].forEach(function(index) {
+        var color = drawProvider.randomColor();
+        var propName = `surface${index}`;
+        that[propName] = new Quadrilateral();
+        that[propName].setSvg(that.svg).setFillColor(color);
+        that.add(that[propName]);
+      })
+      return this;
+    };
+
+    Cube.prototype.setTime = function(time) {
       return this;
     };
 
@@ -143,7 +177,6 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
           this.drawCube();
           this.removeGuideLinesAndPoints();
           this.disableDrawing();
-          //this.polyline.selectize();
         }
       } else if (!isEnd) {
         this.guideline1.draw();
@@ -170,40 +203,66 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "svgHelper", "
       this.verticalGuideline.setEndPoint(this.point11).draw();
     };
 
-    Cube.prototype.select = function() {
+    Cube.prototype.getData = function() {
+      var data = [];
 
+      var that = this;
+      [1, 2, 3, 4, 5, 6].forEach(function(index) {
+        data.push(that[`surface${index}`].getData());
+      });
+
+      return data;
     };
 
     Cube.prototype.drawCube = function() {
-      var points = [];
-      points.push(this.rect1.getPoint1().value());
-      points.push(this.rect1.getPoint2().value());
-      points.push(this.rect1.getPoint3().value());
-      points.push(this.rect1.getPoint4().value());
-      points.push(this.rect1.getPoint1().value());
-      points.push(this.rect1.getPoint4().value());
-      points.push(this.point11.value());
-      points.push(this.rect2.getPoint3().value());
-      points.push(this.rect1.getPoint3().value());
-      points.push(this.rect1.getPoint2().value());
-      points.push(this.point9.value());
-      points.push(this.rect2.getPoint3().value());
-      points.push(this.point9.value());
-      points.push(this.point10.value());
-      points.push(this.point11.value());
-      points.push(this.point10.value());
-      points.push(this.rect1.getPoint1().value());
-      this.polyline.plot(points);
-    };
+      this.surface1.setPoints(
+        this.rect1.getPoint1(),
+        this.rect1.getPoint2(),
+        this.rect1.getPoint3(),
+        this.rect1.getPoint4()
+      );
 
-    Cube.prototype.hideGuideLinesAndPoints = function() {
-      var style = { "display": "none" };
-      this.rect1.style(style);
-      this.rect2.style(style);
-      this.guideline1.style(style);
-      this.guideline2.style(style);
-      this.verticalGuideline.style(style);
-      this.horizontalGuideline.style(style);
+      this.surface2.setPoints(
+        this.rect1.getPoint1(),
+        this.point10,
+        this.point11,
+        this.rect1.getPoint4()
+      );
+
+      this.surface3.setPoints(
+        this.rect1.getPoint4(),
+        this.rect1.getPoint3(),
+        this.rect2.getPoint3(),
+        this.point11
+      );
+
+      this.surface4.setPoints(
+        this.point10,
+        this.point9,
+        this.rect2.getPoint3(),
+        this.point11
+      );
+
+      this.surface5.setPoints(
+        this.rect1.getPoint2(),
+        this.point9,
+        this.rect2.getPoint3(),
+        this.rect1.getPoint3(),
+      );
+
+      this.surface6.setPoints(
+        this.rect1.getPoint1(),
+        this.rect1.getPoint2(),
+        this.point9,
+        this.point10
+      );
+
+      var that = this;
+      [1, 2, 3, 4, 5, 6].forEach(function(index) {
+        that[`surface${index}`].draw();
+      });
+
+      console.log(this.getData());
     };
 
     Cube.prototype.removeGuideLinesAndPoints = function() {

@@ -5,10 +5,15 @@ angular.module('huoyun.widget').factory("Timeline", [
 
     function Timeline() {
       this.timeline = {};
+      this.currentTime = null;
     }
 
     Timeline.prototype.getTimes = function() {
       return Object.keys(this.timeline);
+    };
+
+    Timeline.prototype.setCurrentTime = function(time) {
+      this.currentTime = time;
     };
 
     Timeline.prototype.setData = function(time, data) {
