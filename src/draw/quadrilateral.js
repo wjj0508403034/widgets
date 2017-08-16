@@ -19,6 +19,23 @@ angular.module('huoyun.widget').factory("Quadrilateral", ["draw",
       return this;
     };
 
+    Quadrilateral.prototype.setPointArray = function(points) {
+      var that = this;
+      [1, 2, 3, 4].forEach(function(index) {
+        that[`point${index}`] = points[index - 1];
+      });
+      return this;
+    };
+
+    Quadrilateral.prototype.getPoints = function() {
+      var points = [];
+      var that = this;
+      [1, 2, 3, 4].forEach(function(index) {
+        points.push(that[`point${index}`]);
+      });
+      return points;
+    };
+
     Quadrilateral.prototype.setSvg = function(svg) {
       this.svg = svg;
       this.polyline = this.svg.polyline()

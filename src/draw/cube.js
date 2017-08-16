@@ -144,7 +144,54 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw"
     };
 
     Cube.prototype.setTime = function(time) {
+      this.timeline.setCurrentTime(time);
+
+      if (!this.timeline.beforeEndTime(time)) {
+        return;
+      }
+
+      var endPoints = this.timeline.getEndPoints();
+      console.log(time, endPoints)
+      var data = null;
+      if (endPoints.min === endPoints.max) {
+        data = this.timeline.getDataAtTime(time);
+      } else if (!endPoints.max) {
+        data = this.timeline.getDataAtTime(endPoints.min);
+      } else if (endPoints.min) {
+        data = this.deviationCalculation(endPoints, time);
+      }
+
+      if (data) {
+        var that = this;
+        [1, 2, 3, 4, 5, 6].forEach(function(index) {
+          that[`surface${index}`].setPointArray(data[index - 1]);
+        });
+      }
+
       return this;
+    };
+
+    Cube.prototype.deviationCalculation = function(endPoints, time) {
+      var minData = this.timeline.getDataAtTime(endPoints.min);
+      var maxData = this.timeline.getDataAtTime(endPoints.max);
+      var k = (time - endPoints.min) * 1.0 / (endPoints.max - endPoints.min);
+      var data = [];
+      var that = this;
+      [1, 2, 3, 4, 5, 6].forEach(function(index) {
+        var maxQuadrilateralPoints = maxData[index - 1];
+        var minQuadrilateralPoints = minData[index - 1];
+        var quadrilateralPoints = [];
+        [1, 2, 3, 4].forEach(function(subIndex) {
+          var minPoint = minQuadrilateralPoints[subIndex - 1];
+          var maxPoint = maxQuadrilateralPoints[subIndex - 1];
+          var point = Point.DeviationCalculation(minPoint, maxPoint, k);
+          quadrilateralPoints.push(point);
+        });
+
+        data.push(quadrilateralPoints);
+      });
+
+      return data;
     };
 
     Cube.prototype.drawRect1 = function(point, isEnd) {
@@ -174,7 +221,8 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw"
           this.drawGuideline2();
           this.drawHorizontalGuideline();
           this.drawVerticalGuideline();
-          this.drawCube();
+          this.setSurfaceData();
+          this.draw();
           this.removeGuideLinesAndPoints();
           this.disableDrawing();
         }
@@ -203,18 +251,19 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw"
       this.verticalGuideline.setEndPoint(this.point11).draw();
     };
 
-    Cube.prototype.getData = function() {
+    Cube.prototype.getQuadrilateralPoints = function() {
       var data = [];
 
       var that = this;
       [1, 2, 3, 4, 5, 6].forEach(function(index) {
-        data.push(that[`surface${index}`].getData());
+        var points = that[`surface${index}`].getPoints();
+        data.push(angular.copy(points));
       });
 
       return data;
     };
 
-    Cube.prototype.drawCube = function() {
+    Cube.prototype.setSurfaceData = function() {
       this.surface1.setPoints(
         this.rect1.getPoint1(),
         this.rect1.getPoint2(),
@@ -257,12 +306,15 @@ angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw"
         this.point10
       );
 
+      this.timeline.setData(this.getQuadrilateralPoints());
+      console.log(this);
+    };
+
+    Cube.prototype.draw = function() {
       var that = this;
       [1, 2, 3, 4, 5, 6].forEach(function(index) {
         that[`surface${index}`].draw();
       });
-
-      console.log(this.getData());
     };
 
     Cube.prototype.removeGuideLinesAndPoints = function() {

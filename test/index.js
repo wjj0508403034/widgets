@@ -107,12 +107,22 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         onClick: function() {
           var object = new Draw.Cube();
           object.setHorizontalLine($scope.svgOptions.line);
+          var testData = [];
+          var points = [new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0)];
+          testData.push(points);
+          testData.push(points);
+          testData.push(points);
+          testData.push(points);
+          testData.push(points);
+          testData.push(points);
+          object.timeline.timeline[100] = testData;
+          object.timeline.setEndTime(50);
           //var that = this;
 
           $scope.svgOptions.callbacks.forEach(function(callback) {
             callback(object);
           });
-          //$scope.svgOptions.objects.push(new Draw.Cube());
+          $scope.svgOptions.objects.push(object);
           //console.log(this)
         }
       }, {

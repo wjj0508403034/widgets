@@ -12,12 +12,12 @@ angular.module('huoyun.widget').directive("widgetsStoryBoard", ["$log", "svgHelp
         var svg = svgHelper.generateSVG(elem);
 
         $scope.$watch("frameIndex", function(newVal, oldValue) {
-          if (newVal && $scope.svgOptions && $scope.svgOptions.objects) {
+          if (newVal !== undefined && $scope.svgOptions && $scope.svgOptions.objects) {
             $scope.svgOptions.objects.forEach(function(object) {
               if (!object.svg) {
                 object.setSvg(svg).setHorizontalLine($scope.svgOptions.line);
               }
-              object.setTime(newVal);
+              object.setTime(newVal).draw();
             });
           }
         });
