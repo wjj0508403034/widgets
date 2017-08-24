@@ -1,0 +1,8 @@
+<div class="row widgets-nav">
+  <nav>
+    <ul>
+      <li ng-repeat="item in options.items" ng-bind="item.label" ng-show="itemVisibility(item)" ng-style="itemStyle(item)" ng-click="onItemClicked(item)">
+      </li>
+    </ul>
+  </nav>
+</div>

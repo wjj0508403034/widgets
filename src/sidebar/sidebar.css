@@ -1,0 +1,34 @@
+.widgets-side-bar {
+  border: 1px solid #3c8dbc;
+}
+
+.widgets-side-bar .side-bar-group-header {
+  background: #3c8dbc;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.widgets-side-bar ul.side-bar-group-items-container {
+  -webkit-padding-start: 0px;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+}
+
+.widgets-side-bar .side-bar-group-items-container li {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  cursor: pointer;
+  padding: 0 50px;
+}
+
+.widgets-side-bar .side-bar-group-items-container li.selected {
+  color: #3c8dbc;
+}
+
+.widgets-side-bar .side-bar-group-items-container li:hover {
+  background: #f5f5f5;
+}

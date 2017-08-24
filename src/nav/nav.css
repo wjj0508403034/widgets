@@ -1,0 +1,20 @@
+.widgets-nav {
+  background: #3c8dbc;
+}
+
+.widgets-nav nav {
+  height: 60px;
+}
+
+.widgets-nav li {
+  height: 100%;
+  display: inline-block;
+  line-height: 60px;
+  padding: 0 40px;
+  cursor: pointer;
+  color: white;
+}
+
+.widgets-nav li:hover {
+  background: #367fa9;
+}

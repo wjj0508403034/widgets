@@ -97,6 +97,54 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       totalPages: 2
     };
 
+    $scope.navOptions = {
+      items: [{
+        label: "任务大厅"
+      }, {
+        label: "个人中心",
+        visibility: function() {
+          return false;
+        }
+      }, {
+        label: "系统设置"
+      }, {
+        label: "帮助"
+      }]
+    };
+
+    $scope.sideBarOptions = {
+      groups: [{
+        label: "任务",
+        items: [{
+          label: "我的任务"
+        }, {
+          label: "任务管理",
+          selected: true,
+          onClick: function(group, groupItem) {
+            console.log(this, arguments)
+          }
+        }, {
+          label: "任务审核"
+        }]
+      }, {
+        label: "视频",
+        items: [{
+          label: "上传视频"
+        }, {
+          label: "视频管理"
+        }]
+      }, {
+        label: "用户",
+        items: [{
+          label: "个人信息"
+        }, {
+          label: "重设密码"
+        }, {
+          label: "用户管理"
+        }]
+      }]
+    };
+
     $scope.videoOptions = {
       title: "test.mp4",
       fps: 15,
@@ -108,7 +156,8 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           var object = new Draw.Cube();
           object.setHorizontalLine($scope.svgOptions.line);
           var testData = [];
-          var points = [new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0)];
+          var points = [new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0,
+            0)];
           testData.push(points);
           testData.push(points);
           testData.push(points);
@@ -133,7 +182,10 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         }
       }],
     };
-    $scope.src = "http://116.236.198.27:8083/201706120744414665428/Datalog/compress/201706120749214391572/right.avi_4.mp4";
+    $scope.src =
+      "http://116.236.198.27:8083/201706120744414665428/Datalog/compress/201706120749214391572/right.avi_4.mp4";
+
+
   }
 
 

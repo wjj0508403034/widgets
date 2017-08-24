@@ -25,7 +25,13 @@
   <button ng-click="showDialog()">Dialog</button>
   <button ng-click="showTip()">Show Tip</button>
   <div widgets-table options="tableOptions" source="dataSource"></div>
-  <div widgets-video-player options="videoOptions" src="src" svg-options="svgOptions"></div>
+  <div widgets-nav options="navOptions"></div>
+  <div class="row">
+    <div class="col-md-4">
+      <div widgets-side-bar options="sideBarOptions"></div>
+    </div>
+  </div>
+
 </body>
 
 </html>
