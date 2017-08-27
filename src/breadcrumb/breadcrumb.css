@@ -1,0 +1,8 @@
+.widgets-breadcrumb li {
+  cursor: pointer;
+}
+
+.widgets-breadcrumb li:last-child {
+  color: #cccccc;
+  cursor: default;
+}

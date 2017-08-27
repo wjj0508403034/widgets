@@ -26,14 +26,15 @@ angular.module('huoyun.widget').provider("display", function() {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
-  function(TableOption, Dialog, Tip, SidebarOption, NavOption) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption", "BreadCrumbOption",
+  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption) {
 
     return {
       Dialog: Dialog,
       TableOption: TableOption,
       SidebarOption: SidebarOption,
       NavOption: NavOption,
+      BreadCrumbOption: BreadCrumbOption,
       Tip: Tip
     };
   }

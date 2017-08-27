@@ -1,0 +1,8 @@
+<div class="widgets-breadcrumb">
+  <ol class="breadcrumb">
+    <li ng-repeat="item in options.items" ng-click="onItemClicked(item,$index)" ng-style="itemStyle(item)">
+      <i class="fa" ng-class="item.icon" aria-hidden="true"></i>
+      <span ng-bind="item.label"></span>
+    </li>
+  </ol>
+</div>

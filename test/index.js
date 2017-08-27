@@ -10,6 +10,19 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
+    $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({
+      items: [{
+        name: "xxx",
+        label: "first"
+      }, {
+        name: "xxx",
+        label: "second"
+      }, {
+        name: "xxx",
+        label: "third"
+      }]
+    });
+
     $scope.svgOptions = {
       line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200)),
       objects: [],

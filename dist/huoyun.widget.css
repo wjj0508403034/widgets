@@ -1,3 +1,11 @@
+.widgets-breadcrumb li {
+  cursor: pointer;
+}
+
+.widgets-breadcrumb li:last-child {
+  color: #cccccc;
+  cursor: default;
+}
 .box .box-header .box-title {
   font-weight: normal;
   font-size: 14px;
@@ -305,6 +313,17 @@ a:active {
 .widgets-side-bar .side-bar-group-items-container li:hover {
   background: #f5f5f5;
 }
+.widget-tip.alert.alert-success {
+  background: transparent;
+  border: none;
+  position: absolute;
+  left: 50%;
+  top: 90%;
+  width: 300px;
+  word-wrap: break-word;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
 .widgets-pagination>li>span {
   color: #666;
 }
@@ -368,17 +387,6 @@ a:active {
 
 .widgets-table table tr.selected td {
   color: white;
-}
-.widget-tip.alert.alert-success {
-  background: transparent;
-  border: none;
-  position: absolute;
-  left: 50%;
-  top: 90%;
-  width: 300px;
-  word-wrap: break-word;
-  transform: translate(-50%, -50%);
-  z-index: 100;
 }
 
 .widgets-video-player video {
