@@ -4,6 +4,7 @@
  * options:
  *  items:
  *    label
+ *    icon
  *    visibility
  *    style
  */
@@ -16,6 +17,10 @@ angular.module('huoyun.widget').directive('widgetsSideBar', ["$log", "widgetsHel
       },
       templateUrl: 'sidebar/sidebar.html',
       link: function($scope, ele, attrs) {
+
+        $scope.groupVisibility = function(group) {
+          return widgetsHelper.visibility(group);
+        };
 
         $scope.itemVisibility = function(item) {
           return widgetsHelper.visibility(item);

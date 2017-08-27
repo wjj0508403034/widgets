@@ -38,12 +38,14 @@ angular.module('huoyun.widget').factory("widgetsHelper", function() {
     },
 
     style: function(obj) {
-      if (typeof obj.style === "object") {
-        return obj.style;
-      }
+      if (obj) {
+        if (typeof obj.style === "object") {
+          return obj.style;
+        }
 
-      if (typeof obj.style === "function") {
-        return obj.style.apply(obj);
+        if (typeof obj.style === "function") {
+          return obj.style.apply(obj);
+        }
       }
     },
 

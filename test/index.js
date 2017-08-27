@@ -7,8 +7,8 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
-angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw",
-  function($scope, Dialog, Tip, Draw) {
+angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
+  function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
     $scope.svgOptions = {
       line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200)),
@@ -35,15 +35,34 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       Tip.show("xxx");
     };
 
-    $scope.tableOptions = {
+    $scope.tableOptions = new HuoYunWidgets.TableOption({
       title: "Table",
-      selectionMode: "multiple",
+      selectionMode: "single",
+      header: {
+        style: {
+          padding: "20px 10px"
+        }
+      },
       buttons: [{
         name: "add",
         label: "添加",
         appendClass: "btn-primary",
         onClick: function() {
           console.log(this)
+        }
+      }, {
+        name: "add",
+        label: "添加2",
+        appendClass: "btn-primary",
+        onClick: function() {
+          console.log(this)
+        },
+        visibility: function() {
+          if ($scope.tableOptions.getSelectedItem()) {
+            return true;
+          }
+
+          return false;
         }
       }],
       columns: [{
@@ -77,9 +96,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           };
         }
       }]
-    };
+    });
 
-    $scope.dataSource = {
+    $scope.tableOptions.setSource({
       content: [{
         id: "1111",
         firstName: "Jingjing",
@@ -95,7 +114,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       sort: null,
       totalElements: 26,
       totalPages: 2
-    };
+    });
+
+
 
     $scope.navOptions = {
       items: [{

@@ -264,6 +264,10 @@ a:active {
   color: white;
 }
 
+.widgets-nav li.selected {
+  background: #367fa9;
+}
+
 .widgets-nav li:hover {
   background: #367fa9;
 }
@@ -365,6 +369,17 @@ a:active {
 .widgets-table table tr.selected td {
   color: white;
 }
+.widget-tip.alert.alert-success {
+  background: transparent;
+  border: none;
+  position: absolute;
+  left: 50%;
+  top: 90%;
+  width: 300px;
+  word-wrap: break-word;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
 
 .widgets-video-player video {
   width: 100%;
@@ -422,15 +437,4 @@ a:active {
   width: 16px;
   height: 16px;
   border-radius: 16px;
-}
-.widget-tip.alert.alert-success {
-  background: transparent;
-  border: none;
-  position: absolute;
-  left: 50%;
-  top: 90%;
-  width: 300px;
-  word-wrap: break-word;
-  transform: translate(-50%, -50%);
-  z-index: 100;
 }

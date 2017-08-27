@@ -1,14 +1,12 @@
 <div class="widgets-side-bar">
   <aside>
-    <div ng-repeat="group in options.groups">
+    <div ng-repeat="group in options.groups" ng-if="groupVisibility(group)">
       <div class="side-bar-group-header">
-        <i class="fa fa-address-book" aria-hidden="true"></i>
+        <i class="fa" ng-class="group.icon" aria-hidden="true"></i>
         <span ng-bind="group.label"></span>
       </div>
       <ul class="side-bar-group-items-container">
-        <li ng-repeat="groupItem in group.items" ng-bind="groupItem.label" ng-class="{true: 'selected', false: ''}[groupItem.selected]"
-          ng-click="onGroupItemClicked(group,groupItem)">
-
+        <li ng-repeat="groupItem in group.items" ng-bind="groupItem.label" ng-class="{true: 'selected', false: ''}[groupItem.selected]" ng-click="onGroupItemClicked(group,groupItem)">
         </li>
       </ul>
     </div>

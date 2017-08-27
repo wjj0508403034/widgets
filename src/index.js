@@ -25,3 +25,16 @@ angular.module('huoyun.widget').provider("display", function() {
     return this;
   };
 });
+
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
+  function(TableOption, Dialog, Tip, SidebarOption, NavOption) {
+
+    return {
+      Dialog: Dialog,
+      TableOption: TableOption,
+      SidebarOption: SidebarOption,
+      NavOption: NavOption,
+      Tip: Tip
+    };
+  }
+]);

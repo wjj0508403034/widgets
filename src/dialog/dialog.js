@@ -31,6 +31,13 @@ angular.module('huoyun.widget').controller("ConfirmDialogController", ["$scope",
       }
     };
 
+    $scope.confirmClose = function() {
+      $scope.closeThisDialog('OK');
+    };
+
+    $scope.cancelClose = function() {
+      $scope.closeThisDialog('Cancel');
+    };
   }
 ]);
 

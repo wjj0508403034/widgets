@@ -1,7 +1,7 @@
 <div class="row widgets-nav">
   <nav>
     <ul>
-      <li ng-repeat="item in options.items" ng-bind="item.label" ng-show="itemVisibility(item)" ng-style="itemStyle(item)" ng-click="onItemClicked(item)">
+      <li ng-repeat="item in options.items" ng-bind="item.label" ng-show="itemVisibility(item)" ng-style="itemStyle(item)" ng-click="onItemClicked(item)" ng-class="{true: 'selected', false: ''}[item.selected]">
       </li>
     </ul>
   </nav>

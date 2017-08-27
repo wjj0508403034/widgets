@@ -1,67 +1,5 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("TableSelection", function() {
-
-  const Modes = {
-    None: "None",
-    Single: "Single",
-    Multiple: "Multiple"
-  };
-
-  function Selection(mode) {
-    this.mode = Modes.None;
-
-    if (typeof mode === "string") {
-      if (mode.toLowerCase() === "single") {
-        this.mode = Modes.Single;
-
-      } else if (mode.toLowerCase() === "multiple") {
-        this.mode = Modes.Multiple;
-        return;
-      }
-    }
-  }
-
-  Selection.Modes = Modes;
-
-
-  return Selection;
-});
-
-
-
-/**
- * options
- *  - title
- *  - buttons
- *    - name
- *    - icon
- *    - label
- *    - visibility
- *    - disabled
- *    - style
- *    - appendClass
- *  - columns
- *    - name
- *    - label
- *    - type
- *    - visibility
- *    - headerTemplateUrl
- *    - templateUrl
- *    - style
- *  - selectionMode //None,Single,Multiple
- * 
- * dataSource
- *  - content
- *  - first
- *  - last
- *  - number
- *  - numberOfElements
- *  - size
- *  - sort
- *  - totalElements
- *  - totalPages
- */
 angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "widgetsHelper", "TableSelection",
   function($log, displayProvider, widgetsHelper, TableSelection) {
     return {
@@ -74,6 +12,10 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
       },
       templateUrl: 'table/table.html',
       link: function($scope, ele, attrs) {
+
+        $scope.headerStyle = function(header) {
+          return widgetsHelper.style(header);
+        };
 
         $scope.columnVisibility = function(column) {
           return widgetsHelper.visibility(column);
@@ -100,10 +42,12 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
         };
 
         $scope.onButtonClicked = function(button) {
-          if (typeof button.onClick === "function") {
-            button.onClick.apply(button);
-          } else {
-            $log.warn("Button no click handler.", button);
+          if (!$scope.buttonDisabled(button)) {
+            if (typeof button.onClick === "function") {
+              button.onClick.apply(button);
+            } else {
+              $log.warn("Button no click handler.", button);
+            }
           }
         };
 
@@ -112,18 +56,17 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
         };
 
         $scope.onLineClicked = function(lineData, index) {
-          var selection = new TableSelection($scope.options.selectionMode);
-          if (selection.mode === TableSelection.Modes.Single) {
+          if ($scope.options.selectionMode === TableSelection.Single) {
             lineData.$$selected = true;
-            $scope.source.content.forEach(function(lineItem) {
+            $scope.options.source.content.forEach(function(lineItem) {
               if (lineItem !== lineData) {
                 lineItem.$$selected = false;
               }
             });
             $scope.$emit("selectChanged", lineData);
-          } else if (selection.mode === TableSelection.Modes.Multiple) {
+          } else if ($scope.options.selectionMode === TableSelection.Multiple) {
             lineData.$$selected = !lineData.$$selected;
-            var selectedItems = $scope.source.content.filter(function(lineItem) {
+            var selectedItems = $scope.options.source.content.filter(function(lineItem) {
               return lineItem.$$selected;
             });
             $scope.$emit("selectChanged", selectedItems);

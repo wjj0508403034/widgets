@@ -25,6 +25,134 @@ angular.module('huoyun.widget').provider("display", function () {
     return this;
   };
 });
+
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption", function (TableOption, Dialog, Tip, SidebarOption, NavOption) {
+
+  return {
+    Dialog: Dialog,
+    TableOption: TableOption,
+    SidebarOption: SidebarOption,
+    NavOption: NavOption,
+    Tip: Tip
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("ButtonOption", [function () {
+
+  var props = ["name", "icon", "label", "visibility", "disabled", "appendClass", "style", "onClick"];
+
+  function ButtonOption(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+  }
+
+  return ButtonOption;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("Linq", function () {
+
+  function Linq(data) {
+    if (!Array.isArray(data)) {
+      throw new Error("data must be array");
+    }
+
+    this.data = data;
+  }
+
+  Linq.prototype.findItem = function (condition) {
+    if (typeof condition !== "function") {
+      throw new Error("condition must be function");
+    }
+    for (var index = 0; index < this.data.length; index++) {
+      if (condition(this.data[index], index, this.data)) {
+        return this.data[index];
+      }
+    }
+  };
+
+  return Linq;
+});
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+angular.module('huoyun.widget').factory("widgetsHelper", function () {
+
+  String.prototype.pad = function (width) {
+    var temp = this.split(".");
+    if (temp[0].length < width) {
+      temp[0] = new Array(width - temp[0].length + 1).join("0") + temp[0];
+    }
+
+    return temp.join(".");
+  };
+
+  return {
+
+    visibility: function visibility(obj) {
+      if (typeof obj.visibility === "boolean") {
+        return obj.visibility;
+      }
+
+      if (typeof obj.visibility === "function") {
+        return obj.visibility.apply(obj);
+      }
+
+      return true;
+    },
+
+    disabled: function disabled(obj) {
+      if (typeof obj.disabled === "boolean") {
+        return obj.disabled;
+      }
+
+      if (typeof obj.disabled === "function") {
+        return obj.disabled.apply(obj);
+      }
+
+      return false;
+    },
+
+    style: function style(obj) {
+      if (obj) {
+        if (_typeof(obj.style) === "object") {
+          return obj.style;
+        }
+
+        if (typeof obj.style === "function") {
+          return obj.style.apply(obj);
+        }
+      }
+    },
+
+    durationFormat: function durationFormat(time) {
+      var hour = 0;
+      var minuter = 0;
+      var second = 0;
+
+      if (time) {
+        if (time < 60) {
+          second = time;
+        } else {
+          second = time % 60;
+          var temp = time / 60;
+          if (temp < 60) {
+            minuter = temp;
+          } else {
+            hour = temp / 60;
+            minuter = temp % 60;
+          }
+        }
+      }
+
+      return hour.toFixed(0).pad(2) + ':' + minuter.toFixed(0).pad(2) + ':' + second.toFixed(3).pad(2);
+    }
+  };
+});
 'use strict';
 
 /*
@@ -55,6 +183,14 @@ angular.module('huoyun.widget').controller("ConfirmDialogController", ["$scope",
     } else {
       $scope.closeThisDialog('OK');
     }
+  };
+
+  $scope.confirmClose = function () {
+    $scope.closeThisDialog('OK');
+  };
+
+  $scope.cancelClose = function () {
+    $scope.closeThisDialog('Cancel');
   };
 }]);
 
@@ -106,81 +242,6 @@ angular.module('huoyun.widget').factory("Dialog", ['$q', 'ngDialog', function ($
     }
   };
 }]);
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-angular.module('huoyun.widget').factory("widgetsHelper", function () {
-
-  String.prototype.pad = function (width) {
-    var temp = this.split(".");
-    if (temp[0].length < width) {
-      temp[0] = new Array(width - temp[0].length + 1).join("0") + temp[0];
-    }
-
-    return temp.join(".");
-  };
-
-  return {
-
-    visibility: function visibility(obj) {
-      if (typeof obj.visibility === "boolean") {
-        return obj.visibility;
-      }
-
-      if (typeof obj.visibility === "function") {
-        return obj.visibility.apply(obj);
-      }
-
-      return true;
-    },
-
-    disabled: function disabled(obj) {
-      if (typeof obj.disabled === "boolean") {
-        return obj.disabled;
-      }
-
-      if (typeof obj.disabled === "function") {
-        return obj.disabled.apply(obj);
-      }
-
-      return false;
-    },
-
-    style: function style(obj) {
-      if (_typeof(obj.style) === "object") {
-        return obj.style;
-      }
-
-      if (typeof obj.style === "function") {
-        return obj.style.apply(obj);
-      }
-    },
-
-    durationFormat: function durationFormat(time) {
-      var hour = 0;
-      var minuter = 0;
-      var second = 0;
-
-      if (time) {
-        if (time < 60) {
-          second = time;
-        } else {
-          second = time % 60;
-          var temp = time / 60;
-          if (temp < 60) {
-            minuter = temp;
-          } else {
-            hour = temp / 60;
-            minuter = temp % 60;
-          }
-        }
-      }
-
-      return hour.toFixed(0).pad(2) + ':' + minuter.toFixed(0).pad(2) + ':' + second.toFixed(3).pad(2);
-    }
-  };
-});
 'use strict';
 
 angular.module('huoyun.widget').factory("Cube", ["Point", "Line", "Rect", "draw", "Timeline", "Quadrilateral", function (Point, Line, Rect, drawProvider, Timeline, Quadrilateral) {
@@ -1043,16 +1104,51 @@ angular.module('huoyun.widget').directive('widgetsNav', ["$log", "widgetsHelper"
 }]);
 'use strict';
 
-angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
-  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
-  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="item in options.items" ng-bind="item.label" ng-show="itemVisibility(item)" ng-style="itemStyle(item)" ng-click="onItemClicked(item)"></li></ul></nav></div>');
-  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="group in options.groups"><div class="side-bar-group-header"><i class="fa fa-address-book" aria-hidden="true"></i> <span ng-bind="group.label"></span></div><ul class="side-bar-group-items-container"><li ng-repeat="groupItem in group.items" ng-bind="groupItem.label" ng-class="{true: \'selected\', false: \'\'}[groupItem.selected]" ng-click="onGroupItemClicked(group,groupItem)"></li></ul></div></aside></div>');
-  $templateCache.put('table/pagination.html', '<ul class="pagination pagination-sm no-margin pull-right widgets-pagination"><li ng-disabled="pageData.first"><span ng-click="onPagingClicked(pageData.number - 1)">\xAB</span></li><li ng-repeat="number in numbers" ng-class="{true: \'active\', false: \'\'}[number === pageData.number]"><span ng-bind="number + 1" ng-click="onPagingClicked(number)"></span></li><li ng-disabled="pageData.last"><span ng-click="onPagingClicked(pageData.number + 1)">\xBB</span></li></ul>');
-  $templateCache.put('table/table.html', '<div class="box widgets-table"><div class="box-header"><h3 class="box-title"><i class="fa fa-server" aria-hidden="true"></i> <span ng-bind="options.title"></span></h3><div class="box-tools"><div class="input-group input-group-sm"><button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)" ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)"><i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i> <span ng-bind="button.label"></span></button></div></div></div><div class="box-body table-responsive no-padding"><table class="table table-hover table-bordered"><tbody><tr class="no-hover"><th ng-repeat="column in options.columns" ng-show="columnVisibility(column)" column-name="{{column.name}}" column-type="{{column.type}}" ng-style="columnStyle(column)"><div ng-if="column.headerTemplateUrl" ng-include="column.headerTemplateUrl"></div><div ng-if="!column.headerTemplateUrl" ng-bind="column.label"></div></th></tr><tr ng-show="source.content.length === 0"><td class="empty-table" colspan="*"><i class="fa fa-database"></i> <span>\u6682\u65E0\u6570\u636E</span></td></tr><tr ng-show="source.content.length > 0" ng-repeat="lineData in source.content" ng-click="onLineClicked(lineData,$index)" ng-class="{true: \'selected\', false: \'\'}[lineData.$$selected]"><td class="table-column" column-name="{{column.name}}" column-type="{{column.type}}" ng-repeat="column in options.columns" ng-show="columnVisibility(column)" ng-style="columnStyle(column)"><div ng-if="column.templateUrl" ng-include="column.templateUrl"></div><div ng-if="!column.templateUrl" ng-switch="column.type"><span ng-switch-when="date" ng-bind="lineData[column.name] | date: getDateFilter()"></span> <span ng-switch-default="" ng-bind="lineData[column.name]"></span></div></td></tr></tbody></table></div><div class="box-footer clearfix"><div class="pull-left table-footer-total"></div><div widgets-pagination="" ng-show="source.totalPages" page-data="source" on-paging-changed="onPagingChangedHandler(pageIndex)"></div></div></div>');
-  $templateCache.put('tip/tip.html', '<div class="alert alert-success alert-dismissible widget-tip"><span ng-bind="message"></span></div>');
-  $templateCache.put('video/video.control.bar.html', '<div class="widgets-video-control-bar"><div widgets-video-progress-bar="" video="video"></div><div class="widgets-video-control-bar-panel"><button class="btn" ng-click="onPlayButtonClicked()" ng-disabled="playButtonDisabled()" ng-show="playButtonVisibility()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u64AD\u653E</span></button> <button class="btn" ng-click="onPauseButtonClicked()" ng-disabled="pauseButtonDisabled()" ng-show="!playButtonVisibility()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u6682\u505C</span></button> <button class="btn" ng-click="onFastBackwardButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u5FEB\u9000</span></button> <button class="btn" ng-click="onFastForwardButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u5FEB\u8FDB</span></button> <button class="btn" ng-click="onRateButtonClicked(1)" ng-disabled="onRateButtonDisabled(1)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u6B63\u5E38\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(2)" ng-disabled="onRateButtonDisabled(2)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>2\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(4)" ng-disabled="onRateButtonDisabled(4)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>4\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(8)" ng-disabled="onRateButtonDisabled(8)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>8\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onPerviousFrameButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u4E0A\u4E00\u5E27</span></button> <button class="btn" ng-click="onNextFrameButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u4E0B\u4E00\u5E27</span></button><div class="pull-right"><span class="marign-right-100" ng-bind="getTimeInfo()"></span> <span ng-bind="getFrameInfo()"></span></div></div></div>');
-  $templateCache.put('video/video.player.html', '<div class="box widgets-video-player"><div class="box-header"><h3 class="box-title"><i class="fa fa-server" aria-hidden="true"></i> <span ng-bind="options.title"></span></h3><div class="box-tools"><div class="input-group input-group-sm"><button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)" ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)"><i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i> <span ng-bind="button.label"></span></button></div></div></div><div class="box-body no-padding" widgets-story-board="" svg-options="svgOptions" frame-index="video.currentFrame"><video preload="metadata"><source type="video/mp4" ng-src="{{src}}"></video></div><div class="box-footer clearfix"><div widgets-video-control-bar="" video="video"></div></div></div>');
-  $templateCache.put('video/video.progress.bar.html', '<div class="widgets-video-progress-bar" drag="{{inDraging}}"><div class="progress progress-xxs" ng-click="onProgressBarClicked($event)"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle()"><span class="sr-only" ng-style="radioButtonStyle()"><div class="sr-only-inner progress-bar-success" ng-mousedown="onDragRadioButtonDown($event)"></div></span></div></div></div>');
+angular.module('huoyun.widget').factory("NavOption", ["NavItemOption", function (NavItemOption) {
+
+  function NavOption(options) {
+    this.items = [];
+    if (Array.isArray(options.items)) {
+      var that = this;
+      options.items.forEach(function (item) {
+        that.items.push(new NavItemOption(item));
+      });
+    }
+  }
+
+  NavOption.prototype.setSelected = function (name) {
+    this.items.forEach(function (item) {
+      if (item.name === name) {
+        item.setSelected();
+      } else {
+        item.setUnSelected();
+      }
+    });
+  };
+
+  return NavOption;
+}]);
+
+angular.module('huoyun.widget').factory("NavItemOption", [function () {
+
+  var props = ["name", "label", "onClick", "visibility", "style", "selected"];
+
+  function NavItemOption(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+  }
+
+  NavItemOption.prototype.setSelected = function () {
+    this.selected = true;
+  };
+
+  NavItemOption.prototype.setUnSelected = function () {
+    this.selected = false;
+  };
+
+  return NavItemOption;
 }]);
 'use strict';
 
@@ -1060,6 +1156,7 @@ angular.module('huoyun.widget').run(['$templateCache', function ($templateCache)
  * options:
  *  items:
  *    label
+ *    icon
  *    visibility
  *    style
  */
@@ -1072,6 +1169,10 @@ angular.module('huoyun.widget').directive('widgetsSideBar', ["$log", "widgetsHel
     },
     templateUrl: 'sidebar/sidebar.html',
     link: function link($scope, ele, attrs) {
+
+      $scope.groupVisibility = function (group) {
+        return widgetsHelper.visibility(group);
+      };
 
       $scope.itemVisibility = function (item) {
         return widgetsHelper.visibility(item);
@@ -1090,6 +1191,92 @@ angular.module('huoyun.widget').directive('widgetsSideBar', ["$log", "widgetsHel
       };
     }
   };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("SidebarOption", ["SidebarGroupOption", function (SidebarGroupOption) {
+
+  function SidebarOption(options) {
+    this.groups = [];
+    if (Array.isArray(options.groups)) {
+      var that = this;
+      options.groups.forEach(function (group) {
+        that.groups.push(new SidebarGroupOption(group));
+      });
+    }
+  }
+
+  SidebarOption.prototype.setGroupItemSelected = function (groupName, groupItemName) {
+    var that = this;
+    this.groups.forEach(function (group) {
+      if (group.name === groupName) {
+        group.setGroupItemSelected(groupItemName);
+      } else {
+        group.unselectedAll();
+      }
+    });
+  };
+
+  return SidebarOption;
+}]);
+
+angular.module('huoyun.widget').factory("SidebarGroupOption", ["SidebarGroupItemOption", function (SidebarGroupItemOption) {
+
+  var props = ["name", "label", "icon"];
+
+  function SidebarGroupOption(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+
+    this.items = [];
+    if (Array.isArray(options.items)) {
+      options.items.forEach(function (item) {
+        that.items.push(new SidebarGroupItemOption(item));
+      });
+    }
+  }
+
+  SidebarGroupOption.prototype.unselectedAll = function () {
+    this.items.forEach(function (groupItem) {
+      groupItem.setUnselected();
+    });
+  };
+
+  SidebarGroupOption.prototype.setGroupItemSelected = function (groupItemName) {
+    this.items.forEach(function ($groupItem) {
+      if ($groupItem.name === groupItemName) {
+        $groupItem.setSelected();
+      } else {
+        $groupItem.setUnselected();
+      }
+    });
+  };
+
+  return SidebarGroupOption;
+}]);
+
+angular.module('huoyun.widget').factory("SidebarGroupItemOption", [function () {
+
+  var props = ["name", "label", "onClick", "selected"];
+
+  function SidebarGroupItemOption(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+  }
+
+  SidebarGroupItemOption.prototype.setSelected = function () {
+    this.selected = true;
+  };
+
+  SidebarGroupItemOption.prototype.setUnselected = function () {
+    this.selected = false;
+  };
+
+  return SidebarGroupItemOption;
 }]);
 'use strict';
 
@@ -1135,64 +1322,6 @@ angular.module('huoyun.widget').directive('widgetsPagination', function () {
 });
 'use strict';
 
-angular.module('huoyun.widget').factory("TableSelection", function () {
-
-  var Modes = {
-    None: "None",
-    Single: "Single",
-    Multiple: "Multiple"
-  };
-
-  function Selection(mode) {
-    this.mode = Modes.None;
-
-    if (typeof mode === "string") {
-      if (mode.toLowerCase() === "single") {
-        this.mode = Modes.Single;
-      } else if (mode.toLowerCase() === "multiple") {
-        this.mode = Modes.Multiple;
-        return;
-      }
-    }
-  }
-
-  Selection.Modes = Modes;
-
-  return Selection;
-});
-
-/**
- * options
- *  - title
- *  - buttons
- *    - name
- *    - icon
- *    - label
- *    - visibility
- *    - disabled
- *    - style
- *    - appendClass
- *  - columns
- *    - name
- *    - label
- *    - type
- *    - visibility
- *    - headerTemplateUrl
- *    - templateUrl
- *    - style
- *  - selectionMode //None,Single,Multiple
- * 
- * dataSource
- *  - content
- *  - first
- *  - last
- *  - number
- *  - numberOfElements
- *  - size
- *  - sort
- *  - totalElements
- *  - totalPages
- */
 angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "widgetsHelper", "TableSelection", function ($log, displayProvider, widgetsHelper, TableSelection) {
   return {
     restrict: 'A',
@@ -1204,6 +1333,10 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
     },
     templateUrl: 'table/table.html',
     link: function link($scope, ele, attrs) {
+
+      $scope.headerStyle = function (header) {
+        return widgetsHelper.style(header);
+      };
 
       $scope.columnVisibility = function (column) {
         return widgetsHelper.visibility(column);
@@ -1230,10 +1363,12 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
       };
 
       $scope.onButtonClicked = function (button) {
-        if (typeof button.onClick === "function") {
-          button.onClick.apply(button);
-        } else {
-          $log.warn("Button no click handler.", button);
+        if (!$scope.buttonDisabled(button)) {
+          if (typeof button.onClick === "function") {
+            button.onClick.apply(button);
+          } else {
+            $log.warn("Button no click handler.", button);
+          }
         }
       };
 
@@ -1242,18 +1377,17 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
       };
 
       $scope.onLineClicked = function (lineData, index) {
-        var selection = new TableSelection($scope.options.selectionMode);
-        if (selection.mode === TableSelection.Modes.Single) {
+        if ($scope.options.selectionMode === TableSelection.Single) {
           lineData.$$selected = true;
-          $scope.source.content.forEach(function (lineItem) {
+          $scope.options.source.content.forEach(function (lineItem) {
             if (lineItem !== lineData) {
               lineItem.$$selected = false;
             }
           });
           $scope.$emit("selectChanged", lineData);
-        } else if (selection.mode === TableSelection.Modes.Multiple) {
+        } else if ($scope.options.selectionMode === TableSelection.Multiple) {
           lineData.$$selected = !lineData.$$selected;
-          var selectedItems = $scope.source.content.filter(function (lineItem) {
+          var selectedItems = $scope.options.source.content.filter(function (lineItem) {
             return lineItem.$$selected;
           });
           $scope.$emit("selectChanged", selectedItems);
@@ -1266,6 +1400,94 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
       };
     }
   };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TableSelection", function () {
+  var Modes = {
+    None: "None",
+    Single: "Single",
+    Multiple: "Multiple"
+  };
+
+  return Modes;
+});
+
+angular.module('huoyun.widget').factory("TableColumnOption", [function () {
+
+  var props = ["name", "label", "type", "visibility", "headerTemplateUrl", "templateUrl", "style"];
+
+  function TableColumnOption(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+  }
+
+  return TableColumnOption;
+}]);
+
+angular.module('huoyun.widget').factory("TableSource", [function () {
+
+  var props = ["content", "first", "last", "number", "numberOfElements", "size", "sort", "totalElements", "totalPages"];
+
+  function TableSource(options) {
+    var that = this;
+    props.forEach(function (prop) {
+      that[prop] = options[prop];
+    });
+  }
+
+  return TableSource;
+}]);
+
+angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "TableColumnOption", "ButtonOption", "TableSource", "Linq", function (TableSelection, TableColumnOption, ButtonOption, TableSource, Linq) {
+
+  function TableOption(options) {
+    this.title = options.title;
+    this.buttons = [];
+    this.columns = [];
+    this.source = null;
+    this.selectionMode = TableSelection.None;
+
+    if (typeof options.selectionMode === "string") {
+      if (options.selectionMode.toLowerCase() === "single") {
+        this.selectionMode = TableSelection.Single;
+      } else if (options.selectionMode.toLowerCase() === "multiple") {
+        this.selectionMode = TableSelection.Multiple;
+      }
+    }
+
+    var that = this;
+    if (Array.isArray(options.columns)) {
+      options.columns.forEach(function (columnOption) {
+        that.columns.push(new TableColumnOption(columnOption));
+      });
+    }
+
+    if (Array.isArray(options.buttons)) {
+      options.buttons.forEach(function (buttonOption) {
+        that.buttons.push(new ButtonOption(buttonOption));
+      });
+    }
+  }
+
+  TableOption.prototype.getSelectedItem = function () {
+    if (this.selectionMode === TableSelection.Single) {
+      if (this.source && Array.isArray(this.source.content)) {
+        var linq = new Linq(this.source.content);
+        return linq.findItem(function (item) {
+          return item.$$selected;
+        });
+      }
+    }
+  };
+
+  TableOption.prototype.setSource = function (source) {
+    this.source = new TableSource(source);
+  };
+
+  return TableOption;
 }]);
 'use strict';
 
@@ -1696,3 +1918,16 @@ angular.module('huoyun.widget').provider("video", function () {
     return this;
   };
 });
+'use strict';
+
+angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
+  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
+  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="item in options.items" ng-bind="item.label" ng-show="itemVisibility(item)" ng-style="itemStyle(item)" ng-click="onItemClicked(item)" ng-class="{true: \'selected\', false: \'\'}[item.selected]"></li></ul></nav></div>');
+  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="group in options.groups" ng-if="groupVisibility(group)"><div class="side-bar-group-header"><i class="fa" ng-class="group.icon" aria-hidden="true"></i> <span ng-bind="group.label"></span></div><ul class="side-bar-group-items-container"><li ng-repeat="groupItem in group.items" ng-bind="groupItem.label" ng-class="{true: \'selected\', false: \'\'}[groupItem.selected]" ng-click="onGroupItemClicked(group,groupItem)"></li></ul></div></aside></div>');
+  $templateCache.put('table/pagination.html', '<ul class="pagination pagination-sm no-margin pull-right widgets-pagination"><li ng-disabled="pageData.first"><span ng-click="onPagingClicked(pageData.number - 1)">\xAB</span></li><li ng-repeat="number in numbers" ng-class="{true: \'active\', false: \'\'}[number === pageData.number]"><span ng-bind="number + 1" ng-click="onPagingClicked(number)"></span></li><li ng-disabled="pageData.last"><span ng-click="onPagingClicked(pageData.number + 1)">\xBB</span></li></ul>');
+  $templateCache.put('table/table.html', '<div class="box widgets-table"><div class="box-header" ng-style="headerStyle(options.box.header)"><h3 class="box-title"><i class="fa fa-server" aria-hidden="true"></i> <span ng-bind="options.title"></span></h3><div class="box-tools"><div class="input-group input-group-sm"><button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)" ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)"><i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i> <span ng-bind="button.label"></span></button></div></div></div><div class="box-body table-responsive no-padding"><table class="table table-hover table-bordered"><tbody><tr class="no-hover"><th ng-repeat="column in options.columns" ng-show="columnVisibility(column)" column-name="{{column.name}}" column-type="{{column.type}}" ng-style="columnStyle(column)"><div ng-if="column.headerTemplateUrl" ng-include="column.headerTemplateUrl"></div><div ng-if="!column.headerTemplateUrl" ng-bind="column.label"></div></th></tr><tr ng-show="options.source.content.length === 0"><td class="empty-table" colspan="*"><i class="fa fa-database"></i> <span>\u6682\u65E0\u6570\u636E</span></td></tr><tr ng-show="options.source.content.length > 0" ng-repeat="lineData in options.source.content" ng-click="onLineClicked(lineData,$index)" ng-class="{true: \'selected\', false: \'\'}[lineData.$$selected]"><td class="table-column" column-name="{{column.name}}" column-type="{{column.type}}" ng-repeat="column in options.columns" ng-show="columnVisibility(column)" ng-style="columnStyle(column)"><div ng-if="column.templateUrl" ng-include="column.templateUrl"></div><div ng-if="!column.templateUrl" ng-switch="column.type"><span ng-switch-when="date" ng-bind="lineData[column.name] | date: getDateFilter()"></span> <span ng-switch-default="" ng-bind="lineData[column.name]"></span></div></td></tr></tbody></table></div><div class="box-footer clearfix"><div class="pull-left table-footer-total"></div><div widgets-pagination="" ng-show="options.source.totalPages" page-data="options.source" on-paging-changed="onPagingChangedHandler(pageIndex)"></div></div></div>');
+  $templateCache.put('tip/tip.html', '<div class="alert alert-success alert-dismissible widget-tip"><span ng-bind="message"></span></div>');
+  $templateCache.put('video/video.control.bar.html', '<div class="widgets-video-control-bar"><div widgets-video-progress-bar="" video="video"></div><div class="widgets-video-control-bar-panel"><button class="btn" ng-click="onPlayButtonClicked()" ng-disabled="playButtonDisabled()" ng-show="playButtonVisibility()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u64AD\u653E</span></button> <button class="btn" ng-click="onPauseButtonClicked()" ng-disabled="pauseButtonDisabled()" ng-show="!playButtonVisibility()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u6682\u505C</span></button> <button class="btn" ng-click="onFastBackwardButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u5FEB\u9000</span></button> <button class="btn" ng-click="onFastForwardButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u5FEB\u8FDB</span></button> <button class="btn" ng-click="onRateButtonClicked(1)" ng-disabled="onRateButtonDisabled(1)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u6B63\u5E38\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(2)" ng-disabled="onRateButtonDisabled(2)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>2\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(4)" ng-disabled="onRateButtonDisabled(4)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>4\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onRateButtonClicked(8)" ng-disabled="onRateButtonDisabled(8)"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>8\u500D\u901F\u7387</span></button> <button class="btn" ng-click="onPerviousFrameButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u4E0A\u4E00\u5E27</span></button> <button class="btn" ng-click="onNextFrameButtonClicked()"><i class="fa" aria-hidden="true" ng-class="button.icon"></i> <span>\u4E0B\u4E00\u5E27</span></button><div class="pull-right"><span class="marign-right-100" ng-bind="getTimeInfo()"></span> <span ng-bind="getFrameInfo()"></span></div></div></div>');
+  $templateCache.put('video/video.player.html', '<div class="box widgets-video-player"><div class="box-header"><h3 class="box-title"><i class="fa fa-server" aria-hidden="true"></i> <span ng-bind="options.title"></span></h3><div class="box-tools"><div class="input-group input-group-sm"><button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)" ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)"><i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i> <span ng-bind="button.label"></span></button></div></div></div><div class="box-body no-padding" widgets-story-board="" svg-options="svgOptions" frame-index="video.currentFrame"><video preload="metadata"><source type="video/mp4" ng-src="{{src}}"></video></div><div class="box-footer clearfix"><div widgets-video-control-bar="" video="video"></div></div></div>');
+  $templateCache.put('video/video.progress.bar.html', '<div class="widgets-video-progress-bar" drag="{{inDraging}}"><div class="progress progress-xxs" ng-click="onProgressBarClicked($event)"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle()"><span class="sr-only" ng-style="radioButtonStyle()"><div class="sr-only-inner progress-bar-success" ng-mousedown="onDragRadioButtonDown($event)"></div></span></div></div></div>');
+}]);
