@@ -146,6 +146,10 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }]
     };
 
+    $scope.headOptions = {
+      title: "xxx"
+    };
+
     $scope.sideBarOptions = {
       groups: [{
         label: "任务",
