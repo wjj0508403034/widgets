@@ -13,6 +13,10 @@ angular.module('huoyun.widget').directive('widgetsTable', ["$log", "display", "w
       templateUrl: 'table/table.html',
       link: function($scope, ele, attrs) {
 
+        $scope.columnCount = function() {
+          return $scope.options.columns.length;
+        };
+
         $scope.headerStyle = function(header) {
           return widgetsHelper.style(header);
         };
