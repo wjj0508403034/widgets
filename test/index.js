@@ -18,7 +18,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         buttons: [{
           name: "add",
           label: "添加",
-          appendClass: "btn-primary",
+          appendClass: "btn-default",
           onClick: function() {
             console.log(this)
           }

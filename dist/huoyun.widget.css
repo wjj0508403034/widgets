@@ -6,21 +6,6 @@
   color: #cccccc;
   cursor: default;
 }
-.huoyun-dialog-container.ngdialog .ngdialog-content {
-  background: white !important;
-  padding: 0 !important;
-}
-
-.huoyun-dialog-content-container.box>.box-body {
-  min-height: 100px;
-  max-height: 450px;
-  overflow: auto;
-}
-
-.huoyun-dialog-content-container.box>.box-footer .btn {
-  margin-left: 15px;
-  min-width: 80px;
-}
 .box .box-header .box-title {
   font-weight: normal;
   font-size: 14px;
@@ -39,6 +24,21 @@
 
 .marign-right-10 {
   margin-right: 10px;
+}
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: white !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
 }
 .widgets-form .form-group .help-block {
   display: none;
@@ -70,19 +70,9 @@
   text-align: right;
   padding-right: 0px;
 }
-[widgets-story-board] {
-  position: relative;
-}
 
-.svg-story-board-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.widgets-form[form-readonly="true"] .form-group .value-label {
+  min-height: 20px;
 }
 .widgets-head {
   height: 60px;
@@ -99,6 +89,20 @@
 .widgets-head .widgets-head-tools {
   height: 100%;
   padding: 13px 0;
+}
+[widgets-story-board] {
+  position: relative;
+}
+
+.svg-story-board-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .widgets-markdown {
   color: #444;
@@ -305,30 +309,6 @@ a:active {
 .widgets-markdown td {
   vertical-align: top;
 }
-.widgets-nav {
-  background: #3c8dbc;
-}
-
-.widgets-nav nav {
-  height: 60px;
-}
-
-.widgets-nav li {
-  height: 100%;
-  display: inline-block;
-  line-height: 60px;
-  padding: 0 40px;
-  cursor: pointer;
-  color: white;
-}
-
-.widgets-nav li.selected {
-  background: #367fa9;
-}
-
-.widgets-nav li:hover {
-  background: #367fa9;
-}
 .widgets-side-bar {
   border: 1px solid #3c8dbc;
 }
@@ -367,6 +347,30 @@ a:active {
 
 .widgets-side-bar .side-bar-group-items-container li:hover {
   background: #f5f5f5;
+}
+.widgets-nav {
+  background: #3c8dbc;
+}
+
+.widgets-nav nav {
+  height: 60px;
+}
+
+.widgets-nav li {
+  height: 100%;
+  display: inline-block;
+  line-height: 60px;
+  padding: 0 40px;
+  cursor: pointer;
+  color: white;
+}
+
+.widgets-nav li.selected {
+  background: #367fa9;
+}
+
+.widgets-nav li:hover {
+  background: #367fa9;
 }
 .widgets-pagination>li>span {
   color: #666;

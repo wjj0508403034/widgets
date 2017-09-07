@@ -2,11 +2,13 @@
   <div class="box-header" ng-if="options.header.$$visibility()">
     <h3 class="box-title" ng-bind="options.header.title"></h3>
     <div class="box-tools pull-right">
-      <button name="{{button.name}}" type="button" class="btn" ng-repeat="button in options.header.buttons" ng-class="button.appendClass"
-        ng-if="button.$$visibility()" ng-disabled="button.$$disabled()" ng-style="button.$$style()" ng-click="button.$$click()">
+      <div class="input-group input-group-sm">
+        <button name="{{button.name}}" type="button" class="btn" ng-repeat="button in options.header.buttons" ng-class="button.appendClass"
+          ng-if="button.$$visibility()" ng-disabled="button.$$disabled()" ng-style="button.$$style()" ng-click="button.$$click()">
         <i class="fa" aria-hidden="true" ng-if="button.icon" ng-class="button.icon"></i>
         <span ng-bind="button.label"></span>
       </button>
+      </div>
     </div>
   </div>
   <form ng-class="options.$$formOrientationClass()">

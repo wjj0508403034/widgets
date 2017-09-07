@@ -28,3 +28,7 @@
   text-align: right;
   padding-right: 0px;
 }
+
+.widgets-form[form-readonly="true"] .form-group .value-label {
+  min-height: 20px;
+}
