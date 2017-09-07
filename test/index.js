@@ -10,6 +10,66 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
+    $scope.formOption = new HuoYunWidgets.FormOption({
+      orientation: "vertical",
+      readonly: true,
+      header: {
+        title: "Form 1",
+        buttons: [{
+          name: "add",
+          label: "添加",
+          appendClass: "btn-primary",
+          onClick: function() {
+            console.log(this)
+          }
+        }]
+      },
+      groups: [{
+        name: "firstName",
+        label: "First Name",
+        type: "string",
+        mandatory: true,
+        appendClass: "col-sm-4"
+      }, {
+        name: "lastName",
+        label: "Last Name",
+        type: "string",
+        mandatory: true,
+        disabled: true,
+        appendClass: "col-sm-4"
+      }, {
+        name: "email",
+        label: "Email",
+        type: "email",
+        mandatory: true,
+        placeholder: "Input email ...",
+        appendClass: "col-sm-4",
+        readonly: true
+      }],
+      footer: {
+        buttons: [{
+          name: "save",
+          label: "保存",
+          appendClass: "btn-primary",
+          onClick: function() {
+            $scope.formOption.readonly = false;
+            // $scope.formOption.validator()
+            //   .then(function() {
+
+            //   }).catch(function(formGroup) {
+            //     formGroup.setError();
+            //   });
+          }
+        }]
+      }
+    });
+
+    $scope.formOption.setData({
+      email: "xx@sap.com",
+      firstName: "Jingjing",
+      lastName: "Wang"
+    });
+
     $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({
       items: [{
         name: "xxx",

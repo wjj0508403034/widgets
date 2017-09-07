@@ -26,8 +26,9 @@ angular.module('huoyun.widget').provider("display", function() {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption", "BreadCrumbOption",
-  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
+  "BreadCrumbOption", "FormOption",
+  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption) {
 
     return {
       Dialog: Dialog,
@@ -35,7 +36,8 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog
       SidebarOption: SidebarOption,
       NavOption: NavOption,
       BreadCrumbOption: BreadCrumbOption,
-      Tip: Tip
+      Tip: Tip,
+      FormOption: FormOption
     };
   }
 ]);

@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>HuoYun Widgets Demo</title>
 
+  <link rel="stylesheet" href="./../node_modules/font-awesome/css/font-awesome.min.css">
   <link href="./../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="./../node_modules/admin-lte/dist/css/AdminLTE.css" rel="stylesheet">
   <link href="./../node_modules/ng-dialog/css/ngDialog-theme-default.min.css" rel="stylesheet">
@@ -24,6 +25,7 @@
 <body ng-controller="DemoController">
   <button ng-click="showDialog()">Dialog</button>
   <button ng-click="showTip()">Show Tip</button>
+  <div widgets-form options="formOption"></div>
   <div widgets-table options="tableOptions" source="dataSource"></div>
   <div widgets-head options="headOptions"></div>
   <div widgets-nav options="navOptions"></div>

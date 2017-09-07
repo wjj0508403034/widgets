@@ -1,0 +1,30 @@
+.widgets-form .form-group .help-block {
+  display: none;
+}
+
+.widgets-form .form-group[has-error="true"] .form-control,
+.widgets-form .form-group[has-error="true"] .input-group-addon {
+  border-color: #dd4b39;
+  box-shadow: none;
+}
+
+.widgets-form .form-group[has-error="true"] .help-block {
+  display: block;
+  color: #dd4b39;
+}
+
+.widgets-form .form-group .control-label {
+  color: #737373;
+  font-weight: normal;
+}
+
+.widgets-form .form-group[mandatory="true"] .control-label::before {
+  content: "*";
+  color: #dd4b39;
+  margin-right: 2px;
+}
+
+.widgets-form[form-readonly="true"] .form-group .control-label {
+  text-align: right;
+  padding-right: 0px;
+}

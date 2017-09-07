@@ -37,6 +37,18 @@ angular.module('huoyun.widget').factory("widgetsHelper", function() {
       return false;
     },
 
+    readonly: function(obj) {
+      if (typeof obj.readonly === "boolean") {
+        return obj.readonly;
+      }
+
+      if (typeof obj.readonly === "function") {
+        return obj.readonly.apply(obj);
+      }
+
+      return false;
+    },
+
     style: function(obj) {
       if (obj) {
         if (typeof obj.style === "object") {
