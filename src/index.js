@@ -27,8 +27,9 @@ angular.module('huoyun.widget').provider("display", function() {
 });
 
 angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
-  "BreadCrumbOption", "FormOption", "CheckBoxOption",
-  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption, CheckBoxOption) {
+  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption",
+  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption, CheckBoxOption,
+    SearchFormOption) {
 
     return {
       Dialog: Dialog,
@@ -38,7 +39,8 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog
       BreadCrumbOption: BreadCrumbOption,
       Tip: Tip,
       FormOption: FormOption,
-      CheckBoxOption: CheckBoxOption
+      CheckBoxOption: CheckBoxOption,
+      SearchFormOption: SearchFormOption
     };
   }
 ]);

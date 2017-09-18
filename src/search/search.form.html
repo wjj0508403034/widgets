@@ -1,0 +1,28 @@
+<div class="box bo-search-area">
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      <i class="fa" aria-hidden="true" ng-class="options.icon" ng-if="options.icon"></i>
+      <span ng-bind="options.title"></span>
+    </h3>
+    <div class="box-tools">
+      <div class="input-group input-group-sm">
+        <button class="btn" ng-repeat="button in options.buttons" ng-class="button.appendClass" ng-if="button.$$visibility()" ng-disabled="button.$$disabled()"
+          ng-style="button.$$style()" ng-click="button.$$click()">
+          <i class="fa" aria-hidden="true" ng-class="button.icon" ng-if="button.icon" ></i>
+          <span ng-bind="button.label"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <form class="form-horizontal" role="form">
+    <div class="box-body">
+      <div class="form-group col-md-4 bo-property-form-group" ng-repeat="prop in options.props" ng-switch="prop.type">
+        <label for="{{prop.name}}" class="col-sm-3 control-label" ng-bind="prop.label"></label>
+        <div class="col-sm-9">
+          <div ng-switch-when="integer" widgets-search-form-number options="prop"></div>
+          <div ng-switch-default widgets-search-form-string options="prop"></div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

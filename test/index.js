@@ -7,6 +7,15 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
+// angular.module('Demo').config(["SearchExprProvider", function(SearchExprProvider) {
+//   SearchExprProvider.config({
+//     "String": function(prop) {
+//       return "hell"
+//     }
+//   });
+// }]);
+
+
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
     $scope.checkbox = new HuoYunWidgets.CheckBoxOption({
@@ -16,6 +25,27 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         console.log(arguments)
       }
     });
+
+    $scope.searchFormOption = new HuoYunWidgets.SearchFormOption({
+      title: "搜索",
+      props: [{
+        name: "firstName",
+        label: "First Name",
+        type: "string"
+      }, {
+        name: "lastName",
+        label: "Last Name",
+        type: "string"
+      }, {
+        name: "age",
+        label: "Age",
+        type: "integer"
+      }],
+      onSearch: function(expr) {
+        console.log(expr);
+      }
+    });
+
     $scope.formOption = new HuoYunWidgets.FormOption({
       orientation: "vertical",
       readonly: true,
