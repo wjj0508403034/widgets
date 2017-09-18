@@ -1,13 +1,67 @@
 'use strict';
 
+angular.module('huoyun.widget').factory("SearchConditions", [function() {
+
+  return [{
+    name: "eq",
+    label: "等于",
+    op: "="
+  }, {
+    name: "ne",
+    label: "不等于",
+    op: "<>"
+  }, {
+    name: "gt",
+    label: "大于",
+    op: ">"
+  }, {
+    name: "ge",
+    label: "大于等于",
+    op: ">="
+  }, {
+    name: "lt",
+    label: "小于",
+    op: "<"
+  }, {
+    name: "le",
+    label: "小于等于",
+    op: "<="
+  }, {
+    name: "between",
+    label: "在范围内"
+  }];
+
+}]);
+
+angular.module('huoyun.widget').filter("ConditionText", ["SearchConditions",
+  function(SearchConditions) {
+
+    return function(input) {
+      if (input) {
+        if (input.op === "between") {
+          return `[ ${input.left} , ${input.right} ]`
+        }
+
+        for (var index = 0; index < SearchConditions.length; index++) {
+          if (SearchConditions[index].name === input.op) {
+            return `${SearchConditions[index].label} ${input.value}`;
+          }
+        }
+
+      }
+    };
+  }
+]);
+
 angular.module('huoyun.widget').factory("SearchConditionValue", [function() {
 
+  const props = ["op", "value", "left", "right"];
 
-  function SearchConditionValue() {
-    this.op = null;
-    this.value = null;
-    this.left = null;
-    this.right = null;
+  function SearchConditionValue(options) {
+    var that = this;
+    props.forEach(function(prop) {
+      that[prop] = options[prop];
+    });
   };
 
   return SearchConditionValue;
@@ -32,6 +86,10 @@ angular.module('huoyun.widget').factory("SearchPropertyOption", ["SearchExpr",
 
     SearchPropertyOption.prototype.setForm = function(form) {
       this.form = form;
+    };
+
+    SearchPropertyOption.prototype.setValue = function(val) {
+      this.value = val;
     };
 
     SearchPropertyOption.prototype.clear = function() {

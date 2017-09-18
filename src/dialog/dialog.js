@@ -75,18 +75,33 @@ angular.module('huoyun.widget').factory("Dialog", ['$q', 'ngDialog', function($q
         }
       };
 
-      var dtd = $q.defer();
-
       ngDialog.open(dialogOptions)
         .closePromise.then(function(data) {
-          if (data.value === "OK") {
-            dtd.resolve();
-          } else {
-            dtd.reject();
+          if (data.value) {
+            if (Array.isArray(data.value) && data.value.length > 0) {
+              var key = data.value[0];
+              if (key === 'OK' && options.confirm && typeof options.confirm.callback === "function") {
+                return options.confirm.callback.apply(this, data.value);
+              }
+
+              if (key === "Cancel" && options.cancel && typeof options.cancel.callback === "function") {
+                return options.cancel.callback.apply(this, data.value);
+              }
+
+              if (typeof options.closeCallback === "function") {
+                return options.closeCallback.apply(this, data.value);
+              }
+            }
+
+            if (typeof options.closeCallback === "function") {
+              return options.closeCallback.apply(this, [data.value]);
+            }
+          }
+
+          if (typeof options.closeCallback === "function") {
+            return options.closeCallback.apply(this);
           }
         });
-
-      return dtd.promise;
     }
   };
 }]);

@@ -1,4 +1,4 @@
 <div class="input-group">
-  <input type="text" class="form-control" ng-value="options.value" readonly placeholder="{{options.placeholder}}">
+  <input type="text" class="form-control" ng-value="options.value | ConditionText" readonly placeholder="{{options.placeholder}}">
   <span class="input-group-addon"><i class="fa fa-filter" ng-click="onButtonClicked()"></i></span>
 </div>

@@ -33,6 +33,10 @@ angular.module('huoyun.widget').provider("SearchExpr", function() {
     if (prop.type.toLocaleLowerCase() === "string") {
       return this.getStringExpr(prop);
     }
+
+    if (prop.type.toLocaleLowerCase() === "integer") {
+      return this.getNumberExpr(prop);
+    }
   };
 
   var expr = new SearchExpr();
