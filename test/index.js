@@ -9,7 +9,13 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
-
+    $scope.checkbox = new HuoYunWidgets.CheckBoxOption({
+      label: "xx2",
+      value: true,
+      onCheckChanged: function() {
+        console.log(arguments)
+      }
+    });
     $scope.formOption = new HuoYunWidgets.FormOption({
       orientation: "vertical",
       readonly: true,
@@ -109,35 +115,39 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
     };
 
     $scope.tableOptions = new HuoYunWidgets.TableOption({
-      title: "Table",
-      selectionMode: "single",
+      selection: {
+        mode: "Single",
+        checkbox: true,
+        hightlight: false
+      },
       header: {
         style: {
           padding: "20px 10px"
-        }
-      },
-      buttons: [{
-        name: "add",
-        label: "添加",
-        appendClass: "btn-primary",
-        onClick: function() {
-          console.log(this)
-        }
-      }, {
-        name: "add",
-        label: "添加2",
-        appendClass: "btn-primary",
-        onClick: function() {
-          console.log(this)
         },
-        visibility: function() {
-          if ($scope.tableOptions.getSelectedItem()) {
-            return true;
+        title: "Table1",
+        buttons: [{
+          name: "add",
+          label: "添加",
+          appendClass: "btn-primary",
+          onClick: function() {
+            console.log(this)
           }
+        }, {
+          name: "add",
+          label: "添加2",
+          appendClass: "btn-primary",
+          onClick: function() {
+            console.log(this)
+          },
+          visibility: function() {
+            if ($scope.tableOptions.getSelectedItem()) {
+              return true;
+            }
 
-          return false;
-        }
-      }],
+            return false;
+          }
+        }],
+      },
       columns: [{
         name: "id",
         label: "编号",

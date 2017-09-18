@@ -1,45 +1,54 @@
 <div class="box widgets-table">
-  <div class="box-header" ng-style="headerStyle(options.box.header)">
+  <div class="box-header" ng-style="options.header.$$style()">
     <h3 class="box-title">
-      <i class="fa fa-server" aria-hidden="true"></i>
-      <span ng-bind="options.title"></span>
+      <i class="fa" aria-hidden="true" ng-class="options.header.icon" ng-if="options.header.icon"></i>
+      <span ng-bind="options.header.title"></span>
     </h3>
 
     <div class="box-tools">
       <div class="input-group input-group-sm">
-        <button class="btn" ng-repeat="button in options.buttons" ng-show="buttonVisibility(button)" ng-click="onButtonClicked(button)"
-          ng-style="buttonStyle(button)" ng-class="buttonClass(button)" ng-disabled="buttonDisabled(button)">
-          <i ng-show="button.icon" class="fa" aria-hidden="true" ng-class="button.icon"></i>
+        <button class="btn" ng-repeat="button in options.header.buttons" ng-class="button.appendClass" ng-if="button.$$visibility()"
+          ng-disabled="button.$$disabled()" ng-style="button.$$style()" ng-click="button.$$click()">
+          <i class="fa" aria-hidden="true" ng-class="button.icon" ng-if="button.icon" ></i>
           <span ng-bind="button.label"></span>
         </button>
       </div>
     </div>
   </div>
   <div class="box-body table-responsive no-padding">
-    <table class="table table-hover table-bordered">
+    <table class="table table-hover table-bordered" highlight="{{options.selection.isHighLight()}}">
       <tbody>
         <tr class="no-hover">
-          <th ng-repeat="column in options.columns" ng-show="columnVisibility(column)" column-name="{{column.name}}" column-type="{{column.type}}"
-            ng-style="columnStyle(column)">
+          <th class="check-box-column" ng-if="options.$$showCheckBox()">
+            <div widgets-check-box options="options.$$selectedAllOption"></div>
+          </th>
+          <th ng-repeat="column in options.columns" ng-show="column.$$visibility()" column-name="{{column.name}}" column-type="{{column.type}}"
+            ng-style="column.$$style()">
             <div ng-if="column.headerTemplateUrl" ng-include="column.headerTemplateUrl"></div>
             <div ng-if="!column.headerTemplateUrl" ng-bind="column.label">
             </div>
           </th>
         </tr>
-        <tr ng-show="options.source.content.length === 0">
-          <td class="empty-table" colspan="{{columnCount()}}">
-            <i class="fa fa-database"></i>
-            <span>暂无数据</span>
+        <tr ng-show="options.isEmpty()">
+          <td class="empty-table" colspan="{{options.$$columnCount()}}">
+            <div ng-if="options.mask.templateUrl" ng-include="column.headerTemplateUrl"></div>
+            <div ng-if="!options.mask.templateUrl">
+              <i class="fa" aria-hidden="true" ng-class="options.mask.icon" ng-if="options.mask.icon"></i>
+              <span ng-bind="options.mask.text"></span>
+            </div>
           </td>
         </tr>
-        <tr ng-show="options.source.content.length > 0" ng-repeat="lineData in options.source.content" ng-click="onLineClicked(lineData,$index)"
-          ng-class="{true: 'selected', false: ''}[lineData.$$selected]">
+        <tr ng-show="!options.isEmpty()" ng-repeat="line in options.source.lines" ng-click="options.$$onLineClicked(line,$index)"
+          ng-class="{true: 'selected', false: ''}[line.isSelected()]">
+          <td class="check-box-column" ng-if="options.$$showCheckBox()">
+            <div widgets-check-box options="line.checkboxOption"></div>
+          </td>
           <td class="table-column" column-name="{{column.name}}" column-type="{{column.type}} " ng-repeat="column in options.columns"
-            ng-show="columnVisibility(column)" ng-style="columnStyle(column)">
+            ng-show="column.$$visibility()" ng-style="column.$$style()">
             <div ng-if="column.templateUrl" ng-include="column.templateUrl"></div>
             <div ng-if="!column.templateUrl" ng-switch="column.type">
-              <span ng-switch-when="date " ng-bind="lineData[column.name] | date: getDateFilter() "></span>
-              <span ng-switch-default ng-bind="lineData[column.name] "></span>
+              <span ng-switch-when="date " ng-bind="line.data[column.name] | date: getDateFilter() "></span>
+              <span ng-switch-default ng-bind="line.data[column.name] "></span>
             </div>
           </td>
         </tr>

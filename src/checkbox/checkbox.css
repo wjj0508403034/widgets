@@ -1,0 +1,15 @@
+.widgets-checkbox {
+  cursor: pointer;
+}
+
+.widgets-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.widgets-checkbox .fa {
+  width: 16px;
+}
+
+.widgets-checkbox .widgets-checkbox-content {
+  margin-left: 5px;
+}

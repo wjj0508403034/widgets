@@ -6,6 +6,21 @@
   color: #cccccc;
   cursor: default;
 }
+.widgets-checkbox {
+  cursor: pointer;
+}
+
+.widgets-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.widgets-checkbox .fa {
+  width: 16px;
+}
+
+.widgets-checkbox .widgets-checkbox-content {
+  margin-left: 5px;
+}
 .box .box-header .box-title {
   font-weight: normal;
   font-size: 14px;
@@ -40,6 +55,36 @@
   margin-left: 15px;
   min-width: 80px;
 }
+.widgets-head {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 100px;
+}
+
+.widgets-head .widgets-head-title-container {
+  color: #3c8dbc;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.widgets-head .widgets-head-tools {
+  height: 100%;
+  padding: 13px 0;
+}
+[widgets-story-board] {
+  position: relative;
+}
+
+.svg-story-board-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 .widgets-form .form-group .help-block {
   display: none;
 }
@@ -73,36 +118,6 @@
 
 .widgets-form[form-readonly="true"] .form-group .value-label {
   min-height: 20px;
-}
-.widgets-head {
-  height: 60px;
-  line-height: 60px;
-  padding: 0 100px;
-}
-
-.widgets-head .widgets-head-title-container {
-  color: #3c8dbc;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.widgets-head .widgets-head-tools {
-  height: 100%;
-  padding: 13px 0;
-}
-[widgets-story-board] {
-  position: relative;
-}
-
-.svg-story-board-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 .widgets-markdown {
   color: #444;
@@ -424,17 +439,23 @@ a:active {
   min-height: 34px;
 }
 
-.widgets-table table tr.selected,
-.widgets-table table tr.selected:hover {
+.widgets-table table[highlight="true"] tr.selected,
+.widgets-table table[highlight="true"] tr.selected:hover {
   background: #3c8dbc;
 }
 
-.widgets-table table tr.selected td {
+.widgets-table table[highlight="true"] tr.selected td {
   border-color: #3c8dbc;
 }
 
-.widgets-table table tr.selected td {
+.widgets-table table[highlight="true"] tr.selected td {
   color: white;
+}
+
+.widgets-table table .check-box-column {
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
 }
 .widget-tip.alert.alert-success {
   background: transparent;

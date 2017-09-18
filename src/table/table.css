@@ -34,15 +34,21 @@
   min-height: 34px;
 }
 
-.widgets-table table tr.selected,
-.widgets-table table tr.selected:hover {
+.widgets-table table[highlight="true"] tr.selected,
+.widgets-table table[highlight="true"] tr.selected:hover {
   background: #3c8dbc;
 }
 
-.widgets-table table tr.selected td {
+.widgets-table table[highlight="true"] tr.selected td {
   border-color: #3c8dbc;
 }
 
-.widgets-table table tr.selected td {
+.widgets-table table[highlight="true"] tr.selected td {
   color: white;
+}
+
+.widgets-table table .check-box-column {
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
 }
