@@ -39,7 +39,37 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }, {
         name: "age",
         label: "Age",
-        type: "integer"
+        type: "Integer"
+      }, {
+        name: "Test1",
+        label: "Test1",
+        type: "DataList",
+        datalist: {
+          valueField: "value",
+          labelField: "name",
+          getDataSource: function() {
+            return [{
+              name: "11",
+              value: "xxx"
+            }, {
+              name: "222",
+              value: "xxx1"
+            }];
+          },
+          search: function(val) {
+            return [{
+              name: "11",
+              value: "xxx"
+            }, {
+              name: "222",
+              value: "xxx1"
+            }, {
+              name: "333",
+              value: "xxx2"
+            }];
+          }
+        }
+
       }],
       onSearch: function(expr) {
         console.log(expr);

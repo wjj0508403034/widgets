@@ -1,0 +1,25 @@
+.widgets-search-form-data-list-dialog .item-template {
+  min-height: 40px;
+  border-bottom: 1px solid #f4f4f4;
+  line-height: 40px;
+  margin: 0 -15px;
+  padding: 0 15px;
+}
+
+.widgets-search-form-data-list-dialog .item-template:hover {
+  background-color: #f5f5f5;
+}
+
+.widgets-search-form-data-list-dialog .search-box .form-control,
+.widgets-search-form-data-list-dialog .search-box .input-group-addon {
+  border: none;
+}
+
+.widgets-search-form-data-list-dialog .search-box {
+  border: 1px solid #d2d6de;
+}
+
+.widgets-search-form-data-list-dialog .load-more {
+  text-align: center;
+  cursor: pointer;
+}

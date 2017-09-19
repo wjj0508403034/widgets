@@ -1,25 +1,29 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("Linq", function() {
 
-  function Linq(data) {
-    if (!Array.isArray(data)) {
-      throw new Error("data must be array");
-    }
+function Linq(array) {
 
-    this.data = data;
+  this.getArray = function() {
+    return array;
+  };
+}
+
+Linq.prototype.join = function(cb, separator) {
+  if (typeof cb === "function") {
+    var res = [];
+    this.getArray().forEach(function(item) {
+      var temp = cb(item);
+      if (temp !== null && temp !== undefined && temp !== "") {
+        res.push(temp);
+      }
+    });
+
+    return res.join(separator);
   }
 
-  Linq.prototype.findItem = function(condition) {
-    if (typeof condition !== "function") {
-      throw new Error("condition must be function");
-    }
-    for (var index = 0; index < this.data.length; index++) {
-      if (condition(this.data[index], index, this.data)) {
-        return this.data[index];
-      }
-    }
-  };
+  return this.getArray().join(separator);
+};
 
-  return Linq;
-});
+Array.prototype.linq = function() {
+  return new Linq(this);
+};

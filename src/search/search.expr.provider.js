@@ -24,6 +24,17 @@ angular.module('huoyun.widget').provider("SearchExpr", function() {
     }
   };
 
+  SearchExpr.prototype.getDataListExpr = function(prop) {
+    if (Array.isArray(prop.value) && prop.value.length > 0) {
+      var res = [];
+      prop.value.forEach(function(item) {
+        res.push(item[prop.datalist.valueField]);
+      });
+
+      return `${prop.name} in ( ${res.join(", ")} )`;
+    }
+  };
+
 
   SearchExpr.prototype.getExpr = function(prop) {
     if (typeof prop.type !== "string") {
@@ -36,6 +47,10 @@ angular.module('huoyun.widget').provider("SearchExpr", function() {
 
     if (prop.type.toLocaleLowerCase() === "integer") {
       return this.getNumberExpr(prop);
+    }
+
+    if (prop.type.toLocaleLowerCase() === "datalist") {
+      return this.getDataListExpr(prop);
     }
   };
 

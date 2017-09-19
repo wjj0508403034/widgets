@@ -1,5 +1,20 @@
 'use strict';
 
+angular.module('huoyun.widget').factory("HuoyunPromise", ["$q", function($q) {
+
+  return {
+    resolve: function(val) {
+      if (val instanceof Promise || val instanceof $q) {
+        return val;
+      }
+
+      var deferred = $q.defer();
+      deferred.resolve(val);
+      return deferred.promise;
+    }
+  };
+}]);
+
 angular.module('huoyun.widget').factory("widgetsHelper", function() {
 
   String.prototype.pad = function(width) {

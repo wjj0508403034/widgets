@@ -19,7 +19,8 @@
       <div class="form-group col-md-4 bo-property-form-group" ng-repeat="prop in options.props" ng-switch="prop.type">
         <label for="{{prop.name}}" class="col-sm-3 control-label" ng-bind="prop.label"></label>
         <div class="col-sm-9">
-          <div ng-switch-when="integer" widgets-search-form-number options="prop"></div>
+          <div ng-switch-when="Integer" widgets-search-form-number options="prop"></div>
+          <div ng-switch-when="DataList" widgets-search-form-data-list options="prop"></div>
           <div ng-switch-default widgets-search-form-string options="prop"></div>
         </div>
       </div>
