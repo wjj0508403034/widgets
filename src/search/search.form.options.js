@@ -64,27 +64,29 @@ angular.module('huoyun.widget').factory("SearchConditionValue", ["SearchConditio
 angular.module('huoyun.widget').factory("SearchPropertyDataListOption", ["HuoyunPromise",
   function(HuoyunPromise) {
 
-    const props = ["getDataSource", "valueField", "labelField", "itemTemplateUrl", "search", "searchVisibility",
-      "loadMore", "loadVisibility"
-    ];
+    const props = ["valueField", "labelField", "itemTemplateUrl", "searchVisibility", "loadVisibility"];
 
     function SearchPropertyDataListOption(options) {
       var that = this;
       props.forEach(function(prop) {
         that[prop] = options[prop];
       });
+
+      this.getOptions = function() {
+        return options;
+      };
     };
 
     SearchPropertyDataListOption.prototype.$$getDataSource = function() {
-      return HuoyunPromise.resolve(this.getDataSource());
+      return HuoyunPromise.resolve(this.getOptions().getDataSource());
     };
 
     SearchPropertyDataListOption.prototype.$$search = function(val) {
-      return HuoyunPromise.resolve(this.search(val));
+      return HuoyunPromise.resolve(this.getOptions().search(val));
     };
 
     SearchPropertyDataListOption.prototype.$$loadMore = function(loadCount, searchText) {
-      return HuoyunPromise.resolve(this.loadMore(loadCount, searchText));
+      return HuoyunPromise.resolve(this.getOptions().loadMore(loadCount, searchText));
     };
 
     SearchPropertyDataListOption.prototype.$$loadVisibility = function() {
@@ -202,7 +204,7 @@ angular.module('huoyun.widget').factory("SearchFormOption", ["ButtonOption", "wi
       that.buttons = [];
       if (Array.isArray(options.buttons)) {
         options.buttons.forEach(function(button) {
-          that.buttons = new ButtonOption(button);
+          that.buttons.push(new ButtonOption(button));
         });
       }
     }

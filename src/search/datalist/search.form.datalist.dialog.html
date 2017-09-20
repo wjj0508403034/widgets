@@ -1,7 +1,7 @@
 <div class="widgets-search-form-data-list-dialog" ng-controller="SearchFormDataListController">
   <div class="input-group search-box" ng-if="searchVisibility()">
     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-    <input class="form-control" type="text" ng-model="searchText" ng-change="onSearchTextChanged()">
+    <input class="form-control" type="text" ng-model="$parent.searchText" ng-change="onSearchTextChanged()">
     <span class="input-group-addon search-box-remove-icon" ng-show="searchText" ng-click="onSearchTextCleared()"><i class="fa fa-remove" aria-hidden="true"></i></span>
   </div>
   <div class="item-template">

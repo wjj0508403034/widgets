@@ -296,11 +296,11 @@ angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "Table
     };
 
     TableOption.prototype.$$columnCount = function() {
-      if (this.isEmpty()) {
-        return 0;
+      if (this.source) {
+        return this.source.count();
       }
 
-      return this.source.count();
+      return 0;
     };
 
     TableOption.prototype.$$onLineClicked = function(lineData, index) {
