@@ -2,9 +2,9 @@
   <label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label>
 
   <div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()">
-    <div class="input-group">
+    <div class="input-group" ng-click="onButtonClicked()">
       <span class="input-group-addon"><i class="fa fa-link"></i></span>
-      <input type="email" class="form-control" id="{{options.name}}" readonly placeholder="{{options.placeholder}}" ng-value="$parent.$$getValueExpr()"
+      <input type="text" class="form-control" id="{{options.name}}" readonly placeholder="{{options.placeholder}}" ng-value="options.$$getValueLabel()"
         ng-disabled="options.$$disabled()">
     </div>
     <span class="help-block" ng-bind="options.errorMessage"></span>

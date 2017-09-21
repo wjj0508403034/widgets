@@ -1,0 +1,24 @@
+<div class="widgets-form-group-data-list-dialog" ng-controller="FormGroupDataListController">
+  <div class="input-group search-box" ng-if="searchVisibility()">
+    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+    <input class="form-control" type="text" ng-model="$parent.searchText" ng-change="onSearchTextChanged()">
+    <span class="input-group-addon search-box-remove-icon" ng-show="searchText" ng-click="onSearchTextCleared()"><i class="fa fa-remove" aria-hidden="true"></i></span>
+  </div>
+  <div class="single-selection-panel" ng-if="isSingle()">
+    <div class="item-template" ng-repeat="dataItem in dataSource" ng-click="onItemClicked(dataItem)">
+      <div ng-if="itemTemplateUrl" ng-include="itemTemplateUrl"></div>
+      <div ng-if="!itemTemplateUrl" ng-bind="getValueLabel(dataItem)"></div>
+    </div>
+  </div>
+  <div class="multi-selection-panel" ng-if="!isSingle()">
+    <div class="item-template">
+      <div widgets-check-box options="selectedAllOption"></div>
+    </div>
+    <div class="item-template" ng-repeat="dataItem in dataSource">
+      <div widgets-check-box options="dataItem.checkboxOption"></div>
+    </div>
+  </div>
+  <div class="item-template load-more" ng-click="loadMore()" ng-if="loadVisibility()">
+    <div>加载更多...</div>
+  </div>
+</div>

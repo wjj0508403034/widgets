@@ -47,9 +47,100 @@ angular.module('huoyun.widget').factory("FormFooterOption", ["ButtonOption", "wi
   }
 ]);
 
+angular.module('huoyun.widget').factory("FormGroupDataListSelection", [function() {
+  const Modes = {
+    Single: "Single",
+    Multiple: "Multiple"
+  };
+
+  function FormGroupDataListSelection(options) {
+    this.mode = Modes.Single;
+
+    if (options && typeof options.mode === "string") {
+      if (options.mode.toLowerCase() === "single") {
+        this.mode = TableSelection.Single;
+      } else if (options.mode.toLowerCase() === "multiple") {
+        this.mode = TableSelection.Multiple;
+      }
+    }
+  }
+
+  FormGroupDataListSelection.prototype.isSingle = function() {
+    return this.mode === Modes.Single;
+  };
+
+  return FormGroupDataListSelection;
+}]);
+
+angular.module('huoyun.widget').factory("FormGroupDataListOption", ["HuoyunPromise", "FormGroupDataListSelection",
+  function(HuoyunPromise, FormGroupDataListSelection) {
+
+    const props = ["valueField", "labelField", "itemTemplateUrl"];
+
+    function FormGroupDataListOption(options) {
+      var that = this;
+      props.forEach(function(prop) {
+        that[prop] = options[prop];
+      });
+
+      this.selection = new FormGroupDataListSelection(options.selection);
+
+      this.getOptions = function() {
+        return options;
+      };
+    }
+
+    FormGroupDataListOption.prototype.$$getDataSource = function() {
+      return HuoyunPromise.resolve(this.getOptions().getDataSource());
+    };
+
+    FormGroupDataListOption.prototype.$$search = function(val) {
+      return HuoyunPromise.resolve(this.getOptions().search(val));
+    };
+
+    FormGroupDataListOption.prototype.$$loadMore = function(loadCount, searchText) {
+      return HuoyunPromise.resolve(this.getOptions().loadMore(loadCount, searchText));
+    };
+
+    FormGroupDataListOption.prototype.$$loadVisibility = function() {
+      return this.getOptions().loadVisibility === true;
+    };
+
+    FormGroupDataListOption.prototype.$$searchVisibility = function() {
+      return this.getOptions().searchVisibility === true;
+    };
+
+    FormGroupDataListOption.prototype.$$getItemValueLabel = function(item) {
+      return item && item[this.labelField];
+    };
+
+    FormGroupDataListOption.prototype.$$getItemsValueLabel = function(items) {
+      if (Array.isArray(items)) {
+        var that = this;
+
+        return items.linq().join(function(item) {
+          return item[that.labelField]
+        }, ", ");
+      }
+
+      return items;
+    };
+
+    FormGroupDataListOption.prototype.$$getValueLabel = function(val) {
+      if (this.selection.isSingle()) {
+        return this.$$getItemValueLabel(val);
+      }
+
+      return this.$$getItemsValueLabel(val);
+    };
+
+    return FormGroupDataListOption;
+  }
+]);
+
 angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Form", "FormOrientation",
-  "FormValidators",
-  function(widgetsHelper, FormProvider, FormOrientation, FormValidators) {
+  "FormValidators", "FormGroupDataListOption",
+  function(widgetsHelper, FormProvider, FormOrientation, FormValidators, FormGroupDataListOption) {
 
     const props = ["name", "label", "mandatory", "type", "readonly", "visibility", "disabled", "templateUrl",
       "appendLabelClass", "appendControlClass", "placeholder", "appendClass"
@@ -61,10 +152,33 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
       props.forEach(function(prop) {
         that[prop] = options[prop];
       });
+
+      if (this.type === "DataList") {
+        if (!options.datalist) {
+          throw new Error("Not found property datalist");
+        }
+        that.datalist = new FormGroupDataListOption(options.datalist);
+      }
     }
 
     FormGroupOption.prototype.setFormOption = function(formOption) {
       this.formOption = formOption;
+    };
+
+    FormGroupOption.prototype.setValue = function(val) {
+      this.formOption.setPropertyValue(this.name, val);
+    };
+
+    FormGroupOption.prototype.getValue = function() {
+      return this.formOption.getPropertyValue(this.name);
+    };
+
+    FormGroupOption.prototype.$$getValueLabel = function() {
+      if (this.type === "DataList") {
+        return this.datalist.$$getValueLabel(this.getValue());
+      }
+
+      return this.value;
     };
 
     FormGroupOption.prototype.$$visibility = function() {
@@ -240,6 +354,22 @@ angular.module('huoyun.widget').factory("FormOption", ["$q", "FormHeaderOption",
 
     FormOption.prototype.setData = function(data) {
       this.data = data;
+    };
+
+    FormOption.prototype.getData = function() {
+      return this.data;
+    };
+
+    FormOption.prototype.setPropertyValue = function(name, val) {
+      if (!this.data) {
+        this.data = {};
+      }
+
+      this.data[name] = val;
+    };
+
+    FormOption.prototype.getPropertyValue = function(name) {
+      return this.data && this.data[name];
     };
 
     FormOption.prototype.validator = function() {

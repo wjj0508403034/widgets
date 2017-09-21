@@ -32,6 +32,7 @@
         </div>
 
         <div ng-if="!formGroup.templateUrl" ng-switch="formGroup.type">
+          <div ng-switch-when="DataList" widgets-form-group-data-list options="formGroup" ng-model="options.data[formGroup.name]"></div>
           <div ng-switch-when="email" widgets-form-group-label-email options="formGroup" ng-model="options.data[formGroup.name]"></div>
           <div ng-switch-default widgets-form-group-label-string options="formGroup" ng-model="options.data[formGroup.name]"></div>
         </div>
