@@ -24,6 +24,66 @@ Linq.prototype.join = function(cb, separator) {
   return this.getArray().join(separator);
 };
 
+Linq.prototype.first = function(cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return array[index];
+    }
+  }
+};
+
+Linq.prototype.exists = function(item, cb) {
+  if (!cb) {
+    return this.getArray().indexOf(item) !== -1;
+  }
+
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+};
+
+Linq.prototype.any = function(cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+Linq.prototype.all = function(cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (!cb(array[index], index)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 Array.prototype.linq = function() {
   return new Linq(this);
 };
