@@ -96,6 +96,10 @@ angular.module('huoyun.widget').factory("TableColumnOption", ["widgetsHelper",
       props.forEach(function(prop) {
         that[prop] = options[prop];
       });
+
+      this.getOption = function() {
+        return options;
+      };
     }
 
     TableColumnOption.prototype.$$style = function() {
@@ -104,6 +108,18 @@ angular.module('huoyun.widget').factory("TableColumnOption", ["widgetsHelper",
 
     TableColumnOption.prototype.$$visibility = function() {
       return widgetsHelper.visibility(this);
+    };
+
+    TableColumnOption.prototype.getName = function() {
+      return this.name;
+    };
+
+    TableColumnOption.prototype.getValueText = function(val) {
+      if (typeof this.getOption().getValueText === "function") {
+        return this.getOption().getValueText(val);
+      }
+
+      return val;
     };
 
     return TableColumnOption;
@@ -131,6 +147,14 @@ angular.module('huoyun.widget').factory("TableLineData", ["CheckBoxOption",
 
     TableLineData.prototype.isSelected = function() {
       return this.$$selected;
+    };
+
+    TableLineData.prototype.getPropValue = function(column) {
+      return this.data && this.data[column.getName()];
+    };
+
+    TableLineData.prototype.getData = function() {
+      return this.data;
     };
 
     return TableLineData;

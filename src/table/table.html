@@ -22,33 +22,33 @@
           <th class="check-box-column" ng-if="options.$$showCheckBox()">
             <div widgets-check-box options="options.$$selectedAllOption"></div>
           </th>
-          <th ng-repeat="column in options.columns" ng-show="column.$$visibility()" column-name="{{column.name}}" column-type="{{column.type}}"
-            ng-style="column.$$style()">
-            <div ng-if="column.headerTemplateUrl" ng-include="column.headerTemplateUrl"></div>
-            <div ng-if="!column.headerTemplateUrl" ng-bind="column.label">
+          <th ng-repeat="$column in options.columns" ng-show="$column.$$visibility()" column-name="{{$column.name}}" column-type="{{$column.type}}"
+            ng-style="$column.$$style()">
+            <div ng-if="$column.headerTemplateUrl" ng-include="$column.headerTemplateUrl"></div>
+            <div ng-if="!$column.headerTemplateUrl" ng-bind="$column.label">
             </div>
           </th>
         </tr>
         <tr ng-show="options.isEmpty()">
           <td class="empty-table" colspan="{{options.$$columnCount()}}">
-            <div ng-if="options.mask.templateUrl" ng-include="column.headerTemplateUrl"></div>
+            <div ng-if="options.mask.templateUrl" ng-include="options.mask.templateUrl"></div>
             <div ng-if="!options.mask.templateUrl">
               <i class="fa" aria-hidden="true" ng-class="options.mask.icon" ng-if="options.mask.icon"></i>
               <span ng-bind="options.mask.text"></span>
             </div>
           </td>
         </tr>
-        <tr ng-show="!options.isEmpty()" ng-repeat="line in options.source.lines" ng-click="options.$$onLineClicked(line,$index)"
-          ng-class="{true: 'selected', false: ''}[line.isSelected()]">
+        <tr ng-show="!options.isEmpty()" ng-repeat="$line in options.source.lines" ng-click="options.$$onLineClicked($line,$index)"
+          ng-class="{true: 'selected', false: ''}[$line.isSelected()]">
           <td class="check-box-column" ng-if="options.$$showCheckBox()">
-            <div widgets-check-box options="line.checkboxOption"></div>
+            <div widgets-check-box options="$line.checkboxOption"></div>
           </td>
-          <td class="table-column" column-name="{{column.name}}" column-type="{{column.type}} " ng-repeat="column in options.columns"
-            ng-show="column.$$visibility()" ng-style="column.$$style()">
-            <div ng-if="column.templateUrl" ng-include="column.templateUrl"></div>
-            <div ng-if="!column.templateUrl" ng-switch="column.type">
-              <span ng-switch-when="date " ng-bind="line.data[column.name] | date: getDateFilter() "></span>
-              <span ng-switch-default ng-bind="line.data[column.name] "></span>
+          <td class="table-column" column-name="{{$column.name}}" column-type="{{$column.type}} " ng-repeat="$column in options.columns"
+            ng-show="$column.$$visibility()" ng-style="$column.$$style()">
+            <div ng-if="$column.templateUrl" ng-include="$column.templateUrl"></div>
+            <div ng-if="!$column.templateUrl" ng-switch="$column.type">
+              <span ng-switch-when="date " ng-bind="$line.data[$column.name] | date: getDateFilter() "></span>
+              <span ng-switch-default ng-bind="$column.getValueText($line.data[$column.name])"></span>
             </div>
           </td>
         </tr>

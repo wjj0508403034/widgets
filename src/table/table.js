@@ -16,6 +16,10 @@ angular.module('huoyun.widget').directive('widgetsTable', ["display",
         $scope.getDateFilter = function() {
           return displayProvider.date;
         };
+
+        $scope.getColumnValue = function(line, column) {
+          return line && column && line.getPropValue(column);
+        };
       }
     }
   }
