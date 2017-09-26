@@ -29,6 +29,8 @@
   padding-right: 0px;
 }
 
-.widgets-form[form-readonly="true"] .form-group .value-label {
-  min-height: 20px;
+.widgets-form[form-readonly="true"] .form-group .control-value-label {
+  padding-top: 7px;
+  font-size: 12px;
+  min-height: 1px;
 }

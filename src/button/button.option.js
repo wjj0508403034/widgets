@@ -2,37 +2,49 @@
 
 angular.module('huoyun.widget').factory("ButtonOption", ["widgetsHelper", "$log",
   function(widgetsHelper, $log) {
-
-    const props = ["name", "icon", "label", "visibility", "disabled", "appendClass", "style", "onClick"];
-
     function ButtonOption(options) {
-      var that = this;
-      props.forEach(function(prop) {
-        that[prop] = options[prop];
-      });
+      this.getOptions = function() {
+        return options;
+      };
     }
 
-    ButtonOption.prototype.$$visibility = function() {
-      return widgetsHelper.visibility(this);
+    ButtonOption.prototype.getName = function() {
+      return this.getOptions().name;
     };
 
-    ButtonOption.prototype.$$disabled = function() {
-      return widgetsHelper.disabled(this);
+    ButtonOption.prototype.getAppendClass = function() {
+      return this.getOptions().appendClass;
     };
 
-    ButtonOption.prototype.$$style = function() {
-      return widgetsHelper.style(this);
+    ButtonOption.prototype.isVisibility = function() {
+      return widgetsHelper.visibility(this.getOptions());
     };
 
-    ButtonOption.prototype.$$click = function() {
-      if (!this.$$disabled()) {
-        if (typeof this.onClick === "function") {
-          this.onClick.apply(this);
+    ButtonOption.prototype.isDisabled = function() {
+      return widgetsHelper.disabled(this.getOptions());
+    };
+
+    ButtonOption.prototype.getStyle = function() {
+      return widgetsHelper.style(this.getOptions());
+    };
+
+    ButtonOption.prototype.getIcon = function() {
+      return this.getOptions().icon;
+    };
+
+    ButtonOption.prototype.getText = function() {
+      return this.getOptions().label;
+    };
+
+    ButtonOption.prototype.onClick = function() {
+      if (!this.isDisabled()) {
+        if (typeof this.getOptions().onClick === "function") {
+          this.getOptions().onClick.apply(this);
         } else {
           $log.warn("Button no click handler.", this);
         }
       }
-    };
+    }
 
     return ButtonOption;
   }

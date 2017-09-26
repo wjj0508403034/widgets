@@ -1,18 +1,14 @@
-<div class="box widgets-form" form-readonly="{{options.$$readonly()}}">
+<div class="box widgets-form" form-readonly="{{options.getReadOnly()}}">
   <div class="box-header" ng-if="options.header.$$visibility()">
     <h3 class="box-title" ng-bind="options.header.title"></h3>
     <div class="box-tools pull-right">
       <div class="input-group input-group-sm">
-        <button name="{{button.name}}" type="button" class="btn" ng-repeat="button in options.header.buttons" ng-class="button.appendClass"
-          ng-if="button.$$visibility()" ng-disabled="button.$$disabled()" ng-style="button.$$style()" ng-click="button.$$click()">
-        <i class="fa" aria-hidden="true" ng-if="button.icon" ng-class="button.icon"></i>
-        <span ng-bind="button.label"></span>
-      </button>
+        <div widgets-button options="button" ng-repeat="button in options.header.buttons"></div>
       </div>
     </div>
   </div>
   <form ng-class="options.$$formOrientationClass()">
-    <div class="box-body" ng-if="!options.$$readonly()">
+    <div class="box-body" ng-if="!options.getReadOnly()">
       <div ng-repeat="formGroup in options.groups" prop-name="{{formGroup.name}}" prop-type="{{formGroup.type}}" ng-show="formGroup.$$visibility()">
         <div ng-if="formGroup.templateUrl">
           <div ng-include="formGroup.templateUrl"></div>
@@ -25,14 +21,13 @@
         </div>
       </div>
     </div>
-    <div class="box-body" ng-if="options.$$readonly()">
+    <div class="box-body" ng-if="options.getReadOnly()">
       <div ng-repeat="formGroup in options.groups" prop-name="{{formGroup.name}}" prop-type="{{formGroup.type}}" ng-show="formGroup.$$visibility()">
         <div ng-if="formGroup.templateUrl">
           <div ng-include="formGroup.templateUrl"></div>
         </div>
 
         <div ng-if="!formGroup.templateUrl" ng-switch="formGroup.type">
-          <div ng-switch-when="DataList" widgets-form-group-data-list options="formGroup" ng-model="options.data[formGroup.name]"></div>
           <div ng-switch-when="email" widgets-form-group-label-email options="formGroup" ng-model="options.data[formGroup.name]"></div>
           <div ng-switch-default widgets-form-group-label-string options="formGroup" ng-model="options.data[formGroup.name]"></div>
         </div>

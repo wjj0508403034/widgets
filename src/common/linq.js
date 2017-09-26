@@ -84,6 +84,21 @@ Linq.prototype.all = function(cb) {
   return true;
 };
 
+Linq.prototype.toMap = function(keyOrCallback) {
+  var map = {};
+  this.getArray().forEach(function(item, index) {
+    if (typeof keyOrCallback === "string") {
+      map[item[keyOrCallback]] = item;
+    } else if (typeof key === "function") {
+      map[keyOrCallback(item, index)] = item;
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+
+  return map;
+};
+
 Array.prototype.linq = function() {
   return new Linq(this);
 };

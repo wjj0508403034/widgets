@@ -6,11 +6,7 @@
     </h3>
     <div class="box-tools">
       <div class="input-group input-group-sm">
-        <button class="btn" ng-repeat="button in options.buttons" ng-class="button.appendClass" ng-if="button.$$visibility()" ng-disabled="button.$$disabled()"
-          ng-style="button.$$style()" ng-click="button.$$click()">
-          <i class="fa" aria-hidden="true" ng-class="button.icon" ng-if="button.icon" ></i>
-          <span ng-bind="button.label"></span>
-        </button>
+        <div widgets-button options="button" ng-repeat="button in options.buttons"></div>
       </div>
     </div>
   </div>

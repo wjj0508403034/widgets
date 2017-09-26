@@ -1,8 +1,6 @@
 <div class="form-group widgets-form-group-label-email" ng-class="options.appendClass">
   <label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label>
-  <div ng-class="options.$$appendControlClass()">
-    <div class="value-label">
-      <a ng-href="{{value | EmailLink}}" ng-if="value" ng-bind="value"></a>
-    </div>
+  <div class="control-value-label" ng-class="options.$$appendControlClass()">
+    <a ng-href="{{getEmailLink(value)}}" ng-if="value" ng-bind="value"></a>
   </div>
 </div>

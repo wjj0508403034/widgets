@@ -174,11 +174,12 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
     };
 
     FormGroupOption.prototype.$$getValueLabel = function() {
+      var value = this.getValue();
       if (this.type === "DataList") {
-        return this.datalist.$$getValueLabel(this.getValue());
+        return this.datalist.$$getValueLabel(value);
       }
 
-      return this.value;
+      return value;
     };
 
     FormGroupOption.prototype.$$visibility = function() {
@@ -194,13 +195,13 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
     };
 
     FormGroupOption.prototype.$$appendLabelClass = function() {
-      if (this.formOption.$$readonly() || this.formOption.getFormOrientation() === FormOrientation.Horizontal) {
+      if (this.formOption.getReadOnly() || this.formOption.getFormOrientation() === FormOrientation.Horizontal) {
         return this.appendLabelClass || FormProvider.getLabelClass();
       }
     };
 
     FormGroupOption.prototype.$$appendControlClass = function() {
-      if (this.formOption.$$readonly() || this.formOption.getFormOrientation() === FormOrientation.Horizontal) {
+      if (this.formOption.getReadOnly() || this.formOption.getFormOrientation() === FormOrientation.Horizontal) {
         return this.appendControlClass || FormProvider.getControlClass()
       }
     };
@@ -344,7 +345,7 @@ angular.module('huoyun.widget').factory("FormOption", ["$q", "FormHeaderOption",
       }
     };
 
-    FormOption.prototype.$$readonly = function() {
+    FormOption.prototype.getReadOnly = function() {
       if (typeof this.readonly === "boolean") {
         return this.readonly;
       }
@@ -352,8 +353,14 @@ angular.module('huoyun.widget').factory("FormOption", ["$q", "FormHeaderOption",
       return false;
     };
 
+    FormOption.prototype.setReadOnly = function(readonly) {
+      this.readonly = readonly;
+      return this;
+    };
+
     FormOption.prototype.setData = function(data) {
       this.data = data;
+      return this;
     };
 
     FormOption.prototype.getData = function() {
