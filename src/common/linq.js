@@ -99,6 +99,20 @@ Linq.prototype.toMap = function(keyOrCallback) {
   return map;
 };
 
+Linq.prototype.toArray = function(keyOrCallback) {
+  var array = [];
+  this.getArray().forEach(function(item, index) {
+    if (typeof keyOrCallback === "string") {
+      array.push(item[keyOrCallback]);
+    } else if (typeof key === "function") {
+      array.push(keyOrCallback(item, index));
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+  return array;
+};
+
 Array.prototype.linq = function() {
   return new Linq(this);
 };

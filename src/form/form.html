@@ -34,11 +34,7 @@
       </div>
     </div>
     <div class="box-footer" ng-if="options.footer.$$visibility()">
-      <button name="{{button.name}}" type="button" class="btn" ng-repeat="button in options.footer.buttons" ng-class="button.appendClass"
-        ng-if="button.$$visibility()" ng-disabled="button.$$disabled()" ng-style="button.$$style()" ng-click="button.$$click()">
-        <i class="fa" aria-hidden="true" ng-if="button.icon" ng-class="button.icon"></i>
-        <span ng-bind="button.label"></span>
-      </button>
+      <div widgets-button options="button" ng-repeat="button in options.footer.buttons"></div>
     </div>
   </form>
 </div>

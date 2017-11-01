@@ -28,13 +28,17 @@ angular.module('huoyun.widget').factory("widgetsHelper", function() {
 
   return {
 
-    visibility: function(obj) {
+    visibility: function(obj, defaultValue) {
       if (typeof obj.visibility === "boolean") {
         return obj.visibility;
       }
 
       if (typeof obj.visibility === "function") {
         return obj.visibility.apply(obj);
+      }
+
+      if (typeof defaultValue === "boolean") {
+        return defaultValue;
       }
 
       return true;

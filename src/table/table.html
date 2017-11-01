@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="box-body table-responsive no-padding">
-    <table class="table table-hover table-bordered" highlight="{{options.selection.isHighLight()}}">
+    <table class="table" ng-class="options.getTableClass()" highlight="{{options.selection.isHighLight()}}">
       <tbody>
         <tr class="no-hover">
           <th class="check-box-column" ng-if="options.$$showCheckBox()">
@@ -25,7 +25,7 @@
             </div>
           </th>
         </tr>
-        <tr ng-show="options.isEmpty()">
+        <tr ng-if="options.isMaskLayerVisibility()">
           <td class="empty-table" colspan="{{options.$$columnCount()}}">
             <div ng-if="options.mask.templateUrl" ng-include="options.mask.templateUrl"></div>
             <div ng-if="!options.mask.templateUrl">
@@ -34,7 +34,7 @@
             </div>
           </td>
         </tr>
-        <tr ng-show="!options.isEmpty()" ng-repeat="$line in options.source.lines" ng-click="options.$$onLineClicked($line,$index)"
+        <tr ng-if="!options.isMaskLayerVisibility()" ng-repeat="$line in options.source.lines" ng-click="options.$$onLineClicked($line,$index)"
           ng-class="{true: 'selected', false: ''}[$line.isSelected()]">
           <td class="check-box-column" ng-if="options.$$showCheckBox()">
             <div widgets-check-box options="$line.checkboxOption"></div>

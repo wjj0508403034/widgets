@@ -43,19 +43,25 @@ angular.module('huoyun.widget').factory("TableSelectionOption", ["TableSelection
   return TableSelectionOption;
 }]);
 
-angular.module('huoyun.widget').factory("TableMaskLayerOption", [function() {
+angular.module('huoyun.widget').factory("TableMaskLayerOption", ["widgetsHelper",
+  function(widgetsHelper) {
 
-  const props = ["icon", "text", "templateUrl", "style"];
+    const props = ["icon", "text", "templateUrl", "style"];
 
-  function TableMaskLayerOption() {
-    var that = this;
-    props.forEach(function(prop) {
-      that[prop] = options[prop];
-    });
+    function TableMaskLayerOption() {
+      var that = this;
+      props.forEach(function(prop) {
+        that[prop] = options[prop];
+      });
+    }
+
+    TableMaskLayerOption.prototype.isVisibility = function() {
+      return widgetsHelper.visibility(this, false);
+    };
+
+    return TableMaskLayerOption;
   }
-
-  return TableMaskLayerOption;
-}]);
+]);
 
 angular.module('huoyun.widget').factory("TableHeaderOption", ["ButtonOption", "widgetsHelper",
   function(ButtonOption, widgetsHelper) {
@@ -181,6 +187,15 @@ angular.module('huoyun.widget').factory("TableSource", ["TableLineData", functio
     }
   }
 
+  TableSource.prototype.getContent = function() {
+    var data = [];
+    this.lines.forEach(function(line) {
+      data.push(line.getData());
+    });
+
+    return data;
+  };
+
   TableSource.prototype.count = function() {
     return this.lines.length;
   };
@@ -287,6 +302,10 @@ angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "Table
           }
         }
       });
+
+      this.getOptions = function() {
+        return options;
+      };
     }
 
     TableOption.prototype.getSelectionMode = function() {
@@ -303,6 +322,12 @@ angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "Table
       }
     };
 
+    TableOption.prototype.getSelectedItems = function() {
+      if (this.source && this.getSelectionMode() === TableSelection.Multiple) {
+        return this.source.getSelectedItems();
+      }
+    };
+
     TableOption.prototype.$$showCheckBox = function() {
       if (this.getSelectionMode() === TableSelection.Multiple) {
         return this.selection.checkBoxVisibility();
@@ -315,6 +340,18 @@ angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "Table
       this.source = new TableSource(source);
     };
 
+    TableOption.prototype.getSource = function() {
+      return this.source;
+    };
+
+    TableOption.prototype.getSourceContent = function() {
+      return this.getSource() && this.getSource().getContent();
+    };
+
+    TableOption.prototype.getTableClass = function() {
+      return this.getOptions().tableAppendClass || "";
+    };
+
     TableOption.prototype.isEmpty = function() {
       return this.source && this.source.count() === 0;
     };
@@ -325,6 +362,10 @@ angular.module('huoyun.widget').factory("TableOption", ["TableSelection", "Table
       }
 
       return 0;
+    };
+
+    TableOption.prototype.isMaskLayerVisibility = function() {
+      return this.mask && this.mask.isVisibility();
     };
 
     TableOption.prototype.$$onLineClicked = function(lineData, index) {

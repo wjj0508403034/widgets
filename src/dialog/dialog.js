@@ -44,15 +44,15 @@ angular.module('huoyun.widget').controller("ConfirmDialogController", ["$scope",
 angular.module('huoyun.widget').factory("Dialog", ['$q', 'ngDialog', function($q, ngDialog) {
 
   return {
-    showError: function(message) {
+    showError: function(message, title, buttonText) {
       return this.showConfirm({
-        title: "错误",
+        title: title || "错误",
         content: message,
         cancel: {
           visibility: false
         },
         confirm: {
-          text: "知道了"
+          text: buttonText || "知道了"
         }
       });
     },
