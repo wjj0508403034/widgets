@@ -24,22 +24,6 @@ div[widgets-button] {
 .widgets-checkbox .widgets-checkbox-content {
   margin-left: 5px;
 }
-.huoyun-dialog-container.ngdialog .ngdialog-content {
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.huoyun-dialog-content-container.box>.box-body {
-  min-height: 100px;
-  max-height: 450px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.huoyun-dialog-content-container.box>.box-footer .btn {
-  margin-left: 15px;
-  min-width: 80px;
-}
 @charset "UTF-8";
 
 /*!
@@ -2769,6 +2753,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .marign-right-10 {
   margin-right: 10px;
+}
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
 }
 [widgets-story-board] {
   position: relative;

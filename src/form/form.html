@@ -1,28 +1,25 @@
-<div class="box widgets-form" form-readonly="{{options.getReadOnly()}}">
-  <div class="box-header" ng-if="options.header.$$visibility()">
-    <h3 class="box-title" ng-bind="options.header.title"></h3>
+<div class="box widgets-form" form-readonly="{{options.isReadonly()}}">
+  <div class="box-header" ng-if="options.getHeader().isVisibility()">
+    <h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3>
     <div class="box-tools pull-right">
       <div class="input-group input-group-sm">
-        <div widgets-button options="button" ng-repeat="button in options.header.buttons"></div>
+        <div widgets-button options="button" ng-repeat="button in options.getHeader().getButtons()"></div>
       </div>
     </div>
   </div>
-  <form ng-class="options.$$formOrientationClass()">
-    <div class="box-body" ng-if="!options.getReadOnly()">
-      <div ng-repeat="formGroup in options.groups" prop-name="{{formGroup.name}}" prop-type="{{formGroup.type}}" ng-show="formGroup.$$visibility()">
-        <div ng-if="formGroup.templateUrl">
-          <div ng-include="formGroup.templateUrl"></div>
+  <form ng-class="options.appendOrientationClass()">
+    <div class="box-body" ng-if="!options.isReadonly()">
+      <div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()">
+        <div ng-if="$formGroup.isCustomizeTemplate()">
+          <div ng-include="$formGroup.getTemplateUrl()"></div>
         </div>
 
-        <div ng-if="!formGroup.templateUrl" ng-switch="formGroup.type">
-          <div ng-switch-when="DataList" widgets-form-group-data-list options="formGroup" ng-model="options.data[formGroup.name]"></div>
-          <div ng-switch-when="DropDown" widgets-form-group-drop-down options="formGroup" ng-model="options.data[formGroup.name]"></div>
-          <div ng-switch-when="email" widgets-form-group-email options="formGroup" ng-model="options.data[formGroup.name]"></div>
-          <div ng-switch-default widgets-form-group-string options="formGroup" ng-model="options.data[formGroup.name]"></div>
+        <div ng-if="!$formGroup.isCustomizeTemplate()">
+          <div widgets-form-group options="$formGroup"></div>
         </div>
       </div>
     </div>
-    <div class="box-body" ng-if="options.getReadOnly()">
+    <div class="box-body" ng-if="options.isReadonly()">
       <div ng-repeat="formGroup in options.groups" prop-name="{{formGroup.name}}" prop-type="{{formGroup.type}}" ng-show="formGroup.$$visibility()">
         <div ng-if="formGroup.templateUrl">
           <div ng-include="formGroup.templateUrl"></div>

@@ -307,29 +307,26 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
   }
 ]);
 
-angular.module('huoyun.widget').constant("FormOrientation", {
-  Horizontal: "horizontal",
-  Vertical: "vertical"
-});
 
-angular.module('huoyun.widget').provider("Form", ["FormOrientation", function() {
+
+angular.module('huoyun.widget').provider("Form", [function() {
   this.orientation = "horizontal";
   this.labelClass = "col-sm-2";
   this.controlClass = "col-sm-10";
 
   this.config = function(options) {
-    if (options.orientation) {
-      if (typeof options.orientation === "string") {
-        if ([FormOrientation.Horizontal, FormOrientation.Vertical].indexOf(options.orientation.toLocaleLowerCase()) !==
-          -1) {
-          this.orientation = options.orientation;
-        } else {
-          throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
-        }
-      } else {
-        throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
-      }
-    }
+    // if (options.orientation) {
+    //   if (typeof options.orientation === "string") {
+    //     if ([FormOrientation.Horizontal, FormOrientation.Vertical].indexOf(options.orientation.toLocaleLowerCase()) !==
+    //       -1) {
+    //       this.orientation = options.orientation;
+    //     } else {
+    //       throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
+    //     }
+    //   } else {
+    //     throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
+    //   }
+    // }
 
     this.labelClass = options.labelClass;
     this.controlClass = options.controlClass;
@@ -365,7 +362,7 @@ angular.module('huoyun.widget').factory("FormOption", ["$q", "FormHeaderOption",
           -1) {
           this.orientation = options.orientation;
         } else {
-          throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
+          //throw new Error(`Form orientation value must be "horizontal" or "vertical"`);
         }
       }
 

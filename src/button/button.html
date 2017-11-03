@@ -1,5 +1,5 @@
-<button class="btn" name="{{options.getName()}}" ng-class="options.getAppendClass()" ng-if="options.isVisibility()" ng-disabled="options.isDisabled()"
-  ng-style="options.getStyle()" ng-click="options.onClick()">
-<i class="fa" aria-hidden="true" ng-class="options.getIcon()" ng-if="options.getIcon()" ></i>
-<span ng-bind="options.getText()"></span>
+<button class="btn" name="{{options.getButtonName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"
+  ng-click="options.onClick()">
+  <i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()" ></i>
+  <span ng-bind="options.getButtonText()"></span>
 </button>

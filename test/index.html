@@ -24,6 +24,12 @@
 </head>
 
 <body ng-controller="DemoController">
+
+  <div widgets-text-box options="textBoxOption"></div>
+  <div widgets-dropdown options="dropdownOption" ng-model="dropdownSelected"></div>
+
+  <div widgets-button options="button"></div>
+
   <button ng-click="showDialog()">Dialog</button>
   <button ng-click="showTip()">Show Tip</button>
   <div widgets-search-form options="searchFormOption"></div>

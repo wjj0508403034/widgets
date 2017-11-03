@@ -18,6 +18,34 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
+
+    $scope.button = new HuoYunWidgets.Controls.Button({
+      text: "Hello"
+    });
+
+    $scope.textBoxOption = new HuoYunWidgets.Controls.TextBox({
+      placeholder: "input...."
+    });
+
+    $scope.dropdownOption = new HuoYunWidgets.Controls.Dropdown({
+      labelField: "label",
+      valueField: "name",
+      trackBy: "id",
+      data: [{
+          id: 3,
+          name: "3",
+          label: "Level 1"
+        },
+        {
+          id: 5,
+          name: "5",
+          label: "Level 2"
+        }
+      ]
+    });
+
+    $scope.dropdownSelected = "3";
+
     $scope.checkbox = new HuoYunWidgets.CheckBoxOption({
       label: "xx2",
       value: true,
@@ -92,7 +120,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }
     });
 
-    $scope.formOption = new HuoYunWidgets.FormOption({
+    $scope.formOption = new HuoYunWidgets.Controls.Form({
       orientation: "vertical",
       header: {
         title: "Form 1",

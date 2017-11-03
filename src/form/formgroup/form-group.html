@@ -1,0 +1,11 @@
+<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}">
+  <label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabel()" ng-class="options.appendLabelClass()">
+  </label>
+  <div ng-class="options.appendControlClass()" ng-switch="options.getType()">
+    <div ng-switch-when="DATALIST" widgets-form-group-data-list options="options" ng-model="options.name"></div>
+    <div ng-switch-when="DROPDOWN" widgets-dropdown options="options" ng-model="options.name"></div>
+    <div ng-switch-when="EMAIL" widgets-form-group-email options="options" ng-model="options.name"></div>
+    <div ng-switch-default widgets-text-box options="options" ng-model="options.name"></div>
+    <span class="help-block" ng-bind="options.errorMessage"></span>
+  </div>
+</div>
