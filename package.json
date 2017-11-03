@@ -1,6 +1,6 @@
 {
-  "name": "huoyun-widgets",
-  "version": "1.0.41",
+  "name": "huoyun-widgets-v2",
+  "version": "1.0.0",
   "description": "html5 widgets ui",
   "main": "src/index.js",
   "scripts": {
