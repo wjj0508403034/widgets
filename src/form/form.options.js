@@ -138,9 +138,60 @@ angular.module('huoyun.widget').factory("FormGroupDataListOption", ["HuoyunPromi
   }
 ]);
 
+angular.module('huoyun.widget').factory("FormGroupDropDownOption", [function() {
+
+  function FormGroupDropDownOption(options) {
+
+    this.getOptions = function() {
+      return options;
+    }
+  }
+
+  FormGroupDropDownOption.prototype.getDataSource = function() {
+    if (!this.dataSource) {
+      this.dataSource = this.getOptions().data;
+    }
+
+    if (!Array.isArray(this.dataSource)) {
+      throw new Error("data isn't array");
+    }
+
+    return this.dataSource;
+  }
+
+  FormGroupDropDownOption.prototype.getLabelField = function() {
+    return this.getOptions().labelField;
+  };
+
+  FormGroupDropDownOption.prototype.getLabel = function(option) {
+    var labelField = this.getLabelField();
+    if (labelField) {
+      return option[labelField];
+    }
+
+    return option;
+  };
+
+  FormGroupDropDownOption.prototype.getValueField = function() {
+    return this.getOptions().valueField;
+  };
+
+  FormGroupDropDownOption.prototype.getValue = function(option) {
+    var valueField = this.getValueField();
+    if (valueField) {
+      return option[valueField];
+    }
+    return option;
+  };
+
+
+
+  return FormGroupDropDownOption;
+}]);
+
 angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Form", "FormOrientation",
-  "FormValidators", "FormGroupDataListOption",
-  function(widgetsHelper, FormProvider, FormOrientation, FormValidators, FormGroupDataListOption) {
+  "FormValidators", "FormGroupDataListOption", "FormGroupDropDownOption",
+  function(widgetsHelper, FormProvider, FormOrientation, FormValidators, FormGroupDataListOption, FormGroupDropDownOption) {
 
     const props = ["name", "label", "mandatory", "type", "readonly", "visibility", "disabled", "templateUrl",
       "appendLabelClass", "appendControlClass", "placeholder", "appendClass"
@@ -158,6 +209,11 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
           throw new Error("Not found property datalist");
         }
         that.datalist = new FormGroupDataListOption(options.datalist);
+      } else if (this.type === "DropDown") {
+        if (!options.dropdown) {
+          throw new Error("Not found property dropdown");
+        }
+        that.control = new FormGroupDropDownOption(options.dropdown);
       }
     }
 
@@ -171,6 +227,10 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
 
     FormGroupOption.prototype.getValue = function() {
       return this.formOption.getPropertyValue(this.name);
+    };
+
+    FormGroupOption.prototype.getControl = function() {
+      return this.control;
     };
 
     FormGroupOption.prototype.$$getValueLabel = function() {

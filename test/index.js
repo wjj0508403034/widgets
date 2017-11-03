@@ -37,6 +37,22 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         label: "Last Name",
         type: "string"
       }, {
+        name: "level",
+        label: "Level",
+        type: "DropDown",
+        dropdown: {
+          labelField: "label",
+          data: [{
+              name: "1",
+              label: "Level 1"
+            },
+            {
+              name: "2",
+              label: "Level 2"
+            }
+          ]
+        }
+      }, {
         name: "age",
         label: "Age",
         type: "Integer"
@@ -78,7 +94,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
 
     $scope.formOption = new HuoYunWidgets.FormOption({
       orientation: "vertical",
-      readonly: true,
       header: {
         title: "Form 1",
         buttons: [{
@@ -111,6 +126,23 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         placeholder: "Input email ...",
         appendClass: "col-sm-4",
         readonly: true
+      }, {
+        name: "level",
+        label: "Level",
+        type: "DropDown",
+        dropdown: {
+          labelField: "label",
+          valueField: "name",
+          data: [{
+              name: "1",
+              label: "Level 1"
+            },
+            {
+              name: "2",
+              label: "Level 2"
+            }
+          ]
+        }
       }],
       footer: {
         buttons: [{
