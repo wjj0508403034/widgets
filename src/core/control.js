@@ -20,12 +20,24 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this.$$id;
   };
 
+  Control.prototype.getName = function() {
+    return this.getOptions().name;
+  };
+
   Control.prototype.getControlName = function() {
     return this.constructor.name;
   };
 
   Control.prototype.appendClass = function() {
     return this.getOptions().appendClass;
+  };
+
+  Control.prototype.getTemplateUrl = function() {
+    return this.getOptions().templateUrl;
+  };
+
+  Control.prototype.isCustomizeTemplate = function() {
+    return !!this.getTemplateUrl();
   };
 
   Control.prototype.getStyle = function() {

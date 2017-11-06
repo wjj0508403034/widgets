@@ -10,15 +10,15 @@ angular.module('huoyun.widget').factory("DropdownControl", ["HuoYunWidgetCore", 
     HuoYunWidgetCore.ClassExtend(DropdownControl, InputControl);
 
     DropdownControl.prototype.getDataSource = function() {
-      if (!this.dataSource) {
-        this.dataSource = this.getOptions().data;
+      if (!this.$$dataSource) {
+        this.$$dataSource = this.getOptions().data;
       }
 
-      if (!Array.isArray(this.dataSource)) {
+      if (!Array.isArray(this.$$dataSource)) {
         throw new Error("data isn't array");
       }
 
-      return this.dataSource;
+      return this.$$dataSource;
     };
 
 

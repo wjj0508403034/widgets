@@ -1,4 +1,4 @@
-<div class="widgets-checkbox" ng-click="options.$$onClicked($event)">
-  <i class="fa fa-check-square-o" aria-hidden="true" ng-class="{true: 'fa-check-square-o', false: 'fa-square-o'}[options.isChecked()]"></i>
-  <span class="widgets-checkbox-content" ng-bind="options.label"></span>
+<div class="widgets-checkbox" ng-click="options.onClick($event)">
+  <i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i>
+  <span class="widgets-checkbox-content" ng-bind="options.getText()"></span>
 </div>

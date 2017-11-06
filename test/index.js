@@ -7,15 +7,6 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
-// angular.module('Demo').config(["SearchExprProvider", function(SearchExprProvider) {
-//   SearchExprProvider.config({
-//     "String": function(prop) {
-//       return "hell"
-//     }
-//   });
-// }]);
-
-
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
@@ -23,11 +14,11 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       text: "Hello"
     });
 
-    $scope.textBoxOption = new HuoYunWidgets.Controls.TextBox({
+    $scope.textBoxOption = new HuoYunWidgets.Controls.Inputs.TextBox({
       placeholder: "input...."
     });
 
-    $scope.dropdownOption = new HuoYunWidgets.Controls.Dropdown({
+    $scope.dropdownOption = new HuoYunWidgets.Controls.Inputs.Dropdown({
       labelField: "label",
       valueField: "name",
       trackBy: "id",
@@ -135,30 +126,43 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       },
       groups: [{
         name: "firstName",
-        label: "First Name",
         type: "string",
         mandatory: true,
-        appendClass: "col-sm-4"
+        appendClass: "col-sm-4",
+        label: {
+          text: "First Name"
+        }
       }, {
         name: "lastName",
-        label: "Last Name",
         type: "string",
         mandatory: true,
         disabled: true,
+        label: {
+          text: "Last Name"
+        },
         appendClass: "col-sm-4"
       }, {
         name: "email",
-        label: "Email",
         type: "email",
+        label: {
+          text: "Email"
+        },
+        input: {
+          placeholder: "Input email ...",
+          readonly: true
+        },
         mandatory: true,
-        placeholder: "Input email ...",
-        appendClass: "col-sm-4",
-        readonly: true
+        appendClass: "col-sm-4"
       }, {
         name: "level",
-        label: "Level",
         type: "DropDown",
-        dropdown: {
+        appendClass: "col-sm-4",
+        mandatory: true,
+        label: {
+          text: "Level"
+        },
+        input: {
+          placeholder: "Input xxx ...",
           labelField: "label",
           valueField: "name",
           data: [{

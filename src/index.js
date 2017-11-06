@@ -27,9 +27,9 @@ angular.module('huoyun.widget').provider("display", function() {
 });
 
 angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
-  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "DropdownControl", "TextControl", "ButtonControl", "FormControl",
+  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "ButtonControl", "FormControl", "HuoYunWidgetsInputs",
   function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption, CheckBoxOption,
-    SearchFormOption, ButtonOption, SidebarPanelOption, DropdownControl, TextControl, ButtonControl, FormControl) {
+    SearchFormOption, ButtonOption, SidebarPanelOption, ButtonControl, FormControl, HuoYunWidgetsInputs) {
 
     return {
       Dialog: Dialog,
@@ -44,10 +44,9 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog
       ButtonOption: ButtonOption,
       SidebarPanelOption: SidebarPanelOption,
       Controls: {
-        Dropdown: DropdownControl,
-        TextBox: TextControl,
         Button: ButtonControl,
-        Form: FormControl
+        Form: FormControl,
+        Inputs: HuoYunWidgetsInputs
       }
     };
   }
