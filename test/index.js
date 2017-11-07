@@ -143,6 +143,11 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
             }
           ]
         }
+      }, {
+        name: "json",
+        label: "Test JSON",
+        type: "Json",
+        json: {}
       }],
       footer: {
         buttons: [{
@@ -162,10 +167,152 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }
     });
 
+    var customer = {
+      "title": "Customer",
+      "type": "object",
+      "primaryKey": "id",
+      "foreignkey": "customerCode",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "customerCode": {
+          "type": "string"
+        },
+        "customerType": {
+          "type": "string",
+          "enum": [
+            "CORPORATE_CUSTOMER",
+            "INDIVIDUAL_CUSTOMER"
+          ]
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "fax": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "webSite": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "position": {
+          "type": "string"
+        },
+        "mainContactId": {
+          "type": "integer"
+        },
+        "stage": {
+          "type": "string",
+          "enum": [
+            "SUSPECT",
+            "PROSPECT",
+            "CUSTOMER"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "INACTIVE",
+            "DUPLICATED"
+          ]
+        },
+        "remark": {
+          "type": "string"
+        },
+        "creditLimit": {
+          "type": "number"
+        },
+        "creditLimitThreshold": {
+          "type": "number"
+        },
+        "gender": {
+          "type": "string",
+          "enum": [
+            "MALE",
+            "FEMALE"
+          ]
+        },
+        "dateofBirth": {
+          "type": "string"
+        },
+        "customerAddressLines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "CustomerAddressLine",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "defaultBillingTo": {
+                "type": "string"
+              },
+              "defaultShippingTo": {
+                "type": "string"
+              },
+              "address": {
+                "type": "object",
+                "title": "AddressInfo",
+                "properties": {
+                  "countryCode": {
+                    "type": "string"
+                  },
+                  "stateCode": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "cityName": {
+                    "type": "string"
+                  },
+                  "street1": {
+                    "type": "string"
+                  },
+                  "street2": {
+                    "type": "string"
+                  },
+                  "zipCode": {
+                    "type": "string"
+                  },
+                  "mobile": {
+                    "type": "string"
+                  },
+                  "telephone": {
+                    "type": "string"
+                  },
+                  "recipientName": {
+                    "type": "string"
+                  },
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "addressType": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
     $scope.formOption.setData({
       email: "xx@sap.com",
       firstName: "Jingjing",
-      lastName: "Wang"
+      lastName: "Wang",
+      json: customer
     });
 
     $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({

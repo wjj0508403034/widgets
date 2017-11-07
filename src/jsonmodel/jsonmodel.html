@@ -1,0 +1,66 @@
+<div class="widgets-json-model-view">
+  <div class="json-property-field">
+
+    <div class="object-name" ng-click="options.onExpandClicked()">
+      <span class="toggle-icon">
+        <i class="fa" ng-class="options.toggleButtonClass()" aria-hidden="true"></i>
+      </span>
+      <span class="prop-name" ng-bind="options.getName()"></span><span class="prop-type"><code>object</code></span>
+    </div>
+
+    <div class="properties-container field-margin-left animated" ng-class="options.animationClass()">
+      <div class="json-property-field" ng-repeat="$prop in options.getProperties()" ng-switch="$prop.getType()">
+        <div class="prop-keys-info">
+          <span ng-if="$prop.isPrimaryKey()"><i class="fa fa-bolt" aria-hidden="true"></i></span>
+          <span ng-if="$prop.isForeignKey()"><i class="fa fa-link" aria-hidden="true"></i></span>
+        </div>
+        <div class="prop-key-container" ng-if="$prop.isNormalTypes()">
+          <div class="prop-container">
+            <span class="prop-name" ng-bind="$prop.getName()"></span><span class="prop-type"><code ng-bind="$prop.getType()"></code></span>
+          </div>
+        </div>
+
+        <div ng-if="$prop.isEnum()">
+          <div class="prop-key-container">
+            <div class="prop-container">
+              <span class="prop-name" ng-bind="$prop.getName()"></span><span class="prop-type"><code>enum</code></span>
+            </div>
+
+          </div>
+          <div class="field-margin-left enum-value-container">
+            <span class="json-enum-field" ng-repeat="enum in $prop.getEnumValues()">
+                <code ng-bind="enum" ></code>
+              </span>
+          </div>
+        </div>
+
+        <div ng-if="$prop.isArray()">
+          <div class="prop-key-container">
+
+            <div class="prop-container">
+              <span class="prop-name" ng-bind="$prop.getName()"></span><span class="prop-type"><code>array</code></span>
+            </div>
+
+          </div>
+          <div class="field-margin-left array-value-container">
+            <div widgets-json-model options="$prop.getArrayChild()"></div>
+          </div>
+        </div>
+
+        <div ng-if="$prop.isObject()">
+          <div class="prop-key-container">
+            <div class="prop-container">
+              <span class="prop-name" ng-bind="$prop.getName()"></span><span class="prop-type"><code>object</code></span>
+            </div>
+
+          </div>
+          <div class="field-margin-left array-value-container">
+            <div widgets-json-model options="$prop.getObjectChild()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

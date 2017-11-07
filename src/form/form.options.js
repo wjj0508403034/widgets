@@ -190,8 +190,8 @@ angular.module('huoyun.widget').factory("FormGroupDropDownOption", [function() {
 }]);
 
 angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Form", "FormOrientation",
-  "FormValidators", "FormGroupDataListOption", "FormGroupDropDownOption",
-  function(widgetsHelper, FormProvider, FormOrientation, FormValidators, FormGroupDataListOption, FormGroupDropDownOption) {
+  "FormValidators", "FormGroupDataListOption", "FormGroupDropDownOption", "FormGroupJsonOption",
+  function(widgetsHelper, FormProvider, FormOrientation, FormValidators, FormGroupDataListOption, FormGroupDropDownOption, FormGroupJsonOption) {
 
     const props = ["name", "label", "mandatory", "type", "readonly", "visibility", "disabled", "templateUrl",
       "appendLabelClass", "appendControlClass", "placeholder", "appendClass"
@@ -214,6 +214,12 @@ angular.module('huoyun.widget').factory("FormGroupOption", ["widgetsHelper", "Fo
           throw new Error("Not found property dropdown");
         }
         that.control = new FormGroupDropDownOption(options.dropdown);
+      } else if (this.type === "Json") {
+        if (!options.json) {
+          throw new Error("Not found property dropdown");
+        }
+        that.control = new FormGroupJsonOption(options.json);
+        that.control.setFormGroup(this);
       }
     }
 

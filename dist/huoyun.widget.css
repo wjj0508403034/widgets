@@ -24,22 +24,6 @@ div[widgets-button] {
 .widgets-checkbox .widgets-checkbox-content {
   margin-left: 5px;
 }
-.huoyun-dialog-container.ngdialog .ngdialog-content {
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.huoyun-dialog-content-container.box>.box-body {
-  min-height: 100px;
-  max-height: 450px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.huoyun-dialog-content-container.box>.box-footer .btn {
-  margin-left: 15px;
-  min-width: 80px;
-}
 @charset "UTF-8";
 
 /*!
@@ -2770,6 +2754,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
+}
 [widgets-story-board] {
   position: relative;
 }
@@ -2783,6 +2783,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   bottom: 0;
   left: 0;
   right: 0;
+}
+.widgets-head {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 100px;
+}
+
+.widgets-head .widgets-head-title-container {
+  color: #3c8dbc;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.widgets-head .widgets-head-tools {
+  height: 100%;
+  padding: 13px 0;
 }
 .widgets-form .form-group .help-block {
   display: none;
@@ -2820,21 +2836,70 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 12px;
   min-height: 1px;
 }
-.widgets-head {
-  height: 60px;
-  line-height: 60px;
-  padding: 0 100px;
+.widgets-json-model-view .json-property-field {
+  min-height: 25px;
+  line-height: 25px;
 }
 
-.widgets-head .widgets-head-title-container {
-  color: #3c8dbc;
-  font-size: 28px;
-  font-weight: bold;
+.widgets-json-model-view .object-name {
+  cursor: pointer;
 }
 
-.widgets-head .widgets-head-tools {
-  height: 100%;
-  padding: 13px 0;
+.widgets-json-model-view .toggle-icon {
+  margin-right: 5px;
+}
+
+.widgets-json-model-view .json-property-field .toggle-icon i {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.widgets-json-model-view .object-name .prop-name {
+  font-style: italic;
+  color: #808484;
+}
+
+.widgets-json-model-view .prop-key-container {
+  position: relative;
+  height: 25px;
+}
+
+.widgets-json-model-view .json-property-field i {
+  color: red;
+  line-height: inherit;
+  font-size: 70%;
+}
+
+.widgets-json-model-view .json-property-field .prop-keys-info {
+  position: absolute;
+}
+
+.widgets-json-model-view .json-property-field .prop-container {
+  position: absolute;
+  left: 15px;
+}
+
+.widgets-json-model-view .json-property-field .prop-type {
+  margin-left: 5px;
+}
+
+.widgets-json-model-view .json-property-field code {
+  font-size: 70%;
+}
+
+.widgets-json-model-view .field-margin-left {
+  margin-left: 25px;
+}
+
+.widgets-json-model-view .json-enum-field {
+  margin-right: 10px;
+}
+
+.widgets-json-model-view .json-array-field code,
+.widgets-json-model-view .json-enum-field code {
+  color: inherit;
+  background-color: #e6e6e6;
 }
 .widgets-markdown {
   color: #444;
@@ -3273,6 +3338,9 @@ a:active {
   cursor: pointer;
 }
 
+.widgets-form-group-json .form-control {
+  height: auto;
+}
 .widgets-search-form-data-list-dialog .item-template {
   min-height: 40px;
   border-bottom: 1px solid #f4f4f4;
