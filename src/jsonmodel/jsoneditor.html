@@ -1,0 +1,13 @@
+<div class="widgets-json-editor">
+  <div class="json-view-menu-bar">
+    <span class="btn" title="Preview" ng-class="options.tabSelectedClass('Preview')" ng-click="options.onTabClicked('Preview')"><i class="fa fa-eye" aria-hidden="true"></i></span>
+
+    <span class="btn" title="Source Code" ng-class="options.tabSelectedClass('SourceCode')" ng-click="options.onTabClicked('SourceCode')"><i class="fa fa-code" aria-hidden="true"></i></span>
+  </div>
+  <div class="widgets-json-editor-tab json-preview-tab" ng-if="options.isTabVisibility('Preview')">
+    <div widgets-json-model options="options.getJsonModel()"></div>
+  </div>
+  <div class="widgets-json-editor-tab json-source-code-tab" ng-if="options.isTabVisibility('SourceCode')">
+    <textarea name="textarea" ng-model="$parent.value" rows="10" cols="50" widgets-json-pretty></textarea>
+  </div>
+</div>

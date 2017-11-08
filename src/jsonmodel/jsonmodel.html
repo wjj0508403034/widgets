@@ -1,5 +1,8 @@
 <div class="widgets-json-model-view">
-  <div class="json-property-field">
+  <div class="json-format-error" ng-if="options.hasError()">
+    json format invalid!!!
+  </div>
+  <div ng-if="!options.hasError()" class="json-property-field">
 
     <div class="object-name" ng-click="options.onExpandClicked()">
       <span class="toggle-icon">
@@ -8,7 +11,7 @@
       <span class="prop-name" ng-bind="options.getName()"></span><span class="prop-type"><code>object</code></span>
     </div>
 
-    <div class="properties-container field-margin-left animated" ng-class="options.animationClass()">
+    <div class="properties-container field-margin-left" ng-show="options.isExpanded()">
       <div class="json-property-field" ng-repeat="$prop in options.getProperties()" ng-switch="$prop.getType()">
         <div class="prop-keys-info">
           <span ng-if="$prop.isPrimaryKey()"><i class="fa fa-bolt" aria-hidden="true"></i></span>

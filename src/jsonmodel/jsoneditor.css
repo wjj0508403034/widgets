@@ -1,0 +1,23 @@
+.widgets-form-group-json .widgets-json-editor {
+  border: 1px solid #d2d6de;
+  min-height: 200px;
+}
+
+.widgets-form-group-json .json-view-menu-bar {
+  background: #d2d6de;
+  padding: 5px;
+}
+
+.widgets-form-group-json textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  resize: none;
+}
+
+.widgets-form-group-json .widgets-json-editor-tab {
+  padding: 5px;
+  height: 260px;
+  overflow: auto;
+  position: relative;
+}

@@ -3,6 +3,10 @@
   line-height: 25px;
 }
 
+.widgets-json-model-view .json-format-error {
+  color: red;
+}
+
 .widgets-json-model-view .object-name {
   cursor: pointer;
 }

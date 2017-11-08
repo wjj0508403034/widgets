@@ -100,16 +100,26 @@ angular.module('huoyun.widget').factory("JsonProperty", [function() {
 angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(JsonProperty) {
 
   function JsonModel(obj) {
-
     this.$$expanded = true;
     this.$$properties = [];
     var that = this;
+    this.$$hasError = false;
 
-    Object.keys(obj.properties).forEach(function(propName) {
-      var prop = new JsonProperty(propName, obj.properties[propName]);
-      prop.setJsonModel(that);
-      that.$$properties.push(prop);
-    });
+    if (typeof obj === "string") {
+      try {
+        obj = JSON.parse(obj)
+      } catch (ex) {
+        this.$$hasError = true;
+      }
+    }
+
+    if (!this.$$hasError) {
+      Object.keys(obj.properties).forEach(function(propName) {
+        var prop = new JsonProperty(propName, obj.properties[propName]);
+        prop.setJsonModel(that);
+        that.$$properties.push(prop);
+      });
+    }
 
     this.getValue = function() {
       return obj;
@@ -117,6 +127,10 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
   }
 
   JsonProperty.JsonModel = JsonModel;
+
+  JsonModel.prototype.hasError = function() {
+    return this.$$hasError;
+  };
 
   JsonModel.prototype.getProperties = function() {
     return this.$$properties;
@@ -131,7 +145,6 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
   };
 
   JsonModel.prototype.getName = function() {
-    console.log(this.getValue())
     return this.getValue().title;
   };
 
@@ -143,10 +156,6 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
     return this.isExpanded() ? "fa-minus-square-o" : "fa-plus-square-o";
   };
 
-  JsonModel.prototype.animationClass = function() {
-    return this.isExpanded() ? "fadeInDown" : "fadeOutUp";
-  };
-
   JsonModel.prototype.onExpandClicked = function() {
     this.$$expanded = !this.$$expanded;
   };
@@ -154,10 +163,9 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
   return JsonModel;
 }]);
 
-angular.module('huoyun.widget').factory("FormGroupJsonOption", ["JsonModel", function(JsonModel) {
+angular.module('huoyun.widget').factory("FormGroupJsonOption", ["JsonEditor", function(JsonEditor) {
 
   function FormGroupJsonOption(options) {
-
     this.getOptions = function() {
       return this.options;
     };
@@ -165,6 +173,7 @@ angular.module('huoyun.widget').factory("FormGroupJsonOption", ["JsonModel", fun
 
   FormGroupJsonOption.prototype.setFormGroup = function(formGroup) {
     this.$$formGroup = formGroup;
+    return this;
   };
 
   FormGroupJsonOption.prototype.getFormGroup = function() {
@@ -175,12 +184,13 @@ angular.module('huoyun.widget').factory("FormGroupJsonOption", ["JsonModel", fun
     return this.getFormGroup().getValue();
   };
 
-  FormGroupJsonOption.prototype.getJsonModel = function() {
-    if (!this.$$model) {
-      var propValue = this.getPropertyValue();
-      this.$$model = new JsonModel(propValue);
+  FormGroupJsonOption.prototype.getJsonEditor = function() {
+    if (!this.$$jsonEditor) {
+      this.$$jsonEditor = new JsonEditor();
+      this.$$jsonEditor.setFormGroup(this);
+      //this.$$jsonEditor.setValue(this.getPropertyValue());
     }
-    return this.$$model;
+    return this.$$jsonEditor;
   };
 
   return FormGroupJsonOption;

@@ -1,3 +1,8 @@
 .widgets-form-group-json .form-control {
-  height: auto;
+  height: 300px;
+  padding: 0;
+}
+
+.widgets-form-group-json .form-control .widgets-json-editor {
+  border: none;
 }
