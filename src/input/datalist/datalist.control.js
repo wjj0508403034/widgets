@@ -160,7 +160,7 @@ angular.module('huoyun.widget').factory("ListDataSource", ["CheckBoxControl",
       if (this.getSelection().isMultiple()) {
         var items = [];
         this.getData().forEach(function(item) {
-          if (item.isChecked()) {
+          if (item.checkbox.isChecked()) {
             items.push(item);
           }
         });
@@ -173,7 +173,7 @@ angular.module('huoyun.widget').factory("ListDataSource", ["CheckBoxControl",
       if (this.getSelection().isMultiple()) {
         var data = [];
         this.getData().forEach(function(item) {
-          if (item.isChecked()) {
+          if (item.checkbox.isChecked()) {
             data.push(item.data);
           }
         });
@@ -196,6 +196,7 @@ angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", 
     }
 
     HuoYunWidgetCore.ClassExtend(DataListControl, InputControl);
+
 
 
     DataListControl.prototype.getSelection = function() {

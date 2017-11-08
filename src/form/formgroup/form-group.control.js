@@ -34,6 +34,11 @@ angular.module('huoyun.widget').factory("FormGroupControl", ["$log", "HuoYunWidg
 
     FormGroupControl.prototype.setFormControl = function(form) {
       this.$$form = form;
+      return this;
+    };
+
+    FormGroupControl.prototype.getFormControl = function() {
+      return this.$$form;
     };
 
     FormGroupControl.prototype.getType = function() {
@@ -43,6 +48,21 @@ angular.module('huoyun.widget').factory("FormGroupControl", ["$log", "HuoYunWidg
 
     FormGroupControl.prototype.isMandatory = function() {
       return this.getOptions().mandatory;
+    };
+
+    FormGroupControl.prototype.getValue = function() {
+      return this.getFormControl().getPropertyValue(this.getName());
+    };
+
+    FormGroupControl.prototype.setValueChangedCallback = function(callback) {
+      var inputControl = this.getInputControl();
+      inputControl && inputControl.setValueChangedCallback(callback);
+      return this;
+    };
+
+    FormGroupControl.prototype.getValueChangedCallback = function() {
+      var inputControl = this.getInputControl();
+      return inputControl && inputControl.getValueChangedCallback();
     };
 
     return FormGroupControl;
@@ -82,13 +102,14 @@ angular.module('huoyun.widget').factory("FormGroupInputControl", ["$log", "HuoYu
 
     FormGroupInputControl.prototype.setFromGroup = function(formGroup) {
       this.$$formGroup = formGroup;
+      return this;
     };
 
     FormGroupInputControl.prototype.getFormGroup = function() {
       return this.$$formGroup;
     };
 
-    FormGroupInputControl.prototype.getInputOptions = function() {
+    FormGroupInputControl.prototype.getInput = function() {
       if (!this.$$inputOptions) {
         var inputOptions = this.getOptions();
         inputOptions.appendClass = "form-control " + (inputOptions.appendClass || "");
@@ -102,6 +123,17 @@ angular.module('huoyun.widget').factory("FormGroupInputControl", ["$log", "HuoYu
       }
 
       return this.$$inputOptions;
+    };
+
+    FormGroupInputControl.prototype.setValueChangedCallback = function(callback) {
+      this.$$valueChangedCallback = callback;
+      var input = this.getInput();
+      input && input.addValueChangedListener(callback);
+      return this;
+    };
+
+    FormGroupInputControl.prototype.getValueChangedCallback = function() {
+      return this.$$valueChangedCallback;
     };
 
     return FormGroupInputControl;

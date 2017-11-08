@@ -5,14 +5,10 @@ angular.module('huoyun.widget').directive('widgetsForm', ["$log",
     return {
       restrict: 'A',
       scope: {
-        options: "=",
-        data: "="
+        options: "="
       },
       templateUrl: 'form/form.html',
-      link: function($scope, ele, attrs) {
-
-
-      }
+      link: function($scope, ele, attrs) {}
     }
   }
 ]);

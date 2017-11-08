@@ -15,26 +15,12 @@
         </div>
 
         <div ng-if="!$formGroup.isCustomizeTemplate()">
-          <div widgets-form-group options="$formGroup"></div>
+          <div widgets-form-group options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div>
         </div>
       </div>
     </div>
-    <div class="box-body" ng-if="options.isReadonly()">
-      <div ng-repeat="formGroup in options.groups" prop-name="{{formGroup.name}}" prop-type="{{formGroup.type}}" ng-show="formGroup.$$visibility()">
-        <div ng-if="formGroup.templateUrl">
-          <div ng-include="formGroup.templateUrl"></div>
-        </div>
-
-        <div ng-if="!formGroup.templateUrl" ng-switch="formGroup.type">
-          <div ng-switch-when="email" widgets-form-group-label-email options="formGroup" ng-model="options.data[formGroup.name]"></div>
-          <div ng-switch-when="DropDown" widgets-form-group-drop-down options="formGroup" ng-model="options.data[formGroup.name]"></div>
-          <div ng-switch-default widgets-form-group-label-string options="formGroup" ng-model="options.data[formGroup.name]"></div>
-
-        </div>
-      </div>
-    </div>
-    <div class="box-footer" ng-if="options.footer.$$visibility()">
-      <div widgets-button options="button" ng-repeat="button in options.footer.buttons"></div>
+    <div class="box-footer" ng-if="options.isFooterVisibility()">
+      <div widgets-button options="button" ng-repeat="button in options.getFooter().getButtons()"></div>
     </div>
   </form>
 </div>

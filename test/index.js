@@ -124,6 +124,10 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           }
         }]
       },
+      onPropertyChanged: function() {
+        console.log("prop changed")
+        console.log(arguments)
+      },
       groups: [{
         name: "firstName",
         type: "string",
@@ -131,7 +135,13 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         appendClass: "col-sm-4",
         label: {
           text: "First Name"
+        },
+        input: {
+          onValueChanged: function() {
+            console.log(arguments)
+          }
         }
+
       }, {
         name: "lastName",
         type: "string",
@@ -148,8 +158,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           text: "Email"
         },
         input: {
-          placeholder: "Input email ...",
-          readonly: true
+          placeholder: "Input email ..."
         },
         mandatory: true,
         appendClass: "col-sm-4"
@@ -230,12 +239,21 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       footer: {
         buttons: [{
           name: "save",
-          label: "保存",
+          text: "保存",
           appendClass: "btn-primary",
           onClick: function() {
-            $scope.formOption.readonly = false;
-            // $scope.formOption.validator()
-            //   .then(function() {
+            console.log($scope.formOption)
+            console.log($scope.formOption.getData());
+            console.log($scope.xxData)
+              //$scope.xxData.firstName = "===="
+              // $scope.formOption.setData({
+              //   email: "xx@sap.com",
+              //   firstName: "Jingjingxxx",
+              //   lastName: "Wang"
+              // });
+              //$scope.formOption.readonly = false;
+              // $scope.formOption.validator()
+              //   .then(function() {
 
             //   }).catch(function(formGroup) {
             //     formGroup.setError();
@@ -243,12 +261,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           }
         }]
       }
-    });
-
-    $scope.formOption.setData({
-      email: "xx@sap.com",
-      firstName: "Jingjing",
-      lastName: "Wang"
     });
 
     $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({

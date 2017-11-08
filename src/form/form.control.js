@@ -79,6 +79,10 @@ angular.module('huoyun.widget').factory("FormFooterControl", ["HuoYunWidgetCore"
 
     HuoYunWidgetCore.ClassExtend(FormFooterControl, HuoYunWidgetCore.Control);
 
+    FormFooterControl.prototype.getButtons = function() {
+      return this.$$buttons;
+    };
+
     return FormFooterControl;
   }
 ]);
@@ -88,7 +92,7 @@ angular.module('huoyun.widget').factory("FormControl", ["$log", "HuoYunWidgetCor
 
     function FormControl(options) {
       HuoYunWidgetCore.Control.apply(this, arguments);
-
+      this.$$data = {};
       var that = this;
 
       that.$$orientation = new FormOrientation(options.orientation);
@@ -106,7 +110,9 @@ angular.module('huoyun.widget').factory("FormControl", ["$log", "HuoYunWidgetCor
         if (Array.isArray(options.groups)) {
           options.groups.forEach(function(group) {
             var control = new FormGroupControl(group);
-            control.setFormControl(that);
+            control.setFormControl(that).setValueChangedCallback(function(newVal, oldVal) {
+              that.onPropertyChanged(control.getName(), newVal, oldVal);
+            });
             that.$$groups.push(control);
           });
         } else {
@@ -133,12 +139,40 @@ angular.module('huoyun.widget').factory("FormControl", ["$log", "HuoYunWidgetCor
       return this.$$header;
     };
 
+    FormControl.prototype.getFooter = function() {
+      return this.$$footer;
+    };
+
+    FormControl.prototype.isFooterVisibility = function() {
+      return this.getFooter().isVisibility();
+    };
+
     FormControl.prototype.getGroups = function() {
       return this.$$groups;
     };
 
-    FormControl.prototype.setData = function(data) {
+    FormControl.prototype.getBindExpr = function(formGroup) {
+      return this.getPropertyValue(formGroup.getName())
+    };
 
+    FormControl.prototype.setData = function(data) {
+      this.$$data = data;
+      return this;
+    };
+
+    FormControl.prototype.getData = function() {
+      return this.$$data;
+    };
+
+    FormControl.prototype.getPropertyValue = function(propName) {
+      return this.getData()[propName];
+    };
+
+    FormControl.prototype.onPropertyChanged = function(propName, newVal, oldVal) {
+      var onPropertyChangedCallback = this.getOptions().onPropertyChanged;
+      if (typeof onPropertyChangedCallback === "function") {
+        onPropertyChangedCallback.apply(this, [propName, newVal, oldVal]);
+      }
     };
 
     return FormControl;

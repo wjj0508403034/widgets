@@ -5,7 +5,8 @@ angular.module('huoyun.widget').directive('widgetsFormGroup', [
     return {
       restrict: 'A',
       scope: {
-        options: "="
+        options: "=",
+        value: "=ngModel"
       },
       templateUrl: 'form/formgroup/form-group.html',
       link: function($scope, elem, attrs) {}
