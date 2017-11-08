@@ -113,7 +113,7 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
       }
     }
 
-    if (!this.$$hasError) {
+    if (obj && !this.$$hasError) {
       Object.keys(obj.properties).forEach(function(propName) {
         var prop = new JsonProperty(propName, obj.properties[propName]);
         prop.setJsonModel(that);
@@ -130,6 +130,18 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
 
   JsonModel.prototype.hasError = function() {
     return this.$$hasError;
+  };
+
+  JsonModel.prototype.isJsonViewVisibility = function() {
+    if (this.hasError()) {
+      return false;
+    }
+
+    if (!this.getValue()) {
+      return false;
+    }
+
+    return true;
   };
 
   JsonModel.prototype.getProperties = function() {

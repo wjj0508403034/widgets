@@ -9,6 +9,21 @@
 div[widgets-button] {
   display: inline-block;
 }
+.widgets-checkbox {
+  cursor: pointer;
+}
+
+.widgets-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.widgets-checkbox .fa {
+  width: 16px;
+}
+
+.widgets-checkbox .widgets-checkbox-content {
+  margin-left: 5px;
+}
 @charset "UTF-8";
 
 /*!
@@ -2739,21 +2754,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
-.widgets-checkbox {
-  cursor: pointer;
-}
-
-.widgets-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.widgets-checkbox .fa {
-  width: 16px;
-}
-
-.widgets-checkbox .widgets-checkbox-content {
-  margin-left: 5px;
-}
 .huoyun-dialog-container.ngdialog .ngdialog-content {
   background: transparent !important;
   padding: 0 !important;
@@ -2783,6 +2783,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   bottom: 0;
   left: 0;
   right: 0;
+}
+.widgets-head {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 100px;
+}
+
+.widgets-head .widgets-head-title-container {
+  color: #3c8dbc;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.widgets-head .widgets-head-tools {
+  height: 100%;
+  padding: 13px 0;
 }
 .widgets-form .form-group .help-block {
   display: none;
@@ -2820,21 +2836,105 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 12px;
   min-height: 1px;
 }
-.widgets-head {
-  height: 60px;
-  line-height: 60px;
-  padding: 0 100px;
+.widgets-form-group-json .widgets-json-editor {
+  border: 1px solid #d2d6de;
+  min-height: 200px;
 }
 
-.widgets-head .widgets-head-title-container {
-  color: #3c8dbc;
-  font-size: 28px;
-  font-weight: bold;
+.widgets-form-group-json .json-view-menu-bar {
+  background: #d2d6de;
+  padding: 5px;
 }
 
-.widgets-head .widgets-head-tools {
+.widgets-form-group-json textarea {
+  width: 100%;
   height: 100%;
-  padding: 13px 0;
+  resize: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-color: #d2d6de;
+}
+
+.widgets-form-group-json textarea:focus {
+  border-color: #3c8dbc;
+  box-shadow: none;
+  outline: 0;
+}
+
+.widgets-form-group-json .widgets-json-editor-tab {
+  padding: 5px;
+  height: 260px;
+  overflow: auto;
+  position: relative;
+}
+.widgets-json-model-view .json-property-field {
+  min-height: 25px;
+  line-height: 25px;
+}
+
+.widgets-json-model-view .json-format-error {
+  color: red;
+}
+
+.widgets-json-model-view .object-name {
+  cursor: pointer;
+}
+
+.widgets-json-model-view .toggle-icon {
+  margin-right: 5px;
+}
+
+.widgets-json-model-view .json-property-field .toggle-icon i {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.widgets-json-model-view .object-name .prop-name {
+  font-style: italic;
+  color: #808484;
+}
+
+.widgets-json-model-view .prop-key-container {
+  position: relative;
+  height: 25px;
+}
+
+.widgets-json-model-view .json-property-field i {
+  color: red;
+  line-height: inherit;
+  font-size: 70%;
+}
+
+.widgets-json-model-view .json-property-field .prop-keys-info {
+  position: absolute;
+}
+
+.widgets-json-model-view .json-property-field .prop-container {
+  position: absolute;
+  left: 15px;
+}
+
+.widgets-json-model-view .json-property-field .prop-type {
+  margin-left: 5px;
+}
+
+.widgets-json-model-view .json-property-field code {
+  font-size: 70%;
+}
+
+.widgets-json-model-view .field-margin-left {
+  margin-left: 25px;
+}
+
+.widgets-json-model-view .json-enum-field {
+  margin-right: 10px;
+}
+
+.widgets-json-model-view .json-array-field code,
+.widgets-json-model-view .json-enum-field code {
+  color: inherit;
+  background-color: #e6e6e6;
 }
 .widgets-markdown {
   color: #444;
@@ -3184,98 +3284,6 @@ a:active {
   word-wrap: break-word;
   transform: translate(-50%, -50%);
   z-index: 100;
-}
-.widgets-form-group-json .widgets-json-editor {
-  border: 1px solid #d2d6de;
-  min-height: 200px;
-}
-
-.widgets-form-group-json .json-view-menu-bar {
-  background: #d2d6de;
-  padding: 5px;
-}
-
-.widgets-form-group-json textarea {
-  width: 100%;
-  height: 100%;
-  border: none;
-  resize: none;
-}
-
-.widgets-form-group-json .widgets-json-editor-tab {
-  padding: 5px;
-  height: 260px;
-  overflow: auto;
-  position: relative;
-}
-.widgets-json-model-view .json-property-field {
-  min-height: 25px;
-  line-height: 25px;
-}
-
-.widgets-json-model-view .json-format-error {
-  color: red;
-}
-
-.widgets-json-model-view .object-name {
-  cursor: pointer;
-}
-
-.widgets-json-model-view .toggle-icon {
-  margin-right: 5px;
-}
-
-.widgets-json-model-view .json-property-field .toggle-icon i {
-  color: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.widgets-json-model-view .object-name .prop-name {
-  font-style: italic;
-  color: #808484;
-}
-
-.widgets-json-model-view .prop-key-container {
-  position: relative;
-  height: 25px;
-}
-
-.widgets-json-model-view .json-property-field i {
-  color: red;
-  line-height: inherit;
-  font-size: 70%;
-}
-
-.widgets-json-model-view .json-property-field .prop-keys-info {
-  position: absolute;
-}
-
-.widgets-json-model-view .json-property-field .prop-container {
-  position: absolute;
-  left: 15px;
-}
-
-.widgets-json-model-view .json-property-field .prop-type {
-  margin-left: 5px;
-}
-
-.widgets-json-model-view .json-property-field code {
-  font-size: 70%;
-}
-
-.widgets-json-model-view .field-margin-left {
-  margin-left: 25px;
-}
-
-.widgets-json-model-view .json-enum-field {
-  margin-right: 10px;
-}
-
-.widgets-json-model-view .json-array-field code,
-.widgets-json-model-view .json-enum-field code {
-  color: inherit;
-  background-color: #e6e6e6;
 }
 
 .widgets-video-player video {

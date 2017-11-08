@@ -2,7 +2,7 @@
   <div class="json-format-error" ng-if="options.hasError()">
     json format invalid!!!
   </div>
-  <div ng-if="!options.hasError()" class="json-property-field">
+  <div ng-if="options.isJsonViewVisibility()" class="json-property-field">
 
     <div class="object-name" ng-click="options.onExpandClicked()">
       <span class="toggle-icon">
