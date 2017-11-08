@@ -175,6 +175,57 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
             }
           ]
         }
+      }, {
+        name: "datalistTest",
+        type: "datalist",
+        appendClass: "col-sm-4",
+        mandatory: true,
+        label: {
+          text: "DataList"
+        },
+        input: {
+          placeholder: "Input xxx ...",
+          labelField: "label",
+          valueField: "name",
+          selection: "multiple",
+          loadMoreVisibility: true,
+          searchVisibility: true,
+          loadMore: function(pageCount, searchText) {
+            if (pageCount === 0) {
+              return [{
+                  name: "1",
+                  label: "Level 1"
+                },
+                {
+                  name: "2",
+                  label: "Level 2"
+                }
+              ];
+            }
+
+            if (pageCount === 2) {
+              return [{
+                  name: "3",
+                  label: "Level 3"
+                },
+                {
+                  name: "4",
+                  label: "Level 4"
+                }
+              ];
+            }
+
+            return [{
+                name: "5",
+                label: "Level 5"
+              },
+              {
+                name: "6",
+                label: "Level 6"
+              }
+            ];
+          }
+        }
       }],
       footer: {
         buttons: [{

@@ -22,5 +22,6 @@ angular.module('huoyun.widget').run(["FormControlProvider", "HuoYunWidgetsInputs
   FormControlProvider.registerControl("DROPDOWN", HuoYunWidgetsInputs.Dropdown);
   FormControlProvider.registerControl("EMAIL", HuoYunWidgetsInputs.EmailBox);
   FormControlProvider.registerControl("STRING", HuoYunWidgetsInputs.TextBox);
+  FormControlProvider.registerControl("DATALIST", HuoYunWidgetsInputs.DataList);
 
 }]);

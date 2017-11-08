@@ -14,7 +14,7 @@
       <div ng-include="options.getInputControl().getTemplateUrl()"></div>
     </div>
     <div ng-if="!options.getInputControl().isCustomizeTemplate()" ng-switch="options.getType()">
-      <div ng-switch-when="DATALIST" widgets-form-group-data-list options="options.getInputControl().getInputOptions()" ng-model="options.name"></div>
+      <div ng-switch-when="DATALIST" widgets-data-list options="options.getInputControl().getInputOptions()" ng-model="options.name"></div>
       <div ng-switch-when="DROPDOWN" widgets-dropdown options="options.getInputControl().getInputOptions()" ng-model="options.name"></div>
       <div ng-switch-when="EMAIL" widgets-email-box options="options.getInputControl().getInputOptions()" ng-model="options.name"></div>
       <div ng-switch-default widgets-text-box options="options.getInputControl().getInputOptions()" ng-model="options.name"></div>

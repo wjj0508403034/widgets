@@ -22,11 +22,11 @@ angular.module('huoyun.widget').factory("ListSelection", [function() {
   };
 
   ListSelection.prototype.isSingle = function() {
-    return this.getValue === Modes.Single;
+    return this.getValue() === Modes.Single;
   };
 
   ListSelection.prototype.isMultiple = function() {
-    return this.getValue === Modes.Multiple;
+    return this.getValue() === Modes.Multiple;
   };
 
   return ListSelection;
@@ -77,15 +77,35 @@ angular.module('huoyun.widget').factory("ListDataSource", ["CheckBoxControl",
       return false;
     };
 
+    ListDataSource.prototype.setLabelField = function(labelField) {
+      this.$$labelField = labelField;
+      return this;
+    };
+
+    ListDataSource.prototype.getLabelField = function() {
+      return this.$$labelField;
+    };
+
+    ListDataSource.prototype.getLabelContent = function(data) {
+      var labelField = this.getLabelField();
+      if (typeof labelField === "string") {
+        return data[labelField];
+      }
+
+      return data;
+    };
+
     ListDataSource.prototype.addItem = function(item) {
+
       if (this.getSelection().isSingle()) {
         this.getData().push(item);
       } else {
+        var that = this;
         var itemWarpper = {
           data: item,
           checkbox: new CheckBoxControl({
             value: false,
-            text: item,
+            text: that.getLabelContent(item),
             checked: function($event) {
 
             },
@@ -222,7 +242,7 @@ angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", 
       return this.getOptions().labelField;
     };
 
-    DropdownControl.prototype.getValueField = function() {
+    DataListControl.prototype.getValueField = function() {
       return this.getOptions().valueField;
     };
 
@@ -252,6 +272,10 @@ angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", 
       }
 
       return value;
+    };
+
+    DataListControl.prototype.isReadonly = function() {
+      return true;
     };
 
     return DataListControl;

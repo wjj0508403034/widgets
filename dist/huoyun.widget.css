@@ -3273,6 +3273,25 @@ a:active {
   cursor: pointer;
 }
 
+.widgets-data-list-dialog {
+  margin: -10px;
+}
+
+.widgets-data-list-dialog .item-template {
+  min-height: 30px;
+  border-bottom: 1px solid #d2d6de;
+  padding: 10px;
+  color: #737373;
+  font-weight: normal;
+}
+
+.widgets-data-list-dialog.single .item-template {
+  cursor: pointer;
+}
+
+.widgets-data-list-dialog.single .item-template:hover {
+  background: #d2d6de;
+}
 .widgets-search-form-data-list-dialog .item-template {
   min-height: 40px;
   border-bottom: 1px solid #f4f4f4;

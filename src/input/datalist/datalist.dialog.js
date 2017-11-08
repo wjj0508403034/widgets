@@ -3,12 +3,23 @@
 angular.module('huoyun.widget').controller('DataListController', ["$scope", "CheckBoxControl", "$log", "ListDataSource",
   function($scope, CheckBoxControl, $log, ListDataSource) {
 
-    $scope.control = $scope.ngDialogData.params.options;
-
     $scope.vm = {
+      getSelectionModeClass: function() {
+        return $scope.vm.getDataListControl().getSelection().getValue();
+      },
+      getDataListControl: function() {
+        return $scope.ngDialogData.params.options;
+      },
       searchText: null,
       loadCount: 0,
-      dataSource: new ListDataSource($scope.control.getSelection()),
+      getDataSource: function() {
+        if (!$scope.vm.dataSource) {
+          $scope.vm.dataSource = new ListDataSource($scope.vm.getDataListControl().getSelection())
+          $scope.vm.dataSource.setLabelField($scope.vm.getDataListControl().getLabelField());
+        }
+
+        return $scope.vm.dataSource;
+      },
       onItemClicked: function(item) {
         if ($scope.control.getSelection().isSingle()) {
           $scope.closeThisDialog(['OK', item]);
@@ -17,10 +28,10 @@ angular.module('huoyun.widget').controller('DataListController', ["$scope", "Che
         }
       },
       onSearchTextChanged: function() {
-        loadCount = 0;
         $scope.control.onSearch($scope.searchText)
           .then(function(result) {
-            setDataSource(result);
+            $scope.vm.loadCount = 0;
+            $scope.vm.appendData(result);
           });
       },
       onSearchTextCleared: function() {
@@ -28,44 +39,34 @@ angular.module('huoyun.widget').controller('DataListController', ["$scope", "Che
         $scope.onSearchTextChanged();
       },
       loadMore: function() {
-        loadCount = loadCount + 1;
-        $scope.control.loadMoreData(loadCount, $scope.searchText)
+        $scope.vm.getDataListControl().loadMoreData($scope.vm.loadCount, $scope.vm.searchText)
           .then(function(result) {
-            var selectedItems = $scope.vm.dataSource.getSelectedData();
-            $scope.vm.dataSource.append(result).setSelected(selectedItems);
+            $scope.vm.loadCount = $scope.vm.loadCount + 1;
+            $scope.vm.appendData(result);
           });
+      },
+      appendData: function(data) {
+        $scope.vm.getDataSource().append(data);
       },
       selectedAll: new CheckBoxControl({
         value: false,
-        label: "全选",
+        text: "全选",
         checked: function() {
           $scope.vm.dataSource.selectedAll();
         },
         unchecked: function() {
           $scope.vm.dataSource.unselectedAll();
         }
-      })
+      }),
+      getSelectedData: function() {
+        return $scope.vm.getDataSource().getSelectedData();
+      }
     };
 
-
-
-    $scope.control.getDataSource()
-      .then(function(result) {
-        setDataSource(result);
-      });
-
+    $scope.vm.loadMore();
 
     $scope.ngDialogData.onConfirmButtonClicked = function() {
-      $scope.closeThisDialog(['OK', getSelectedItems()]);
+      $scope.closeThisDialog(['OK', $scope.vm.getSelectedData()]);
     };
-
-    function setDataSource(result) {
-      var selectedItems = getSelectedItems();
-      $scope.vm.dataSource.setData(result).setSelected(selectedItems);
-    }
-
-    function getSelectedItems() {
-      return $scope.vm.dataSource.getSelectedData();
-    }
   }
 ]);
