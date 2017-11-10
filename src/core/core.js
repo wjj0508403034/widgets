@@ -27,3 +27,7 @@ angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Con
     };
   }
 ]);
+
+angular.module('huoyun.widget').run([function() {
+
+}]);

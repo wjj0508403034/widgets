@@ -3,7 +3,7 @@
 angular.module('huoyun.widget').factory("Control", [function() {
   function Control(options) {
     this.getOptions = function() {
-      return options;
+      return options || {};
     };
   }
 

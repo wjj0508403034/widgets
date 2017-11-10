@@ -10,6 +10,27 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
+    $scope.listViewOption = new HuoYunWidgets.ListView({
+      displayPath: "label",
+      dataSource: [{
+          id: 3,
+          name: "3",
+          label: "Level 1",
+          text: {
+            aa: "AA"
+          }
+        },
+        {
+          id: 5,
+          name: "5",
+          label: "Level 2",
+          text: {
+            aa: "bb"
+          }
+        }
+      ]
+    });
+
     $scope.button = new HuoYunWidgets.Controls.Button({
       text: "Hello"
     });
