@@ -70,29 +70,67 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
 
     SelectorControl.prototype.onItemClicked = function(item) {
       var selection = this.getSelection().getValue();
-      if (selection !== Selection.Modes.None) {
-        item.toggleSelected();
+      if (selection === Selection.Modes.Single) {
+        var oldSelectedItem = this.getSelectionItem();
+        if (item !== oldSelectedItem) {
+          oldSelectedItem && oldSelectedItem.setUnselected();
+          item.setSelected();
+          this.onSelectedChanged(item, oldSelectedItem);
+        }
 
-        if (selection === Selection.Modes.Single) {
-          this.__setItemsUnselectedExceptSelf(item);
+        return;
+      }
+
+      if (selection === Selection.Modes.Multiple) {
+        var oldSelectedItems = this.getSelectedItems();
+        item.toggleSelected();
+        var newSelectedItems = this.getSelectedItems();
+        this.onSelectedChanged(newSelectedItems, oldSelectedItems);
+      }
+    };
+
+    SelectorControl.prototype.getSelectionItem = function() {
+      var selection = this.getSelection().getValue();
+      if (selection === Selection.Modes.Single) {
+        var items = this.getItems();
+        for (var index = 0; index < items.length; index++) {
+          if (items[index].isSelected()) {
+            return items[index];
+          }
         }
       }
     };
 
-    SelectorControl.prototype.__setItemsUnselectedExceptSelf = function(self) {
-      this.getItems().forEach(function(item) {
-        if (item !== self) {
-          item.setUnselected();
-        }
-      });
-    }
+    SelectorControl.prototype.getSelectedValue = function() {
+      var selection = this.getSelection().getValue();
+      if (selection === Selection.Modes.Single) {
+        var selectedItem = this.getSelectionItem();
+        return selectedItem && selectedItem.getValue();
+      }
 
-    SelectorControl.prototype.getSelectionItem = function() {
-      //this.getItems().forEach
+      if (selection === Selection.Modes.Multiple) {
+        var selectedItems = this.getSelectedItems();
+        return selectedItems.map(function(selectedItem) {
+          return selectedItem.getValue();
+        })
+      }
     };
 
-    SelectorControl.prototype.onSelectedChanged = function() {
+    SelectorControl.prototype.getSelectedItems = function() {
+      var selection = this.getSelection().getValue();
+      if (selection === Selection.Modes.Multiple) {
+        return this.getItems().filter(function(item) {
+          return item.isSelected();
+        });
+      }
+    };
 
+    SelectorControl.prototype.onSelectedChanged = function(newVal, oldVal) {
+      var that = this;
+      var listeners = this.getEventListeners("selectedChanged");
+      listeners.forEach(function(listener) {
+        listener.apply(that, [newVal, oldVal]);
+      });
     };
 
     return SelectorControl;

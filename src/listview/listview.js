@@ -9,11 +9,6 @@ angular.module('huoyun.widget').factory("ListViewControl", ["HuoYunWidgetCore", 
 
     HuoYunWidgetCore.ClassExtend(ListViewControl, SelectorControl);
 
-
-    ListViewControl.prototype.getSelectedItems = function() {
-
-    };
-
     ListViewControl.prototype.getItemTemplate = function() {
       return ListViewItemControl;
     };

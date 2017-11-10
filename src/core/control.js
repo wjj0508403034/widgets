@@ -2,6 +2,8 @@
 
 angular.module('huoyun.widget').factory("Control", [function() {
   function Control(options) {
+    this.$$eventMap = {};
+
     this.getOptions = function() {
       return options || {};
     };
@@ -75,6 +77,38 @@ angular.module('huoyun.widget').factory("Control", [function() {
     }
 
     return false;
+  };
+
+  Control.prototype.getEventListeners = function(eventName) {
+    if (!this.$$eventMap[eventName]) {
+      this.$$eventMap[eventName] = [];
+    }
+    return this.$$eventMap[eventName];
+  };
+
+  Control.prototype.on = function(eventName, listener) {
+    if (typeof listener !== "function") {
+      throw new Event("Event listener must be function");
+    }
+    this.getEventListeners(eventName).push(listener);
+
+    return this;
+  };
+
+  Control.prototype.off = function(eventName, listener) {
+    var listeners = this.getEventListeners();
+
+    if (listener === undefined) {
+      listeners = [];
+    }
+
+    if (typeof listener !== "function") {
+      throw new Event("Event listener must be function");
+    }
+
+    var index = listeners.indexOf(listener);
+    listeners.splice(index, 1);
+    return this;
   };
 
   return Control;

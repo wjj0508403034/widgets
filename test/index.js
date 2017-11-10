@@ -11,7 +11,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
     $scope.listViewOption = new HuoYunWidgets.ListView({
+      selection: "multiple",
       displayPath: "label",
+      valuePath: "id",
       dataSource: [{
           id: 3,
           name: "3",
@@ -29,6 +31,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           }
         }
       ]
+    }).on("selectedChanged", function() {
+      console.log(arguments)
+      console.log($scope.listViewOption.getSelectedValue())
     });
 
     $scope.button = new HuoYunWidgets.Controls.Button({
