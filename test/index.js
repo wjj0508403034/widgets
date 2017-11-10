@@ -18,6 +18,10 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
+    $scope.codeOptions = new HuoYunWidgets.AceCodeEditor({
+      language: "js"
+    });
+
     $scope.checkbox = new HuoYunWidgets.CheckBoxOption({
       label: "xx2",
       value: true,
@@ -155,6 +159,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           label: "保存",
           appendClass: "btn-primary",
           onClick: function() {
+
             $scope.formOption.readonly = false;
             // $scope.formOption.validator()
             //   .then(function() {
@@ -201,16 +206,18 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
     };
 
     $scope.showDialog = function() {
-      Dialog.showError({})
-        .then(function() {
-          console.log("OK");
-        }).catch(function() {
-          console.log("Cancel");
-        });
+      console.log($scope.codeOptions.getContent());
+      // Dialog.showError({})
+      //   .then(function() {
+      //     console.log("OK");
+      //   }).catch(function() {
+      //     console.log("Cancel");
+      //   });
     };
 
     $scope.showTip = function() {
-      Tip.show("xxx");
+      $scope.codeOptions.setContent("function xxxxx(){console.log(\"Hello world\");}");
+
     };
 
     $scope.tableOptions = new HuoYunWidgets.TableOption({

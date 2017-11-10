@@ -46,6 +46,7 @@ angular.module('huoyun.widget').factory("JsonProperty", [function() {
   JsonProperty.prototype.getObjectChild = function() {
     if (!this.$$objectChild) {
       this.$$objectChild = new JsonProperty.JsonModel(this.getValue());
+      this.$$objectChild.setParent(this);
     }
 
     return this.$$objectChild;
@@ -58,6 +59,7 @@ angular.module('huoyun.widget').factory("JsonProperty", [function() {
   JsonProperty.prototype.getArrayChild = function() {
     if (!this.$$arrayChild) {
       this.$$arrayChild = new JsonProperty.JsonModel(this.getValue().items);
+      this.$$arrayChild.setParent(this);
     }
     return this.$$arrayChild;
   };
@@ -171,6 +173,15 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
   JsonModel.prototype.onExpandClicked = function() {
     this.$$expanded = !this.$$expanded;
   };
+
+  JsonModel.prototype.setParent = function(parent) {
+    this.$$parent = parent;
+    return this;
+  };
+
+  JsonModel.prototype.getParent = function() {
+    return this.$$parent;
+  }
 
   return JsonModel;
 }]);

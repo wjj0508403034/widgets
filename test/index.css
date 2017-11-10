@@ -1,3 +1,8 @@
 div[widgets-side-bar] {
   margin: 30px 20px;
 }
+
+.code-editor-box {
+  height: 300px;
+  width: 100%;
+}

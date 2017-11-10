@@ -19,11 +19,16 @@
   <script src="./../node_modules/ng-dialog/js/ngDialog.js"></script>
   <script src="./../node_modules/admin-lte/dist/js/app.js"></script>
   <script src="./../node_modules/svg.js/dist/svg.js"></script>
+  <script src="./../node_modules/ace-builds/src-noconflict/ace.js"></script>
   <script src="./../dist/huoyun.widget.js"></script>
   <script src="./index.js"></script>
 </head>
 
 <body ng-controller="DemoController">
+  <div class="code-editor-box">
+    <div widgets-code-editor options="codeOptions"></div>
+  </div>
+
   <button ng-click="showDialog()">Dialog</button>
   <button ng-click="showTip()">Show Tip</button>
   <div widgets-search-form options="searchFormOption"></div>

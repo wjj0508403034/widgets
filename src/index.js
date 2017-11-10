@@ -27,9 +27,9 @@ angular.module('huoyun.widget').provider("display", function() {
 });
 
 angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
-  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption",
+  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "AceCodeEditor",
   function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption, CheckBoxOption,
-    SearchFormOption, ButtonOption, SidebarPanelOption) {
+    SearchFormOption, ButtonOption, SidebarPanelOption, AceCodeEditor) {
 
     return {
       Dialog: Dialog,
@@ -42,7 +42,8 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog
       CheckBoxOption: CheckBoxOption,
       SearchFormOption: SearchFormOption,
       ButtonOption: ButtonOption,
-      SidebarPanelOption: SidebarPanelOption
+      SidebarPanelOption: SidebarPanelOption,
+      AceCodeEditor: AceCodeEditor
     };
   }
 ]);
