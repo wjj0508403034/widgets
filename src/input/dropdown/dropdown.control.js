@@ -26,7 +26,7 @@ angular.module('huoyun.widget').factory("DropdownControl", ["HuoYunWidgetCore", 
       return this.getOptions().labelField;
     };
 
-    DropdownControl.prototype.getLabel = function(option) {
+    DropdownControl.prototype.getItemLabel = function(option) {
       var labelField = this.getLabelField();
       if (labelField) {
         return option[labelField];
@@ -39,12 +39,12 @@ angular.module('huoyun.widget').factory("DropdownControl", ["HuoYunWidgetCore", 
       return this.getOptions().valueField;
     };
 
-    DropdownControl.prototype.getValue = function(option) {
+    DropdownControl.prototype.getItemValue = function(item) {
       var valueField = this.getValueField();
       if (valueField) {
-        return option[valueField];
+        return item[valueField];
       }
-      return option;
+      return item;
     };
 
     return DropdownControl;

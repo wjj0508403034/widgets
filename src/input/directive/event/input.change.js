@@ -5,17 +5,19 @@ angular.module('huoyun.widget').directive('widgetsEventsInputChanged', ["InputCo
     return {
       restrict: 'A',
       require: "ngModel",
-      link: function($scope, ele, attrs, ctrl) {
-        var oldVal = $scope.value;
-        var newVal = oldVal;
-        ctrl.$viewChangeListeners.push(function() {
-          newVal = $scope.value;
-          if ($scope.options instanceof InputControl) {
-            $scope.options.onValueChanged(newVal, oldVal);
-          }
+      link: function($scope, ele, attrs, ngModelController) {
+        if ($scope.options instanceof InputControl) {
+          var inputControl = $scope.options;
+          var oldVal = inputControl.getValue();
+          var newVal = oldVal;
 
-          oldVal = newVal;
-        });
+          ngModelController.$viewChangeListeners.push(function() {
+            newVal = inputControl.getValue();
+            inputControl.raiseEvent("valueChanged", [newVal, oldVal]);
+            oldVal = newVal;
+          });
+        }
+
       }
     }
   }

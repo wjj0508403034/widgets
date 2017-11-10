@@ -109,10 +109,12 @@ angular.module('huoyun.widget').factory("FormControl", ["$log", "HuoYunWidgetCor
       if (options.groups) {
         if (Array.isArray(options.groups)) {
           options.groups.forEach(function(group) {
-            var control = new FormGroupControl(group);
-            control.setFormControl(that).setValueChangedCallback(function(newVal, oldVal) {
-              that.onPropertyChanged(control.getName(), newVal, oldVal);
-            });
+            var control = new FormGroupControl(group)
+              .setFormControl(that)
+              .on("valueChanged", function(newVal, oldVal) {
+                that.setPropertyValue(control.getName(), newVal);
+              });
+
             that.$$groups.push(control);
           });
         } else {
@@ -168,11 +170,16 @@ angular.module('huoyun.widget').factory("FormControl", ["$log", "HuoYunWidgetCor
       return this.getData()[propName];
     };
 
-    FormControl.prototype.onPropertyChanged = function(propName, newVal, oldVal) {
-      var onPropertyChangedCallback = this.getOptions().onPropertyChanged;
-      if (typeof onPropertyChangedCallback === "function") {
-        onPropertyChangedCallback.apply(this, [propName, newVal, oldVal]);
-      }
+    FormControl.prototype.setPropertyValue = function(propName, val) {
+      var oldVal = this.getPropertyValue(propName);
+      this.__setPropertyValue(propName, val);
+      this.raiseEvent("propertyValueChanged", [propName, val, oldVal]);
+      return this;
+    };
+
+    FormControl.prototype.__setPropertyValue = function(propName, val) {
+      this.getData()[propName] = val;
+      return this;
     };
 
     return FormControl;

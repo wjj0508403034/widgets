@@ -75,7 +75,7 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
         if (item !== oldSelectedItem) {
           oldSelectedItem && oldSelectedItem.setUnselected();
           item.setSelected();
-          this.onSelectedChanged(item, oldSelectedItem);
+          this.raiseEvent("selectedChanged", [item, oldSelectedItem]);
         }
 
         return;
@@ -85,7 +85,7 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
         var oldSelectedItems = this.getSelectedItems();
         item.toggleSelected();
         var newSelectedItems = this.getSelectedItems();
-        this.onSelectedChanged(newSelectedItems, oldSelectedItems);
+        this.raiseEvent("selectedChanged", [newSelectedItems, oldSelectedItems]);
       }
     };
 
@@ -123,14 +123,6 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
           return item.isSelected();
         });
       }
-    };
-
-    SelectorControl.prototype.onSelectedChanged = function(newVal, oldVal) {
-      var that = this;
-      var listeners = this.getEventListeners("selectedChanged");
-      listeners.forEach(function(listener) {
-        listener.apply(that, [newVal, oldVal]);
-      });
     };
 
     return SelectorControl;

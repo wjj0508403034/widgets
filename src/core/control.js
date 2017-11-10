@@ -111,5 +111,13 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this;
   };
 
+  Control.prototype.raiseEvent = function(eventName, args) {
+    var that = this;
+    var listeners = this.getEventListeners(eventName);
+    listeners.forEach(function(listener) {
+      listener.apply(that, args);
+    });
+  };
+
   return Control;
 }]);

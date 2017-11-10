@@ -5,8 +5,7 @@ angular.module('huoyun.widget').directive('widgetsDropdown', [
     return {
       restrict: 'A',
       scope: {
-        options: "=",
-        value: "=ngModel"
+        options: "="
       },
       templateUrl: 'input/dropdown/dropdown.html',
       link: function($scope, ele, attrs) {}

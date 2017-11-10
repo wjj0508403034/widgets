@@ -150,10 +150,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           }
         }]
       },
-      onPropertyChanged: function() {
-        console.log("prop changed")
-        console.log(arguments)
-      },
       groups: [{
         name: "firstName",
         type: "string",
@@ -199,7 +195,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
         input: {
           placeholder: "Input xxx ...",
           labelField: "label",
-          valueField: "name",
           data: [{
               name: "1",
               label: "Level 1"
@@ -287,6 +282,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           }
         }]
       }
+    }).on("propertyValueChanged", function() {
+      console.log("prop changed")
+      console.log(arguments)
     });
 
     $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({

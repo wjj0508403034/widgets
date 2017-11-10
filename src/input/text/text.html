@@ -1,2 +1,2 @@
 <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}"
-  ng-style="options.getStyle()" ng-model="$parent.value" widgets-events-input-changed>
+  ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed>

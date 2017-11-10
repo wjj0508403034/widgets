@@ -7,11 +7,15 @@ angular.module('huoyun.widget').factory("FormGroupControl", ["$log", "HuoYunWidg
       HuoYunWidgetCore.Control.apply(this, arguments);
 
 
-      this.$$label = new FormGroupLabelControl(options.label || {});
-      this.$$label.setFromGroup(this);
+      this.$$label = new FormGroupLabelControl(options.label || {})
+        .setFromGroup(this);
 
-      this.$$input = new FormGroupInputControl(options.input || {});
-      this.$$input.setFromGroup(this);
+      var that = this;
+      this.$$input = new FormGroupInputControl(options.input || {})
+        .setFromGroup(this)
+        .on("valueChanged", function(newVal, oldVal) {
+          that.raiseEvent("valueChanged", [newVal, oldVal]);
+        });
     }
 
     HuoYunWidgetCore.ClassExtend(FormGroupControl, HuoYunWidgetCore.Control);
@@ -80,6 +84,7 @@ angular.module('huoyun.widget').factory("FormGroupLabelControl", ["$log", "HuoYu
 
     FormGroupLabelControl.prototype.setFromGroup = function(formGroup) {
       this.$$formGroup = formGroup;
+      return this;
     };
 
     FormGroupLabelControl.prototype.getText = function() {
@@ -119,21 +124,15 @@ angular.module('huoyun.widget').factory("FormGroupInputControl", ["$log", "HuoYu
           control = TextControl;
         }
 
-        this.$$inputOptions = new control(inputOptions);
+        var that = this;
+
+        this.$$inputOptions = new control(inputOptions)
+          .on("valueChanged", function(newVal, oldVal) {
+            that.raiseEvent("valueChanged", [newVal, oldVal]);
+          });
       }
 
       return this.$$inputOptions;
-    };
-
-    FormGroupInputControl.prototype.setValueChangedCallback = function(callback) {
-      this.$$valueChangedCallback = callback;
-      var input = this.getInput();
-      input && input.addValueChangedListener(callback);
-      return this;
-    };
-
-    FormGroupInputControl.prototype.getValueChangedCallback = function() {
-      return this.$$valueChangedCallback;
     };
 
     return FormGroupInputControl;
