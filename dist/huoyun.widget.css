@@ -2836,19 +2836,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   height: 100%;
   padding: 13px 0;
 }
-.widgets-list-view {
-  min-height: 50px;
-  border: 1px solid #d2d6de;
-}
-
-.widgets-list-view .list-view-item {
-  cursor: pointer;
-}
-
-.widgets-list-view .list-view-item[data-selected="true"] {
-  background-color: #3c8dbc;
-  border-color: #367fa9;
-}
 .widgets-markdown {
   color: #444;
   font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
@@ -3053,6 +3040,19 @@ a:active {
 
 .widgets-markdown td {
   vertical-align: top;
+}
+.widgets-list-view {
+  min-height: 50px;
+  border: 1px solid #d2d6de;
+}
+
+.widgets-list-view .list-view-item {
+  cursor: pointer;
+}
+
+.widgets-list-view .list-view-item[data-selected="true"] {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
 }
 .widgets-nav {
   background: #3c8dbc;

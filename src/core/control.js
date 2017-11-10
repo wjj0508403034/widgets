@@ -5,7 +5,10 @@ angular.module('huoyun.widget').factory("Control", [function() {
     this.$$eventMap = {};
 
     this.getOptions = function() {
-      return options || {};
+      if (options === null || options === undefined) {
+        options = {};
+      }
+      return options;
     };
   }
 

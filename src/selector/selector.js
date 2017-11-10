@@ -5,14 +5,28 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
 
     function SelectorControl(options) {
       HuoYunWidgetCore.Control.apply(this, arguments);
-
-      this.$$selection = new Selection(options.selection);
     }
 
     HuoYunWidgetCore.ClassExtend(SelectorControl, HuoYunWidgetCore.Control);
 
     SelectorControl.prototype.getSelection = function() {
+      if (!this.$$selection) {
+        this.$$selection = new Selection(this.getOptions().selection);
+      }
       return this.$$selection;
+    };
+
+    SelectorControl.prototype.setSelection = function(selection) {
+      if (selection instanceof Selection) {
+        this.$$selection = selection;
+        return this;
+      }
+
+      throw new Error("selection must be Selection type.");
+    };
+
+    SelectorControl.prototype.setSelectionMode = function(selection) {
+      return this.setSelection(new Selection(selection));
     };
 
     SelectorControl.prototype.getDataSource = function() {
@@ -27,7 +41,20 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
         }
       }
 
-      return this.$$dataSource;
+      if (this.$$dataSource instanceof $q) {
+        return this.$$dataSource;
+      }
+
+      return $q.resolve(this.$$dataSource);
+    };
+
+    SelectorControl.prototype.setDataSource = function(dataSource) {
+      var oldDataSource = this.getDataSource();
+      this.getOptions().dataSource = dataSource;
+      this.$$dataSource = null;
+      var newDataSource = this.getDataSource();
+      this.raiseEvent("dataSourceChanged", [newDataSource, oldDataSource]);
+      return this;
     };
 
     SelectorControl.prototype.getItems = function() {
@@ -49,23 +76,43 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
     };
 
     SelectorControl.prototype.setItemTemplate = function(itemTemplate) {
-      if (itemTemplate instanceof ItemControl) {
-        this.$$itemTemplate = itemTemplate;
-      }
-
-      throw new Error("itemTemplate not extends ItemControl");
+      this.$$itemTemplate = itemTemplate;
+      return this;
     };
 
     SelectorControl.prototype.getItemTemplate = function() {
       return this.$$itemTemplate || ItemControl;
     };
 
+    SelectorControl.prototype.setItemTemplateUrl = function(itemTemplateUrl) {
+      this.$$itemTemplateUrl = itemTemplateUrl;
+      return this;
+    };
+
+    SelectorControl.prototype.getItemTemplateUrl = function() {
+      return this.$$itemTemplateUrl;
+    };
+
+    SelectorControl.prototype.hasItemTemplateUrl = function() {
+      return !!this.getItemTemplateUrl();
+    };
+
     SelectorControl.prototype.getValuePath = function() {
       return this.getOptions().valuePath;
     };
 
+    SelectorControl.prototype.setValuePath = function(valuePath) {
+      this.getOptions().valuePath = valuePath;
+      return this;
+    };
+
     SelectorControl.prototype.getDisplayPath = function() {
       return this.getOptions().displayPath;
+    };
+
+    SelectorControl.prototype.setDisplayPath = function(displayPath) {
+      this.getOptions().displayPath = displayPath;
+      return this;
     };
 
     SelectorControl.prototype.onItemClicked = function(item) {

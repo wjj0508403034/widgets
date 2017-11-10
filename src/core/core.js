@@ -19,11 +19,29 @@ angular.module('huoyun.widget').factory("ClassExtend", [function() {
   return ClassExtend;
 }]);
 
-angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Control",
-  function(ClassExtend, Control) {
+
+
+angular.module('huoyun.widget').factory("$Promise", ["$q", function($q) {
+
+  return {
+    resolve: function(obj) {
+      if (obj instanceof Promise || obj instanceof $q) {
+        return val;
+      }
+
+      var deferred = $q.defer();
+      deferred.resolve(obj);
+      return deferred.promise;
+    }
+  };
+}]);
+
+angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Control", "$Promise",
+  function(ClassExtend, Control, $Promise) {
     return {
       ClassExtend: ClassExtend,
-      Control: Control
+      Control: Control,
+      Promise: $Promise
     };
   }
 ]);

@@ -192,88 +192,88 @@ angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", 
     function DataListControl(options) {
       InputControl.apply(this, arguments);
 
-      this.$$selection = new ListSelection(options.selection);
+      //this.$$selection = new ListSelection(options.selection);
     }
 
     HuoYunWidgetCore.ClassExtend(DataListControl, InputControl);
 
 
 
-    DataListControl.prototype.getSelection = function() {
-      return this.$$selection;
-    };
+    // DataListControl.prototype.getSelection = function() {
+    //   return this.$$selection;
+    // };
 
-    DataListControl.prototype.getDataSource = function() {
-      if (!this.$$dataSource) {
-        this.$$dataSource = this.getOptions().data;
-      }
+    // DataListControl.prototype.getDataSource = function() {
+    //   if (!this.$$dataSource) {
+    //     this.$$dataSource = this.getOptions().data;
+    //   }
 
-      if (!Array.isArray(this.$$dataSource)) {
-        throw new Error("data isn't array");
-      }
+    //   if (!Array.isArray(this.$$dataSource)) {
+    //     throw new Error("data isn't array");
+    //   }
 
-      return this.$$dataSource;
-    };
+    //   return this.$$dataSource;
+    // };
 
-    DataListControl.prototype.getItemTemplateUrl = function() {
-      return this.getOptions().itemTemplateUrl;
-    };
+    // DataListControl.prototype.getItemTemplateUrl = function() {
+    //   return this.getOptions().itemTemplateUrl;
+    // };
 
-    DataListControl.prototype.hasItemTemplateUrl = function() {
-      return !!this.getItemTemplateUrl();
-    };
+    // DataListControl.prototype.hasItemTemplateUrl = function() {
+    //   return !!this.getItemTemplateUrl();
+    // };
 
-    DataListControl.prototype.isSearchVisibility = function() {
-      return this.__isFalse("searchVisibility");
-    };
+    // DataListControl.prototype.isSearchVisibility = function() {
+    //   return this.__isFalse("searchVisibility");
+    // };
 
-    DataListControl.prototype.onSearch = function(val) {
-      return HuoyunPromise.resolve(this.getOptions().search(val));
-    };
+    // DataListControl.prototype.onSearch = function(val) {
+    //   return HuoyunPromise.resolve(this.getOptions().search(val));
+    // };
 
-    DataListControl.prototype.isLoadMoreVisibility = function() {
-      return this.__isFalse("loadMoreVisibility");
-    };
+    // DataListControl.prototype.isLoadMoreVisibility = function() {
+    //   return this.__isFalse("loadMoreVisibility");
+    // };
 
-    DataListControl.prototype.loadMoreData = function(loadCount, searchText) {
-      return HuoyunPromise.resolve(this.getOptions().loadMore(loadCount, searchText));
-    };
+    // DataListControl.prototype.loadMoreData = function(loadCount, searchText) {
+    //   return HuoyunPromise.resolve(this.getOptions().loadMore(loadCount, searchText));
+    // };
 
-    DataListControl.prototype.getLabelField = function() {
-      return this.getOptions().labelField;
-    };
+    // DataListControl.prototype.getLabelField = function() {
+    //   return this.getOptions().labelField;
+    // };
 
-    DataListControl.prototype.getValueField = function() {
-      return this.getOptions().valueField;
-    };
+    // DataListControl.prototype.getValueField = function() {
+    //   return this.getOptions().valueField;
+    // };
 
-    DataListControl.prototype.getSingleValueText = function(item) {
-      return item && item[this.getLabelField()];
-    };
+    // DataListControl.prototype.getSingleValueText = function(item) {
+    //   return item && item[this.getLabelField()];
+    // };
 
-    DataListControl.prototype.getMultiValueText = function(items) {
-      if (Array.isArray(items)) {
-        var that = this;
+    // DataListControl.prototype.getMultiValueText = function(items) {
+    //   if (Array.isArray(items)) {
+    //     var that = this;
 
-        return items.linq().join(function(item) {
-          return that.getSingleValueText(item);
-        }, ", ");
-      }
+    //     return items.linq().join(function(item) {
+    //       return that.getSingleValueText(item);
+    //     }, ", ");
+    //   }
 
-      return items;
-    };
+    //   return items;
+    // };
 
-    DataListControl.prototype.getValueText = function(value) {
-      if (this.$$selection.isSingle()) {
-        return this.getSingleValueText(value);
-      }
+    // DataListControl.prototype.getValueText = function(value) {
+    //   if (this.$$selection.isSingle()) {
+    //     return this.getSingleValueText(value);
+    //   }
 
-      if (this.$$selection.isMultiple()) {
-        return this.getMultiValueText(value);
-      }
+    //   if (this.$$selection.isMultiple()) {
+    //     return this.getMultiValueText(value);
+    //   }
 
-      return value;
-    };
+    //   return value;
+    // };
 
     DataListControl.prototype.isReadonly = function() {
       return true;
