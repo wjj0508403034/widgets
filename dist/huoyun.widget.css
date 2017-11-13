@@ -2770,19 +2770,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   margin-left: 15px;
   min-width: 80px;
 }
-[widgets-story-board] {
-  position: relative;
+.widgets-head {
+  height: 60px;
+  line-height: 60px;
+  padding: 0 100px;
 }
 
-.svg-story-board-container {
+.widgets-head .widgets-head-title-container {
+  color: #3c8dbc;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.widgets-head .widgets-head-tools {
   height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  padding: 13px 0;
 }
 .widgets-form .form-group .help-block {
   display: none;
@@ -2819,22 +2821,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   padding-top: 7px;
   font-size: 12px;
   min-height: 1px;
-}
-.widgets-head {
-  height: 60px;
-  line-height: 60px;
-  padding: 0 100px;
-}
-
-.widgets-head .widgets-head-title-container {
-  color: #3c8dbc;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.widgets-head .widgets-head-tools {
-  height: 100%;
-  padding: 13px 0;
 }
 .widgets-list-view {
   min-height: 50px;

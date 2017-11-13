@@ -7,8 +7,8 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
-angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
-  function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
+angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "HuoYunWidgets",
+  function($scope, Dialog, Tip, HuoYunWidgets) {
 
     $scope.table = new HuoYunWidgets.Controls.Table({
       selection: "multiple",
@@ -327,17 +327,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }]
     });
 
-    $scope.svgOptions = {
-      line: new Draw.Line(new Draw.Point(200, 200), new Draw.Point(800, 200)),
-      objects: [],
-      callbacks: [],
-      registerObjectCreate: function(callback) {
-        this.callbacks.push(callback);
-      },
-      afterSvgInit: function(svg) {
-        this.line.setSvg(svg).draw().text("水平消失线");
-      }
-    };
 
     $scope.showDialog = function() {
       Dialog.showError({})
@@ -491,45 +480,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }]
     };
 
-    $scope.videoOptions = {
-      title: "test.mp4",
-      fps: 15,
-      buttons: [{
-        name: "add",
-        label: "添加",
-        appendClass: "btn-primary",
-        onClick: function() {
-          var object = new Draw.Cube();
-          object.setHorizontalLine($scope.svgOptions.line);
-          var testData = [];
-          var points = [new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0, 0), new Draw.Point(0,
-            0)];
-          testData.push(points);
-          testData.push(points);
-          testData.push(points);
-          testData.push(points);
-          testData.push(points);
-          testData.push(points);
-          object.timeline.timeline[100] = testData;
-          object.timeline.setEndTime(50);
-          //var that = this;
 
-          $scope.svgOptions.callbacks.forEach(function(callback) {
-            callback(object);
-          });
-          $scope.svgOptions.objects.push(object);
-          //console.log(this)
-        }
-      }, {
-        name: "cancel",
-        label: "取消",
-        onClick: function() {
-          console.log(this)
-        }
-      }],
-    };
-    $scope.src =
-      "http://116.236.198.27:8083/201706120744414665428/Datalog/compress/201706120749214391572/right.avi_4.mp4";
 
 
   }
