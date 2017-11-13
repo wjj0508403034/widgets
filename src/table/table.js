@@ -5,22 +5,10 @@ angular.module('huoyun.widget').directive('widgetsTable', ["display",
     return {
       restrict: 'A',
       scope: {
-        options: "=",
-        source: "=",
-        onRowClicked: "&",
-        onPagingChanged: "&"
+        options: "="
       },
       templateUrl: 'table/table.html',
-      link: function($scope, elem, attrs) {
-
-        $scope.getDateFilter = function() {
-          return displayProvider.date;
-        };
-
-        $scope.getColumnValue = function(line, column) {
-          return line && column && line.getPropValue(column);
-        };
-      }
+      link: function($scope, elem, attrs) {}
     }
   }
 ]);

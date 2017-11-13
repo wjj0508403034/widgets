@@ -26,20 +26,18 @@ angular.module('huoyun.widget').provider("display", function() {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["TableOption", "Dialog", "Tip", "SidebarOption", "NavOption",
-  "BreadCrumbOption", "FormOption", "CheckBoxOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl",
-  function(TableOption, Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption, CheckBoxOption,
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "Tip", "SidebarOption", "NavOption",
+  "BreadCrumbOption", "FormOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl",
+  function(Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption,
     SearchFormOption, ButtonOption, SidebarPanelOption, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl) {
 
     return {
       Dialog: Dialog,
-      TableOption: TableOption,
       SidebarOption: SidebarOption,
       NavOption: NavOption,
       BreadCrumbOption: BreadCrumbOption,
       Tip: Tip,
       FormOption: FormOption,
-      CheckBoxOption: CheckBoxOption,
       SearchFormOption: SearchFormOption,
       ButtonOption: ButtonOption,
       SidebarPanelOption: SidebarPanelOption,

@@ -90,13 +90,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
 
     $scope.dropdownSelected = "3";
 
-    $scope.checkbox = new HuoYunWidgets.CheckBoxOption({
-      label: "xx2",
-      value: true,
-      onCheckChanged: function() {
-        console.log(arguments)
-      }
-    });
+
 
     $scope.searchFormOption = new HuoYunWidgets.SearchFormOption({
       title: "搜索",
@@ -341,90 +335,9 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       Tip.show("xxx");
     };
 
-    $scope.tableOptions = new HuoYunWidgets.TableOption({
-      selection: {
-        mode: "Single",
-        checkbox: true,
-        hightlight: false
-      },
-      header: {
-        style: {
-          padding: "20px 10px"
-        },
-        title: "Table1",
-        buttons: [{
-          name: "add",
-          label: "添加",
-          appendClass: "btn-primary",
-          onClick: function() {
-            console.log(this)
-          }
-        }, {
-          name: "add",
-          label: "添加2",
-          appendClass: "btn-primary",
-          onClick: function() {
-            console.log(this)
-          },
-          visibility: function() {
-            if ($scope.tableOptions.getSelectedItem()) {
-              return true;
-            }
 
-            return false;
-          }
-        }],
-      },
-      columns: [{
-        name: "id",
-        label: "编号",
-        type: "string"
-      }, {
-        name: "firstName",
-        label: "名",
-        type: "string"
-      }, {
-        name: "lastName",
-        label: "姓",
-        type: "string"
-      }, {
-        name: "age",
-        label: "年龄",
-        type: "number",
-        visibility: function() {
-          return true;
-        },
-        style: { "text-align": "right" }
-      }, {
-        name: "birthday",
-        label: "生日",
-        type: "date",
-        style: function() {
-          return {
-            color: "red",
-            "text-align": "center"
-          };
-        }
-      }]
-    });
 
-    $scope.tableOptions.setSource({
-      content: [{
-        id: "1111",
-        firstName: "Jingjing",
-        lastName: "Wang",
-        age: 30,
-        birthday: new Date()
-      }],
-      first: true,
-      last: false,
-      number: 0,
-      numberOfElements: 20,
-      size: 20,
-      sort: null,
-      totalElements: 26,
-      totalPages: 2
-    });
+
 
 
 
