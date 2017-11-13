@@ -6,6 +6,21 @@
   color: #cccccc;
   cursor: default;
 }
+.widgets-checkbox {
+  cursor: pointer;
+}
+
+.widgets-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.widgets-checkbox .fa {
+  width: 16px;
+}
+
+.widgets-checkbox .widgets-checkbox-content {
+  margin-left: 5px;
+}
 div[widgets-button] {
   display: inline-block;
 }
@@ -2739,21 +2754,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
-.widgets-checkbox {
-  cursor: pointer;
-}
-
-.widgets-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.widgets-checkbox .fa {
-  width: 16px;
-}
-
-.widgets-checkbox .widgets-checkbox-content {
-  margin-left: 5px;
-}
 .huoyun-dialog-container.ngdialog .ngdialog-content {
   background: transparent !important;
   padding: 0 !important;
@@ -2769,6 +2769,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .huoyun-dialog-content-container.box>.box-footer .btn {
   margin-left: 15px;
   min-width: 80px;
+}
+[widgets-story-board] {
+  position: relative;
+}
+
+.svg-story-board-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .widgets-form .form-group .help-block {
   display: none;
@@ -2806,20 +2820,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 12px;
   min-height: 1px;
 }
-[widgets-story-board] {
-  position: relative;
-}
-
-.svg-story-board-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 .widgets-head {
   height: 60px;
   line-height: 60px;
@@ -2835,6 +2835,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .widgets-head .widgets-head-tools {
   height: 100%;
   padding: 13px 0;
+}
+.widgets-list-view {
+  min-height: 50px;
+  border: 1px solid #d2d6de;
+}
+
+.widgets-list-view .list-view-item {
+  cursor: pointer;
+}
+
+.widgets-list-view .list-view-item[data-selected="true"] {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
 }
 .widgets-markdown {
   color: #444;
@@ -3040,19 +3053,6 @@ a:active {
 
 .widgets-markdown td {
   vertical-align: top;
-}
-.widgets-list-view {
-  min-height: 50px;
-  border: 1px solid #d2d6de;
-}
-
-.widgets-list-view .list-view-item {
-  cursor: pointer;
-}
-
-.widgets-list-view .list-view-item[data-selected="true"] {
-  background-color: #3c8dbc;
-  border-color: #367fa9;
 }
 .widgets-nav {
   background: #3c8dbc;
@@ -3305,6 +3305,7 @@ a:active {
 .widgets-data-list-dialog.single .item-template:hover {
   background: #d2d6de;
 }
+
 .widgets-search-form-data-list-dialog .item-template {
   min-height: 40px;
   border-bottom: 1px solid #f4f4f4;

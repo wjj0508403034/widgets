@@ -38,10 +38,8 @@ angular.module('huoyun.widget').factory("CheckBoxControl", ["HuoYunWidgetCore",
     CheckBoxControl.prototype.onClick = function($event) {
       var oldValue = this.getValue();
       var newValue = !oldValue;
-      this.setValue(newValue);
-
-      this.raiseEvent("valueChanged", [newValue, oldValue]);
-      this.raiseEvent(newValue ? "checked" : "unchecked");
+      this.setValue(newValue)
+        .raiseEvent(newValue ? "checked" : "unchecked");
     };
 
 

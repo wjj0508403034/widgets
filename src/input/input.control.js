@@ -17,7 +17,11 @@ angular.module('huoyun.widget').factory("InputControl", ["HuoYunWidgetCore",
     };
 
     InputControl.prototype.setValue = function(value) {
-      this.$$value = value;
+      var oldVal = this.getValue();
+      if (oldVal !== value) {
+        this.$$value = value;
+        this.raiseEvent("valueChanged", [value, oldVal]);
+      }
       return this;
     };
 

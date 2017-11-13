@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('huoyun.widget').controller('DataListController', ["$scope", "CheckBoxControl", "ListViewControl", "HuoYunWidgetCore", "CheckBoxListViewItemControl",
-  function($scope, CheckBoxControl, ListViewControl, HuoYunWidgetCore, CheckBoxListViewItemControl) {
+angular.module('huoyun.widget').controller('DataListController', ["$scope", "CheckBoxControl", "ListViewControl", "HuoYunWidgetCore", "CheckBoxListViewItemControl", "SearchControl",
+  function($scope, CheckBoxControl, ListViewControl, HuoYunWidgetCore, CheckBoxListViewItemControl, SearchControl) {
 
     $scope.vm = {
+      search: null,
       pageCount: 0,
-      searchText: null,
       getDataListControl: function() {
         return $scope.ngDialogData.params.options;
       },
@@ -14,7 +14,7 @@ angular.module('huoyun.widget').controller('DataListController', ["$scope", "Che
       },
       listView: null,
       loadPageDataSource: function() {
-        var dataSource = $scope.vm.getDataListOptions().loadMore($scope.vm.pageCount, $scope.vm.searchText);
+        var dataSource = $scope.vm.getDataListOptions().loadMore($scope.vm.pageCount, $scope.vm.search.getValue());
         return HuoYunWidgetCore.Promise.resolve(dataSource)
           .then(function(result) {
             $scope.vm.pageCount = $scope.vm.pageCount + 1;
@@ -22,6 +22,12 @@ angular.module('huoyun.widget').controller('DataListController', ["$scope", "Che
           });
       }
     };
+
+    $scope.vm.search = new SearchControl({
+      placeholder: "Search ..."
+    }).on("valueChanged", function() {
+      console.log(arguments)
+    });
 
     var options = $scope.vm.getDataListOptions();
     $scope.vm.listView = new ListViewControl()

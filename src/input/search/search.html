@@ -1,0 +1,7 @@
+<div class="form-group widgets-search-box">
+  <div class="input-group ">
+    <input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}"
+      ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed>
+    <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span>
+  </div>
+</div>

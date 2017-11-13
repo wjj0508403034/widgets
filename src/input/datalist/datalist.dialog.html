@@ -1,11 +1,5 @@
 <div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()">
-  <div class="input-group search-box" ng-if="vm.getDataListControl().isSearchVisibility()">
-    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-    <input class="form-control" type="text" ng-model="$parent.searchText" ng-change="onSearchTextChanged()">
-    <span class="input-group-addon search-box-remove-icon" ng-show="searchText" ng-click="onSearchTextCleared()">
-      <i class="fa fa-remove" aria-hidden="true"></i>
-    </span>
-  </div>
+  <div widgets-search-box options="vm.search"></div>
 
   <div widgets-list-view options="vm.listView"></div>
 

@@ -19,10 +19,8 @@ angular.module('huoyun.widget').directive('widgetsDataList', ["Dialog",
             },
             closeCallback: function(key, value, text) {
               if (key === "OK") {
-                var oldVal = $scope.options.getValue();
                 $scope.options.setValue(value)
-                  .setInputText(text)
-                  .raiseEvent("valueChanged", [value, oldVal]);
+                  .setInputText(text);
               }
             }
           };
