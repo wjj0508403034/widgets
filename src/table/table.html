@@ -1,59 +1,16 @@
-<div class="box widgets-table">
-  <div class="box-header" ng-style="options.header.$$style()">
-    <h3 class="box-title">
-      <i class="fa" aria-hidden="true" ng-class="options.header.icon" ng-if="options.header.icon"></i>
-      <span ng-bind="options.header.title"></span>
-    </h3>
-
-    <div class="box-tools">
-      <div class="input-group input-group-sm">
-        <div widgets-button options="button" ng-repeat="button in options.header.buttons"></div>
-      </div>
-    </div>
-  </div>
-  <div class="box-body table-responsive no-padding">
-    <table class="table" ng-class="options.getTableClass()" highlight="{{options.selection.isHighLight()}}">
-      <tbody>
-        <tr class="no-hover">
-          <th class="check-box-column" ng-if="options.$$showCheckBox()">
-            <div widgets-check-box options="options.$$selectedAllOption"></div>
-          </th>
-          <th ng-repeat="$column in options.columns" ng-show="$column.$$visibility()" column-name="{{$column.name}}" column-type="{{$column.type}}"
-            ng-style="$column.$$style()">
-            <div ng-if="$column.headerTemplateUrl" ng-include="$column.headerTemplateUrl"></div>
-            <div ng-if="!$column.headerTemplateUrl" ng-bind="$column.label">
-            </div>
-          </th>
-        </tr>
-        <tr ng-if="options.isMaskLayerVisibility()">
-          <td class="empty-table" colspan="{{options.$$columnCount()}}">
-            <div ng-if="options.mask.templateUrl" ng-include="options.mask.templateUrl"></div>
-            <div ng-if="!options.mask.templateUrl">
-              <i class="fa" aria-hidden="true" ng-class="options.mask.icon" ng-if="options.mask.icon"></i>
-              <span ng-bind="options.mask.text"></span>
-            </div>
-          </td>
-        </tr>
-        <tr ng-if="!options.isMaskLayerVisibility()" ng-repeat="$line in options.source.lines" ng-click="options.$$onLineClicked($line,$index)"
-          ng-class="{true: 'selected', false: ''}[$line.isSelected()]">
-          <td class="check-box-column" ng-if="options.$$showCheckBox()">
-            <div widgets-check-box options="$line.checkboxOption"></div>
-          </td>
-          <td class="table-column" column-name="{{$column.name}}" column-type="{{$column.type}} " ng-repeat="$column in options.columns"
-            ng-show="$column.$$visibility()" ng-style="$column.$$style()">
-            <div ng-if="$column.templateUrl" ng-include="$column.templateUrl"></div>
-            <div ng-if="!$column.templateUrl" ng-switch="$column.type">
-              <span ng-switch-when="date " ng-bind="$line.data[$column.name] | date: getDateFilter() "></span>
-              <span ng-switch-default ng-bind="$column.getValueText($line.data[$column.name])"></span>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="box-footer clearfix ">
-    <div class="pull-left table-footer-total"></div>
-    <div widgets-pagination ng-show="options.source.totalPages" page-data="options.source" on-paging-changed="onPagingChangedHandler(pageIndex) "></div>
-  </div>
+<div class="widgets-table">
+  <table class="table" ng-class="options.appendClass()">
+    <thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()">
+      <tr>
+        <th ng-repeat="$column in options.getHeader().getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="$row in options.getItems()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)">
+        <td ng-repeat="$column in options.getHeader().getColumns()">
+          <div ng-bind="$column.getColumnValue($row)"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

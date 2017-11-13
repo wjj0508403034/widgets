@@ -10,6 +10,33 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "Draw", "HuoYunWidgets",
   function($scope, Dialog, Tip, Draw, HuoYunWidgets) {
 
+    $scope.table = new HuoYunWidgets.Controls.Table({
+      selection: "multiple",
+      header: {
+        columns: [{
+          name: "id",
+          text: "ID",
+          style: {
+            color: "red"
+          }
+        }, {
+          name: "firstName",
+          text: "First Name"
+        }, {
+          name: "lastName",
+          text: "Last Name"
+        }]
+      }
+    }).setDataSource([{
+      id: "x0001",
+      firstName: "Jingjing",
+      lastName: "Wang"
+    }, {
+      id: "x0002",
+      firstName: "Jingjing2",
+      lastName: "Wang2"
+    }]);
+
     $scope.listViewOption = new HuoYunWidgets.ListView({
       selection: "multiple",
       displayPath: "label",
