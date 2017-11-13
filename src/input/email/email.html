@@ -1,5 +1,6 @@
-<div class="input-group">
+<div class="input-group" has-error="{{options.hasError()}}">
   <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
   <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}"
-    ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed>
+    ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed widgets-input-validator>
 </div>
+<div widgets-input-error options="options.getErrorControl()"></div>

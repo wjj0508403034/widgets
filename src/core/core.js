@@ -13,7 +13,7 @@ angular.module('huoyun.widget').factory("ClassExtend", [function() {
       throw new Error('ERR_INVALID_ARG_TYPE', 'Parent.prototype',
         'function');
     }
-    Child.super_ = Parent;
+    Child.super = Parent;
     Object.setPrototypeOf(Child.prototype, Parent.prototype);　　
   }
   return ClassExtend;
@@ -32,16 +32,29 @@ angular.module('huoyun.widget').factory("$Promise", ["$q", function($q) {
       var deferred = $q.defer();
       deferred.resolve(obj);
       return deferred.promise;
+    },
+    reject: function(obj) {
+      if (obj instanceof Promise || obj instanceof $q) {
+        return val;
+      }
+
+      var deferred = $q.defer();
+      deferred.reject(obj);
+      return deferred.promise;
+    },
+    all: function(promises) {
+      return $q.all(promises);
     }
   };
 }]);
 
-angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Control", "$Promise",
-  function(ClassExtend, Control, $Promise) {
+angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Control", "$Promise", "Validator",
+  function(ClassExtend, Control, $Promise, Validator) {
     return {
       ClassExtend: ClassExtend,
       Control: Control,
-      Promise: $Promise
+      Promise: $Promise,
+      Validator: Validator
     };
   }
 ]);
