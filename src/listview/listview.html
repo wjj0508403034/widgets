@@ -1,0 +1,6 @@
+<div class="widgets-list-view">
+  <div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-repeat="$item in options.getItems()" ng-click="options.onItemClicked($item)">
+    <div ng-if="!options.hasItemTemplateUrl()" ng-bind="$item.getDisplayText()"></div>
+    <div ng-if="options.hasItemTemplateUrl()" ng-include="options.getItemTemplateUrl()"></div>
+  </div>
+</div>

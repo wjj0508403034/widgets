@@ -1,0 +1,13 @@
+.widgets-list-view {
+  min-height: 50px;
+  border: 1px solid #d2d6de;
+}
+
+.widgets-list-view .list-view-item {
+  cursor: pointer;
+}
+
+.widgets-list-view .list-view-item[data-selected="true"] {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
+}
