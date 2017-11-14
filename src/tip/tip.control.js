@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope', '$timeout', "$templateCache", "HuoYunWidgetCore",
-  function($compile, $rootScope, $timeout, $templateCache, HuoYunWidgetCore) {
+angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope', "$templateCache", "HuoYunWidgetCore",
+  function($compile, $rootScope, $templateCache, HuoYunWidgetCore) {
 
     function TipControl(options) {
       HuoYunWidgetCore.Control.apply(this, arguments);
@@ -18,7 +18,7 @@ angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope',
     };
 
     TipControl.prototype.getTemplateUrl = function() {
-      return this.super.getTemplateUrl() || "tip/tip.html";
+      return this.callSuperMethod("getTemplateUrl", arguments) || "tip/tip.html";
     };
 
     TipControl.prototype.getDuration = function() {
@@ -26,11 +26,14 @@ angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope',
     };
 
     TipControl.prototype.newScope = function() {
-      return $rootScope.$new();
+      var $scope = $rootScope.$new();
+      $scope.options = this;
+      return $scope;
     };
 
     TipControl.prototype.pop = function() {
       var $tip = $compile($templateCache.get(this.getTemplateUrl()))(this.newScope());
+      this.getContainerElement().append($tip);
       $tip.show();
       var that = this;
       var timer = setTimeout(function() {

@@ -286,9 +286,12 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
           onClick: function() {}
         }]
       }
-    }).on("propertyValueChanged", function() {
+    }).on("propertyValueChanged", function(propName, newVal, oldValue) {
       console.log("prop changed")
       console.log(arguments)
+      HuoYunWidgets.Controls.Tip.show({
+        message: `${propName}: ${newVal}`
+      });
     });
 
     $scope.breadCrumb = new HuoYunWidgets.Controls.BreadCrumb({

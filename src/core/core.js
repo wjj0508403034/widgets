@@ -14,7 +14,7 @@ angular.module('huoyun.widget').factory("ClassExtend", [function() {
         'function');
     }
     Child.super = Parent;
-    Object.setPrototypeOf(Child.prototype, Parent.prototype);　　
+    Object.setPrototypeOf(Child.prototype, Parent.prototype);　
   }
   return ClassExtend;
 }]);

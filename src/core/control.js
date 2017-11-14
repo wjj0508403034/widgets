@@ -25,6 +25,10 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this.$$id;
   };
 
+  Control.prototype.callSuperMethod = function(method, args) {
+    this.constructor.super.prototype[method].apply(this, args);
+  };
+
   Control.prototype.getName = function() {
     return this.getOptions().name;
   };
