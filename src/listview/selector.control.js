@@ -52,6 +52,7 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
       var oldDataSource = this.getDataSource();
       this.getOptions().dataSource = dataSource;
       this.$$dataSource = null;
+      this.$$items = null;
       var newDataSource = this.getDataSource();
       this.raiseEvent("dataSourceChanged", [newDataSource, oldDataSource]);
       return this;

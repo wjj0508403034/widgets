@@ -9,10 +9,6 @@
 div[widgets-button] {
   display: inline-block;
 }
-.widgets-code-editor .widgets-code-container {
-  height: 100%;
-  width: 100%;
-}
 .widgets-checkbox {
   cursor: pointer;
 }
@@ -27,6 +23,10 @@ div[widgets-button] {
 
 .widgets-checkbox .widgets-checkbox-content {
   margin-left: 5px;
+}
+.widgets-code-editor .widgets-code-container {
+  height: 100%;
+  width: 100%;
 }
 @charset "UTF-8";
 
@@ -2758,20 +2758,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
-[widgets-story-board] {
-  position: relative;
-}
-
-.svg-story-board-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 .huoyun-dialog-container.ngdialog .ngdialog-content {
   background: transparent !important;
   padding: 0 !important;
@@ -2787,6 +2773,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .huoyun-dialog-content-container.box>.box-footer .btn {
   margin-left: 15px;
   min-width: 80px;
+}
+[widgets-story-board] {
+  position: relative;
+}
+
+.svg-story-board-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .widgets-form .form-group .help-block {
   display: none;
