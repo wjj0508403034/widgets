@@ -24,6 +24,22 @@ div[widgets-button] {
 .widgets-checkbox .widgets-checkbox-content {
   margin-left: 5px;
 }
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
+}
 @charset "UTF-8";
 
 /*!
@@ -2754,22 +2770,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
-.huoyun-dialog-container.ngdialog .ngdialog-content {
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.huoyun-dialog-content-container.box>.box-body {
-  min-height: 100px;
-  max-height: 450px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.huoyun-dialog-content-container.box>.box-footer .btn {
-  margin-left: 15px;
-  min-width: 80px;
-}
 .widgets-form .input-group[has-error="true"] .form-control,
 .widgets-form .input-group[has-error="true"] .input-group-addon {
   border-color: #dd4b39;
@@ -2797,19 +2797,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 12px;
   min-height: 1px;
 }
-.widgets-list-view {
-  min-height: 50px;
-  border: 1px solid #d2d6de;
-}
-
-.widgets-list-view .list-view-item {
-  cursor: pointer;
-}
-
-.widgets-list-view .list-view-item[data-selected="true"] {
-  background-color: #3c8dbc;
-  border-color: #367fa9;
-}
 .widgets-nav {
   background: #3c8dbc;
 }
@@ -2833,6 +2820,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .widgets-nav li:hover {
   background: #367fa9;
+}
+.widgets-list-view {
+  min-height: 50px;
+  border: 1px solid #d2d6de;
+}
+
+.widgets-list-view .list-view-item {
+  cursor: pointer;
+}
+
+.widgets-list-view .list-view-item[data-selected="true"] {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
 }
 .widgets-side-bar {
   border: 1px solid #3c8dbc;
@@ -2873,6 +2873,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .widgets-side-bar .side-bar-group-items-container li:hover {
   background: #f5f5f5;
 }
+.widgets-tip.alert.alert-success {
+  background: transparent;
+  border: none;
+  position: absolute;
+  left: 50%;
+  top: 90%;
+  width: 300px;
+  word-wrap: break-word;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
 .widgets-pagination>li>span {
   color: #666;
 }
@@ -2896,17 +2907,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .widgets-table table tr[data-selected="true"] {
   background-color: #3c8dbc;
   border-color: #367fa9;
-}
-.widget-tip.alert.alert-success {
-  background: transparent;
-  border: none;
-  position: absolute;
-  left: 50%;
-  top: 90%;
-  width: 300px;
-  word-wrap: break-word;
-  transform: translate(-50%, -50%);
-  z-index: 100;
 }
 .widgets-form-group-data-list-dialog .item-template {
   min-height: 40px;

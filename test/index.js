@@ -7,8 +7,8 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
   });
 }]);
 
-angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", "HuoYunWidgets",
-  function($scope, Dialog, Tip, HuoYunWidgets) {
+angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYunWidgets",
+  function($scope, Dialog, HuoYunWidgets) {
 
     $scope.table = new HuoYunWidgets.Controls.Table({
       selection: "multiple",
