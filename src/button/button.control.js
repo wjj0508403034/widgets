@@ -24,16 +24,9 @@ angular.module('huoyun.widget').factory("ButtonControl", ["$log", "HuoYunWidgetC
 
 
     ButtonControl.prototype.onClick = function() {
-      if (this.isDisabled()) {
-        return;
+      if (!this.isDisabled()) {
+        this.raiseEvent("click");
       }
-
-      if (typeof this.getOptions().onClick === "function") {
-        this.getOptions().onClick.apply(this);
-        return;
-      }
-
-      $log.warn("Button no click handler.", this);
     };
 
     return ButtonControl;

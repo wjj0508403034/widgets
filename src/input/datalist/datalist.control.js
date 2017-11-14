@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", "InputControl", "HuoyunPromise",
-  function(HuoYunWidgetCore, InputControl, HuoyunPromise) {
+angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", "InputControl",
+  function(HuoYunWidgetCore, InputControl) {
 
     function DataListControl(options) {
       InputControl.apply(this, arguments);
