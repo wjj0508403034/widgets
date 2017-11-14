@@ -21,6 +21,10 @@ angular.module('huoyun.widget').factory("TableControl", ["HuoYunWidgetCore", "Se
       return this.$$itemTemplate || TableRowControl;
     };
 
+    TableControl.prototype.onColumnDragSuccess = function($event) {
+      console.log(arguments)
+    };
+
 
     return TableControl;
   }

@@ -59,6 +59,33 @@ angular.module('huoyun.widget').factory("HuoYunWidgetCore", ["ClassExtend", "Con
   }
 ]);
 
-angular.module('huoyun.widget').run([function() {
+angular.module('huoyun.widget').factory("DataStore", [function() {
 
+  function DataStore() {
+    this.$$map = {};
+  }
+
+  DataStore.prototype.setItem = function(key, value) {
+    this.$$map[key] = value;
+    return this;
+  };
+
+  DataStore.prototype.getItemAndRemove = function(key) {
+    var value = this.$$map[key];
+    delete this.$$map[key];
+    return value;
+  };
+
+  DataStore.prototype.getItem = function(key) {
+    return this.$$map[key];
+  };
+
+  DataStore.prototype.removeItem = function(key) {
+    delete this.$$map[key];
+    return this;
+  };
+
+  const store = new DataStore();
+
+  return store;
 }]);

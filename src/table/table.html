@@ -2,7 +2,7 @@
   <table class="table" ng-class="options.appendClass()">
     <thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()">
       <tr>
-        <th ng-repeat="$column in options.getHeader().getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()"></th>
+        <th ng-repeat="$column in options.getHeader().getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable drag-data="$column" drag-success="options.onColumnDragSuccess($event,$column)"></th>
       </tr>
     </thead>
     <tbody>
