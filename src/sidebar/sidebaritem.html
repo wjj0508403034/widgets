@@ -1,0 +1,10 @@
+<div class="side-bar-item">
+  <div class="side-bar-group-header">
+    <i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i>
+    <span ng-bind="options.getText()"></span>
+  </div>
+  <ul class="side-bar-group-items-container" ng-if="options.hasChild()">
+    <li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()">
+    </li>
+  </ul>
+</div>

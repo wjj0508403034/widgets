@@ -37,7 +37,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       lastName: "Wang2"
     }]);
 
-    $scope.listViewOption = new HuoYunWidgets.ListView({
+    $scope.listViewOption = new HuoYunWidgets.Controls.ListView({
       selection: "multiple",
       displayPath: "label",
       valuePath: "id",
@@ -158,7 +158,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       }
     });
 
-    $scope.formOption = new HuoYunWidgets.Controls.Form({
+    $scope.form = new HuoYunWidgets.Controls.Form({
       orientation: "vertical",
       header: {
         title: "Form 1",
@@ -283,24 +283,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
           name: "save",
           text: "保存",
           appendClass: "btn-primary",
-          onClick: function() {
-            console.log($scope.formOption)
-            console.log($scope.formOption.getData());
-            console.log($scope.xxData)
-              //$scope.xxData.firstName = "===="
-              // $scope.formOption.setData({
-              //   email: "xx@sap.com",
-              //   firstName: "Jingjingxxx",
-              //   lastName: "Wang"
-              // });
-              //$scope.formOption.readonly = false;
-              // $scope.formOption.validator()
-              //   .then(function() {
-
-            //   }).catch(function(formGroup) {
-            //     formGroup.setError();
-            //   });
-          }
+          onClick: function() {}
         }]
       }
     }).on("propertyValueChanged", function() {
@@ -308,94 +291,72 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "Tip", 
       console.log(arguments)
     });
 
-    $scope.breadCrumbOptions = new HuoYunWidgets.BreadCrumbOption({
+    $scope.breadCrumb = new HuoYunWidgets.Controls.BreadCrumb({
       items: [{
         name: "xxx",
-        label: "first"
+        text: "first",
+        style: {
+          color: "red"
+        }
       }, {
         name: "xxx",
-        label: "second"
+        text: "second"
       }, {
         name: "xxx",
-        label: "third"
+        text: "third"
       }]
+    }).on("itemClick", function() {
+      console.log(arguments)
     });
 
-
-    $scope.showDialog = function() {
-      Dialog.showError({})
-        .then(function() {
-          console.log("OK");
-        }).catch(function() {
-          console.log("Cancel");
-        });
-    };
-
-    $scope.showTip = function() {
-      Tip.show("xxx");
-    };
-
-
-
-
-
-
-
-    $scope.navOptions = {
+    $scope.nav = new HuoYunWidgets.Controls.Nav({
       items: [{
-        label: "任务大厅"
+        text: "任务大厅"
       }, {
-        label: "个人中心",
+        text: "个人中心",
         visibility: function() {
           return false;
         }
       }, {
-        label: "系统设置"
+        text: "系统设置"
       }, {
-        label: "帮助"
+        text: "帮助"
       }]
-    };
+    }).on("itemClick", function() {
+      console.log(arguments)
+    });
 
-    $scope.headOptions = {
-      title: "xxx"
-    };
-
-    $scope.sideBarOptions = {
-      groups: [{
-        label: "任务",
+    $scope.sidebar = new HuoYunWidgets.Controls.SideBar({
+      items: [{
+        text: "任务",
         items: [{
-          label: "我的任务"
+          text: "我的任务"
         }, {
-          label: "任务管理",
-          selected: true,
-          onClick: function(group, groupItem) {
-            console.log(this, arguments)
-          }
+          text: "任务管理",
+          selected: true
         }, {
-          label: "任务审核"
+          text: "任务审核"
         }]
       }, {
-        label: "视频",
+        text: "视频",
         items: [{
-          label: "上传视频"
+          text: "上传视频"
         }, {
-          label: "视频管理"
+          text: "视频管理"
         }]
       }, {
-        label: "用户",
+        text: "用户",
         items: [{
-          label: "个人信息"
+          text: "个人信息"
         }, {
-          label: "重设密码"
+          text: "重设密码"
         }, {
-          label: "用户管理"
+          text: "用户管理"
         }]
       }]
-    };
-
-
-
-
+    }).on("itemClick", function() {
+      console.log(arguments)
+    });
   }
 
 

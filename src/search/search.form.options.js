@@ -173,8 +173,8 @@ angular.module('huoyun.widget').factory("SearchPropertyOption", ["SearchExpr", "
   }
 ]);
 
-angular.module('huoyun.widget').factory("SearchFormOption", ["ButtonOption", "widgetsHelper", "SearchPropertyOption",
-  function(ButtonOption, widgetsHelper, SearchPropertyOption) {
+angular.module('huoyun.widget').factory("SearchFormOption", ["ButtonOption", "SearchPropertyOption",
+  function(ButtonOption, SearchPropertyOption) {
 
     const props = ["title", "icon"];
     const eventHandlers = ["onSearch"];

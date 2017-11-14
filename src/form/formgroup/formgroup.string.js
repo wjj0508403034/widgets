@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsFormGroupString', ["$log", "display", "widgetsHelper",
-  function($log, displayProvider, widgetsHelper) {
+angular.module('huoyun.widget').directive('widgetsFormGroupString', [
+  function() {
     return {
       restrict: 'A',
       scope: {

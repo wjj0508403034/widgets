@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsFormGroupEmail', ["$log", "display", "widgetsHelper",
-  function($log, displayProvider, widgetsHelper) {
+angular.module('huoyun.widget').directive('widgetsFormGroupEmail', [
+  function() {
     return {
       restrict: 'A',
       scope: {
@@ -9,10 +9,7 @@ angular.module('huoyun.widget').directive('widgetsFormGroupEmail', ["$log", "dis
         value: "=ngModel"
       },
       templateUrl: 'form/formgroup/formgroup.email.html',
-      link: function($scope, ele, attrs) {
-
-
-      }
+      link: function($scope, elem, attrs) {}
     }
   }
 ]);

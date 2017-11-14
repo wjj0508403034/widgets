@@ -1,8 +1,8 @@
-<div class="widgets-breadcrumb">
+<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}">
   <ol class="breadcrumb">
-    <li ng-repeat="item in options.items" ng-click="onItemClicked(item,$index)" ng-style="itemStyle(item)">
-      <i class="fa" ng-class="item.icon" aria-hidden="true"></i>
-      <span ng-bind="item.label"></span>
+    <li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()">
+      <i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i>
+      <span ng-bind="$item.getText()"></span>
     </li>
   </ol>
 </div>

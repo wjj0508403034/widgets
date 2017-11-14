@@ -26,27 +26,24 @@ angular.module('huoyun.widget').provider("display", function() {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "Tip", "SidebarOption", "NavOption",
-  "BreadCrumbOption", "FormOption", "SearchFormOption", "ButtonOption", "SidebarPanelOption", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl",
-  function(Dialog, Tip, SidebarOption, NavOption, BreadCrumbOption, FormOption,
-    SearchFormOption, ButtonOption, SidebarPanelOption, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "SearchFormOption", "ButtonOption", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl",
+  function(Dialog,
+    SearchFormOption, ButtonOption, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl) {
 
     return {
       Dialog: Dialog,
-      SidebarOption: SidebarOption,
-      NavOption: NavOption,
-      BreadCrumbOption: BreadCrumbOption,
-      Tip: Tip,
-      FormOption: FormOption,
       SearchFormOption: SearchFormOption,
       ButtonOption: ButtonOption,
-      SidebarPanelOption: SidebarPanelOption,
-      ListView: ListViewControl,
       Controls: {
+        Tip: TipControl,
+        SideBar: SidebarControl,
+        BreadCrumb: BreadCrumbControl,
+        Nav: NavControl,
         Button: ButtonControl,
         Form: FormControl,
         Inputs: HuoYunWidgetsInputs,
-        Table: TableControl
+        Table: TableControl,
+        ListView: ListViewControl
       }
     };
   }

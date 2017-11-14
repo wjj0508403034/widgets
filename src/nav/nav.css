@@ -15,7 +15,7 @@
   color: white;
 }
 
-.widgets-nav li.selected {
+.widgets-nav li[data-selected="true"] {
   background: #367fa9;
 }
 

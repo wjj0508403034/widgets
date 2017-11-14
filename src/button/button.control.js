@@ -10,10 +10,6 @@ angular.module('huoyun.widget').factory("ButtonControl", ["$log", "HuoYunWidgetC
     HuoYunWidgetCore.ClassExtend(ButtonControl, HuoYunWidgetCore.Control);
 
 
-    ButtonControl.prototype.getButtonName = function() {
-      return this.getOptions().name;
-    };
-
     ButtonControl.prototype.getButtonIcon = function() {
       return this.getOptions().icon;
     };

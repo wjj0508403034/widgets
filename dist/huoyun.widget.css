@@ -9,6 +9,21 @@
 div[widgets-button] {
   display: inline-block;
 }
+.widgets-checkbox {
+  cursor: pointer;
+}
+
+.widgets-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.widgets-checkbox .fa {
+  width: 16px;
+}
+
+.widgets-checkbox .widgets-checkbox-content {
+  margin-left: 5px;
+}
 @charset "UTF-8";
 
 /*!
@@ -2739,21 +2754,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .marign-right-10 {
   margin-right: 10px;
 }
-.widgets-checkbox {
-  cursor: pointer;
-}
-
-.widgets-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.widgets-checkbox .fa {
-  width: 16px;
-}
-
-.widgets-checkbox .widgets-checkbox-content {
-  margin-left: 5px;
-}
 .huoyun-dialog-container.ngdialog .ngdialog-content {
   background: transparent !important;
   padding: 0 !important;
@@ -2797,22 +2797,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 12px;
   min-height: 1px;
 }
-.widgets-head {
-  height: 60px;
-  line-height: 60px;
-  padding: 0 100px;
-}
-
-.widgets-head .widgets-head-title-container {
-  color: #3c8dbc;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.widgets-head .widgets-head-tools {
-  height: 100%;
-  padding: 13px 0;
-}
 .widgets-list-view {
   min-height: 50px;
   border: 1px solid #d2d6de;
@@ -2843,7 +2827,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   color: white;
 }
 
-.widgets-nav li.selected {
+.widgets-nav li[data-selected="true"] {
   background: #367fa9;
 }
 
