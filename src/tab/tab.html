@@ -1,0 +1,8 @@
+<div class="widgets-tab">
+  <div class="widgets-tab-header">
+    <div ng-repeat="$tabItem in options.getTabItems()"></div>
+  </div>
+  <div class="widgets-tab-panel">
+    <div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item options="$tabItem"></div>
+  </div>
+</div>

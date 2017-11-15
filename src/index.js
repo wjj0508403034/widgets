@@ -26,8 +26,8 @@ angular.module('huoyun.widget').provider("display", function() {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl",
-  function(Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", "PaginationControl", "DatePickerControl", "TabControl",
+  function(Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl, PaginationControl, DatePickerControl, TabControl) {
 
     return {
       Dialog: Dialog,
@@ -40,7 +40,10 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonContr
         Form: FormControl,
         Inputs: HuoYunWidgetsInputs,
         Table: TableControl,
-        ListView: ListViewControl
+        ListView: ListViewControl,
+        Pagination: PaginationControl,
+        DatePicker: DatePickerControl,
+        Tab: TabControl
       }
     };
   }

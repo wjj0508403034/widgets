@@ -51,10 +51,14 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
     SelectorControl.prototype.setDataSource = function(dataSource) {
       var oldDataSource = this.getDataSource();
       this.getOptions().dataSource = dataSource;
-      this.$$dataSource = null;
-      var newDataSource = this.getDataSource();
-      this.raiseEvent("dataSourceChanged", [newDataSource, oldDataSource]);
+      this.__resetDataSource();
+      this.raiseEvent("dataSourceChanged", [this.getDataSource(), oldDataSource]);
       return this;
+    };
+
+    SelectorControl.prototype.__resetDataSource = function() {
+      this.$$dataSource = null;
+      this.$$items = null;
     };
 
     SelectorControl.prototype.getItems = function() {

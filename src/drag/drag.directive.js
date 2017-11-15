@@ -12,7 +12,11 @@ angular.module('huoyun.widget').directive('widgetsDraggable', ["DataStore",
         elem.bind("dragstart", function($event) {
           var token = (new Date()).getTime();
           DataStore.setItem(token, $scope.dragData);
-          $event.originalEvent.dataTransfer.setData("token", token);
+          if ($event.originalEvent) {
+            $event.dataTransfer = $event.originalEvent.dataTransfer;
+          }
+
+          $event.dataTransfer.setData("token", token);
         });
       }
     }
@@ -41,13 +45,18 @@ angular.module('huoyun.widget').directive('dragSuccess', ["$parse", "DataStore",
         });
 
         elem.bind("drop", function($event) {
-          var token = $event.originalEvent.dataTransfer.getData("token");
-          var data = DataStore.getItemAndRemove(token);
+          if ($event.originalEvent) {
+            $event.dataTransfer = $event.originalEvent.dataTransfer;
+          }
+          var token = $event.dataTransfer.getData("token");
           $event.preventDefault();
           $event.stopPropagation();
           if (onDropSuccessFn) {
             $scope.$evalAsync(function() {
-              onDropSuccessFn($scope, { $event: $event });
+              onDropSuccessFn($scope, {
+                $event: $event,
+                $dragData: DataStore.getItemAndRemove(token)
+              });
             });
           }
         });

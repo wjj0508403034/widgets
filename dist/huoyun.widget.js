@@ -26,7 +26,7 @@ angular.module('huoyun.widget').provider("display", function () {
   };
 });
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", function (Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", "PaginationControl", "DatePickerControl", "TabControl", function (Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl, PaginationControl, DatePickerControl, TabControl) {
 
   return {
     Dialog: Dialog,
@@ -39,7 +39,10 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonContr
       Form: FormControl,
       Inputs: HuoYunWidgetsInputs,
       Table: TableControl,
-      ListView: ListViewControl
+      ListView: ListViewControl,
+      Pagination: PaginationControl,
+      DatePicker: DatePickerControl,
+      Tab: TabControl
     }
   };
 }]);
@@ -135,7 +138,7 @@ angular.module('huoyun.widget').factory("ButtonControl", ["$log", "HuoYunWidgetC
 
   ButtonControl.prototype.onClick = function () {
     if (!this.isDisabled()) {
-      this.raiseEvent("click");
+      this.raiseEvent("click", [this]);
     }
   };
 
@@ -209,6 +212,123 @@ angular.module('huoyun.widget').directive('widgetsCheckBox', [function () {
     link: function link($scope, ele, attrs) {}
   };
 }]);
+'use strict';
+
+function Linq(array) {
+
+  this.getArray = function () {
+    return array;
+  };
+}
+
+Linq.prototype.join = function (cb, separator) {
+  if (typeof cb === "function") {
+    var res = [];
+    this.getArray().forEach(function (item) {
+      var temp = cb(item);
+      if (temp !== null && temp !== undefined && temp !== "") {
+        res.push(temp);
+      }
+    });
+
+    return res.join(separator);
+  }
+
+  return this.getArray().join(separator);
+};
+
+Linq.prototype.first = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return array[index];
+    }
+  }
+};
+
+Linq.prototype.exists = function (item, cb) {
+  if (!cb) {
+    return this.getArray().indexOf(item) !== -1;
+  }
+
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+};
+
+Linq.prototype.any = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+Linq.prototype.all = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (!cb(array[index], index)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+Linq.prototype.toMap = function (keyOrCallback) {
+  var map = {};
+  this.getArray().forEach(function (item, index) {
+    if (typeof keyOrCallback === "string") {
+      map[item[keyOrCallback]] = item;
+    } else if (typeof key === "function") {
+      map[keyOrCallback(item, index)] = item;
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+
+  return map;
+};
+
+Linq.prototype.toArray = function (keyOrCallback) {
+  var array = [];
+  this.getArray().forEach(function (item, index) {
+    if (typeof keyOrCallback === "string") {
+      array.push(item[keyOrCallback]);
+    } else if (typeof key === "function") {
+      array.push(keyOrCallback(item, index));
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+  return array;
+};
+
+Array.prototype.linq = function () {
+  return new Linq(this);
+};
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -426,123 +546,6 @@ angular.module('huoyun.widget').factory("DataStore", [function () {
 }]);
 'use strict';
 
-function Linq(array) {
-
-  this.getArray = function () {
-    return array;
-  };
-}
-
-Linq.prototype.join = function (cb, separator) {
-  if (typeof cb === "function") {
-    var res = [];
-    this.getArray().forEach(function (item) {
-      var temp = cb(item);
-      if (temp !== null && temp !== undefined && temp !== "") {
-        res.push(temp);
-      }
-    });
-
-    return res.join(separator);
-  }
-
-  return this.getArray().join(separator);
-};
-
-Linq.prototype.first = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return array[index];
-    }
-  }
-};
-
-Linq.prototype.exists = function (item, cb) {
-  if (!cb) {
-    return this.getArray().indexOf(item) !== -1;
-  }
-
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return true;
-    }
-  }
-};
-
-Linq.prototype.any = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-Linq.prototype.all = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (!cb(array[index], index)) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-Linq.prototype.toMap = function (keyOrCallback) {
-  var map = {};
-  this.getArray().forEach(function (item, index) {
-    if (typeof keyOrCallback === "string") {
-      map[item[keyOrCallback]] = item;
-    } else if (typeof key === "function") {
-      map[keyOrCallback(item, index)] = item;
-    } else {
-      throw new Error("keyOrCallback is invalid");
-    }
-  });
-
-  return map;
-};
-
-Linq.prototype.toArray = function (keyOrCallback) {
-  var array = [];
-  this.getArray().forEach(function (item, index) {
-    if (typeof keyOrCallback === "string") {
-      array.push(item[keyOrCallback]);
-    } else if (typeof key === "function") {
-      array.push(keyOrCallback(item, index));
-    } else {
-      throw new Error("keyOrCallback is invalid");
-    }
-  });
-  return array;
-};
-
-Array.prototype.linq = function () {
-  return new Linq(this);
-};
-'use strict';
-
 /*
  * https://github.com/likeastore/ngDialog
  */
@@ -658,7 +661,11 @@ angular.module('huoyun.widget').directive('widgetsDraggable', ["DataStore", func
       elem.bind("dragstart", function ($event) {
         var token = new Date().getTime();
         DataStore.setItem(token, $scope.dragData);
-        $event.originalEvent.dataTransfer.setData("token", token);
+        if ($event.originalEvent) {
+          $event.dataTransfer = $event.originalEvent.dataTransfer;
+        }
+
+        $event.dataTransfer.setData("token", token);
       });
     }
   };
@@ -684,13 +691,18 @@ angular.module('huoyun.widget').directive('dragSuccess', ["$parse", "DataStore",
       });
 
       elem.bind("drop", function ($event) {
-        var token = $event.originalEvent.dataTransfer.getData("token");
-        var data = DataStore.getItemAndRemove(token);
+        if ($event.originalEvent) {
+          $event.dataTransfer = $event.originalEvent.dataTransfer;
+        }
+        var token = $event.dataTransfer.getData("token");
         $event.preventDefault();
         $event.stopPropagation();
         if (onDropSuccessFn) {
           $scope.$evalAsync(function () {
-            onDropSuccessFn($scope, { $event: $event });
+            onDropSuccessFn($scope, {
+              $event: $event,
+              $dragData: DataStore.getItemAndRemove(token)
+            });
           });
         }
       });
@@ -1047,6 +1059,38 @@ angular.module('huoyun.widget').run(["InputValidatorProvider", "HuoYunWidgetsVal
 }]);
 'use strict';
 
+angular.module('huoyun.widget').factory("DatePickerControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  function DatePickerControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(DatePickerControl, HuoYunWidgetCore.Control);
+
+  DatePickerControl.prototype.getDate = function () {
+    return this.getOptions().date || new Date();
+  };
+
+  DatePickerControl.prototype.getMonth = function () {
+    return this.getDate().getMonth();
+  };
+
+  return DatePickerControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsDatePicker', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'datepicker/date.picker.html',
+    link: function link($scope, ele, attrs) {}
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').factory("CheckBoxListViewItemControl", ["HuoYunWidgetCore", "ListViewItemControl", "CheckBoxControl", function (HuoYunWidgetCore, ListViewItemControl, CheckBoxControl) {
 
   function CheckBoxListViewItemControl() {
@@ -1189,6 +1233,133 @@ angular.module('huoyun.widget').factory("NavItemControl", ["HuoYunWidgetCore", f
 
   return NavItemControl;
 }]);
+'use strict';
+
+angular.module('huoyun.widget').factory("PaginationControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  var Default_Pagination_Count = 5;
+
+  function PaginationControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(PaginationControl, HuoYunWidgetCore.Control);
+
+  PaginationControl.prototype.setData = function (data) {
+    this.setTotalPages(data.totalPages).setFirst(data.first).setLast(data.last).setCurrentPage(data.currentPage).__reset();
+  };
+
+  PaginationControl.prototype.__reset = function () {
+    this.$$pages = null;
+    return this;
+  };
+
+  PaginationControl.prototype.isFirst = function () {
+    return this.getOptions().first === true;
+  };
+
+  PaginationControl.prototype.setFirst = function (val) {
+    this.getOptions().first = val;
+    return this;
+  };
+
+  PaginationControl.prototype.setLast = function (val) {
+    this.getOptions().last = val;
+    return this;
+  };
+
+  PaginationControl.prototype.isLast = function () {
+    return this.getOptions().last === true;
+  };
+
+  PaginationControl.prototype.getTotalPages = function () {
+    return this.getOptions().totalPages;
+  };
+
+  PaginationControl.prototype.setTotalPages = function (val) {
+    this.getOptions().totalPages = val;
+    return this;
+  };
+
+  PaginationControl.prototype.getPages = function () {
+    if (!this.$$pages) {
+      this.$$pages = [];
+
+      var paginationCount = this.getPaginationCount();
+      var totalPages = this.getTotalPages();
+
+      var beginPage = parseInt(this.getCurrentPage() / paginationCount) * paginationCount;
+      var endPage = beginPage + paginationCount;
+      if (endPage > totalPages) {
+        endPage = totalPages;
+      }
+      for (var index = beginPage; index < endPage; index++) {
+        this.$$pages.push(index);
+      }
+    }
+
+    return this.$$pages;
+  };
+
+  PaginationControl.prototype.getCurrentPage = function () {
+    return this.getOptions().currentPage;
+  };
+
+  PaginationControl.prototype.setCurrentPage = function (val) {
+    this.getOptions().currentPage = val;
+    return this;
+  };
+
+  PaginationControl.prototype.activeClass = function (page) {
+    return this.getCurrentPage() === page ? "active" : "";
+  };
+
+  PaginationControl.prototype.getPageText = function (page) {
+    return page + 1;
+  };
+
+  PaginationControl.prototype.onPageClick = function (page) {
+    this.raiseEvent("pageChanged", [page, this]);
+  };
+
+  PaginationControl.prototype.move = function (page) {
+    if (page < 0 || page >= this.getTotalPages()) {
+      throw new Error("invalid arguments");
+    }
+
+    this.setCurrentPage(page).setFirst(page === 0).setLast(page === this.getTotalPages() - 1).__reset();
+  };
+
+  PaginationControl.prototype.getPaginationCount = function () {
+    return this.getOptions().paginationCount || Default_Pagination_Count;
+  };
+
+  PaginationControl.prototype.onPerviousClick = function () {
+    if (!this.isFirst()) {
+      this.onPageClick(this.getCurrentPage() - 1);
+    }
+  };
+
+  PaginationControl.prototype.onNextClick = function () {
+    if (!this.isLast()) {
+      this.onPageClick(this.getCurrentPage() + 1);
+    }
+  };
+
+  return PaginationControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsPagination', function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'pagination/pagination.html',
+    link: function link($scope, elem, attrs) {}
+  };
+});
 'use strict';
 
 angular.module('huoyun.widget').factory("ItemControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
@@ -1371,10 +1542,14 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
   SelectorControl.prototype.setDataSource = function (dataSource) {
     var oldDataSource = this.getDataSource();
     this.getOptions().dataSource = dataSource;
-    this.$$dataSource = null;
-    var newDataSource = this.getDataSource();
-    this.raiseEvent("dataSourceChanged", [newDataSource, oldDataSource]);
+    this.__resetDataSource();
+    this.raiseEvent("dataSourceChanged", [this.getDataSource(), oldDataSource]);
     return this;
+  };
+
+  SelectorControl.prototype.__resetDataSource = function () {
+    this.$$dataSource = null;
+    this.$$items = null;
   };
 
   SelectorControl.prototype.getItems = function () {
@@ -1496,6 +1671,77 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
 }]);
 'use strict';
 
+angular.module('huoyun.widget').factory("TabControl", ["HuoYunWidgetCore", "TabItemControl", function (HuoYunWidgetCore, TabItemControl) {
+
+  function TabControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TabControl, HuoYunWidgetCore.Control);
+
+  TabControl.prototype.getTabItems = function () {
+    if (!this.$$items) {
+      this.$$items = [];
+      var that = this;
+      (this.getOptions().items || []).forEach(function (item) {
+        var itemControl = new TabItemControl(item).setTab(that);
+        that.$$items.push(itemControl);
+      });
+    }
+    return this.$$items;
+  };
+
+  return TabControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  function TabItemControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TabItemControl, HuoYunWidgetCore.Control);
+
+  TabItemControl.prototype.setTab = function (tab) {
+    this.$$tab = tab;
+    return this;
+  };
+
+  TabItemControl.prototype.getContent = function () {
+    return this.getOptions().content;
+  };
+
+  return TabItemControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsTabItem', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'tab/tab.item.html',
+    link: function link($scope, elem, attrs, tabController) {
+      console.log(tabController);
+    }
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsTab', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'tab/tab.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').factory("SidebarControl", ["HuoYunWidgetCore", "SidebarItemControl", function (HuoYunWidgetCore, SidebarItemControl) {
 
   function SidebarControl(options) {
@@ -1603,116 +1849,16 @@ angular.module('huoyun.widget').directive('widgetsSideBarItem', [function () {
 }]);
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsPagination', function () {
-  return {
-    restrict: 'A',
-    scope: {
-      pageData: "=",
-      onPagingChanged: "&"
-    },
-    templateUrl: 'table/pagination.html',
-    link: function link($scope, ele, attrs) {
-      var MAXNumberCount = 5;
-      $scope.numbers = [];
-
-      $scope.$watch("pageData", function (newValue, oldValue) {
-        if (newValue) {
-          refresh(newValue);
-        } else {
-          $scope.numbers = [];
-        }
-      });
-
-      $scope.onPagingClicked = function (pageIndex) {
-        $scope.onPagingChanged({
-          pageIndex: pageIndex
-        });
-      };
-
-      function refresh(pageData) {
-        $scope.numbers = [];
-        var startIndex = parseInt(pageData.number / MAXNumberCount) * MAXNumberCount;
-        var endIndex = startIndex + MAXNumberCount;
-        if (endIndex > pageData.totalPages) {
-          endIndex = pageData.totalPages;
-        }
-        for (var index = startIndex; index < endIndex; index++) {
-          $scope.numbers.push(index);
-        }
-      }
-    }
-  };
-});
-'use strict';
-
-angular.module('huoyun.widget').factory("TableControl", ["HuoYunWidgetCore", "SelectorControl", "TableHeaderControl", "TableRowControl", function (HuoYunWidgetCore, SelectorControl, TableHeaderControl, TableRowControl) {
-
-  function TableControl(options) {
-    SelectorControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(TableControl, SelectorControl);
-
-  TableControl.prototype.getHeader = function () {
-    if (!this.$$header) {
-      this.$$header = new TableHeaderControl(this.getOptions().header);
-    }
-
-    return this.$$header;
-  };
-
-  TableControl.prototype.getItemTemplate = function () {
-    return this.$$itemTemplate || TableRowControl;
-  };
-
-  TableControl.prototype.onColumnDragSuccess = function ($event) {
-    console.log(arguments);
-  };
-
-  return TableControl;
-}]);
-
-angular.module('huoyun.widget').factory("TableHeaderControl", ["HuoYunWidgetCore", "TableColumnControl", function (HuoYunWidgetCore, TableColumnControl) {
-
-  function TableHeaderControl(options) {
-    HuoYunWidgetCore.Control.apply(this, arguments);
-
-    this.$$columns = [];
-
-    var that = this;
-    (options.columns || []).forEach(function (column) {
-      that.$$columns.push(new TableColumnControl(column));
-    });
-  }
-
-  HuoYunWidgetCore.ClassExtend(TableHeaderControl, HuoYunWidgetCore.Control);
-
-  TableHeaderControl.prototype.getColumns = function () {
-    return this.$$columns;
-  };
-
-  return TableHeaderControl;
-}]);
-
-angular.module('huoyun.widget').factory("TableRowControl", ["HuoYunWidgetCore", "ItemControl", function (HuoYunWidgetCore, ItemControl) {
-
-  function TableRowControl(options) {
-    ItemControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(TableRowControl, ItemControl);
-
-  TableRowControl.prototype.getColumnValue = function (columnName) {
-    return this.getData()[columnName];
-  };
-
-  return TableRowControl;
-}]);
-
 angular.module('huoyun.widget').factory("TableColumnControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  var SortDirection = {
+    Down: "down",
+    Up: "up"
+  };
 
   function TableColumnControl(options) {
     HuoYunWidgetCore.Control.apply(this, arguments);
+    this.$$sortDirection = SortDirection.Up;
   }
 
   HuoYunWidgetCore.ClassExtend(TableColumnControl, HuoYunWidgetCore.Control);
@@ -1729,7 +1875,112 @@ angular.module('huoyun.widget').factory("TableColumnControl", ["HuoYunWidgetCore
     this.$$columnTemplate = template;
   };
 
+  TableColumnControl.prototype.isSortable = function () {
+    return this.getOptions().sortable === true;
+  };
+
+  TableColumnControl.prototype.getSortDirection = function () {
+    return this.$$sortDirection;
+  };
+
+  TableColumnControl.prototype.getTable = function () {
+    return this.$$table;
+  };
+
+  TableColumnControl.prototype.setTable = function (table) {
+    this.$$table = table;
+    return this;
+  };
+
+  TableColumnControl.prototype.onClick = function () {
+    if (this.isSortable()) {
+      this.getTable().raiseEvent("sortChanged", [this.getName(), this.getSortDirection()]);
+    }
+  };
+
   return TableColumnControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TableControl", ["HuoYunWidgetCore", "SelectorControl", "TableHeaderControl", "TableRowControl", "TableColumnControl", function (HuoYunWidgetCore, SelectorControl, TableHeaderControl, TableRowControl, TableColumnControl) {
+
+  function TableControl(options) {
+    SelectorControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TableControl, SelectorControl);
+
+  TableControl.prototype.getHeader = function () {
+    if (!this.$$header) {
+      this.$$header = new TableHeaderControl(this.getOptions().header).setTable(this);
+    }
+
+    return this.$$header;
+  };
+
+  TableControl.prototype.getItemTemplate = function () {
+    return this.$$itemTemplate || TableRowControl;
+  };
+
+  TableControl.prototype.getColumns = function () {
+    if (!this.$$columns) {
+      this.$$columns = [];
+      var that = this;
+      (this.getOptions().columns || []).forEach(function (column) {
+        that.$$columns.push(new TableColumnControl(column).setTable(that));
+      });
+    }
+
+    return this.$$columns;
+  };
+
+  TableControl.prototype.getRows = function () {
+    return this.getItems();
+  };
+
+  TableControl.prototype.onColumnDragSuccess = function ($event, sourceColumn, targetColumn) {
+    if (sourceColumn !== targetColumn) {
+      this.exchangePosition(sourceColumn, targetColumn);
+    }
+  };
+
+  TableControl.prototype.exchangePosition = function (sourceColumn, targetColumn) {
+    var columns = this.getColumns();
+    var souceColumnIndex = columns.indexOf(sourceColumn);
+    var targetColumnIndex = columns.indexOf(targetColumn);
+    columns[souceColumnIndex] = targetColumn;
+    columns[targetColumnIndex] = sourceColumn;
+    this.raiseEvent("columnExchanged", [sourceColumn, targetColumn, this]);
+  };
+
+  TableControl.prototype.getColumnNames = function () {
+    return this.getColumns().map(function (column) {
+      return column.getName();
+    });
+  };
+
+  return TableControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TableHeaderControl", ["HuoYunWidgetCore", "TableColumnControl", function (HuoYunWidgetCore, TableColumnControl) {
+
+  function TableHeaderControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TableHeaderControl, HuoYunWidgetCore.Control);
+
+  TableHeaderControl.prototype.setTable = function (table) {
+    this.$$table = table;
+    return this;
+  };
+
+  TableHeaderControl.prototype.getTable = function () {
+    return this.$$table;
+  };
+
+  return TableHeaderControl;
 }]);
 'use strict';
 
@@ -1742,6 +1993,56 @@ angular.module('huoyun.widget').directive('widgetsTable', ["display", function (
     templateUrl: 'table/table.html',
     link: function link($scope, elem, attrs) {}
   };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TableRowControl", ["HuoYunWidgetCore", "ItemControl", function (HuoYunWidgetCore, ItemControl) {
+
+  function TableRowControl(options) {
+    ItemControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TableRowControl, ItemControl);
+
+  TableRowControl.prototype.getColumnValue = function (columnName) {
+    return this.getData()[columnName];
+  };
+
+  return TableRowControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
+  $templateCache.put('breadcrumb/breadcrumb.html', '<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}"><ol class="breadcrumb"><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()"><i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i> <span ng-bind="$item.getText()"></span></li></ol></div>');
+  $templateCache.put('button/button.html', '<button class="btn" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-click="options.onClick()"><i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()"></i> <span ng-bind="options.getButtonText()"></span></button>');
+  $templateCache.put('checkbox/checkbox.html', '<div class="widgets-checkbox" ng-click="options.onClick($event)"><i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i> <span class="widgets-checkbox-content" ng-bind="options.getText()"></span></div>');
+  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container animated bounceInDown"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
+  $templateCache.put('form/form.html', '<div class="box widgets-form" form-readonly="{{options.isReadonly()}}"><div class="box-header" ng-if="options.getHeader().isVisibility()"><h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3><div class="box-tools pull-right"><div class="input-group input-group-sm"><div widgets-button="" options="button" ng-repeat="button in options.getHeader().getButtons()"></div></div></div></div><form ng-class="options.appendOrientationClass()"><div class="box-body" ng-if="!options.isReadonly()"><div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()"><div ng-if="$formGroup.isCustomizeTemplate()"><div ng-include="$formGroup.getTemplateUrl()"></div></div><div ng-if="!$formGroup.isCustomizeTemplate()"><div widgets-form-group="" options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div></div></div></div><div class="box-footer" ng-if="options.isFooterVisibility()"><div widgets-button="" options="button" ng-repeat="button in options.getFooter().getButtons()"></div></div></form></div>');
+  $templateCache.put('datepicker/date.picker.html', '<div class="widgets-date-picker"><div class="month" ng-bind="options.getMonth()"></div></div>');
+  $templateCache.put('listview/checkbox.listviewitem.html', '<div class="checkbox-list-view-item"><div widgets-check-box="" options="$item.getCheckBox()"></div></div>');
+  $templateCache.put('listview/listview.html', '<div class="widgets-list-view"><div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-repeat="$item in options.getItems()" ng-click="options.onItemClicked($item)"><div ng-if="!options.hasItemTemplateUrl()" ng-bind="$item.getDisplayText()"></div><div ng-if="options.hasItemTemplateUrl()" ng-include="options.getItemTemplateUrl()"></div></div></div>');
+  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
+  $templateCache.put('pagination/pagination.html', '<div class="widgets-pagination"><ul class="pagination pagination-sm no-margin pull-right" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><li ng-disabled="options.isFirst()"><span ng-click="options.onPerviousClick()">\xAB</span></li><li ng-repeat="$page in options.getPages()" ng-class="options.activeClass($page)"><span ng-bind="options.getPageText($page)" ng-click="options.onPageClick($page)"></span></li><li ng-disabled="options.isLast()"><span ng-click="options.onNextClick()">\xBB</span></li></ul></div>');
+  $templateCache.put('tab/tab.html', '<div class="widgets-tab"><div class="widgets-tab-header"><div ng-repeat="$tabItem in options.getTabItems()"></div></div><div class="widgets-tab-panel"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item="" options="$tabItem"></div></div></div>');
+  $templateCache.put('tab/tab.item.html', '<div class="widgets-tab-item"><div ng-if="options.isCustomizeTemplate()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.isCustomizeTemplate()" ng-bind="options.getContent()"></div></div>');
+  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="$item in options.getItems()"><div widgets-side-bar-item="" options="$item"></div></div></aside></div>');
+  $templateCache.put('sidebar/sidebaritem.html', '<div class="side-bar-item"><div class="side-bar-group-header"><i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i> <span ng-bind="options.getText()"></span></div><ul class="side-bar-group-items-container" ng-if="options.hasChild()"><li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()"></li></ul></div>');
+  $templateCache.put('table/table.html', '<div class="widgets-table"><table class="table" ng-class="options.appendClass()"><thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()"><tr><th ng-repeat="$column in options.getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable="" drag-data="$column" drag-success="options.onColumnDragSuccess($event,$dragData,$column)"></th></tr></thead><tbody><tr ng-repeat="$row in options.getRows()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)"><td ng-repeat="$column in options.getColumns()"><div ng-bind="$column.getColumnValue($row)"></div></td></tr></tbody></table></div>');
+  $templateCache.put('tip/tip.html', '<div class="widgets-tip"><div id="{{options.getId()}}" class="alert alert-success alert-dismissible"><span ng-bind="options.getMessage()"></span></div></div>');
+  $templateCache.put('form/formgroup/form-group.html', '<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}"><div ng-if="options.hasLabelControl()"><div ng-if="options.getLabelControl().isCustomizeTemplate()"><div ng-include="options.getLabelControl().getTemplateUrl()"></div></div><div ng-if="!options.getLabelControl().isCustomizeTemplate()"><label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label></div></div><div ng-if="options.hasInputControl()"><div ng-if="options.getInputControl().isCustomizeTemplate()"><div ng-include="options.getInputControl().getTemplateUrl()"></div></div><div ng-if="!options.getInputControl().isCustomizeTemplate()" ng-switch="options.getType()"><div ng-switch-when="DATALIST" widgets-data-list="" options="options.getInputControl().getInput()"></div><div ng-switch-when="DROPDOWN" widgets-dropdown="" options="options.getInputControl().getInput()"></div><div ng-switch-when="EMAIL" widgets-email-box="" options="options.getInputControl().getInput()"></div><div ng-switch-default="" widgets-text-box="" options="options.getInputControl().getInput()"></div></div></div></div>');
+  $templateCache.put('form/formgroup/formgroup.datalist.html', '<div class="form-group widgets-form-group-data-list" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input type="text" class="form-control" id="{{options.name}}" readonly="" placeholder="{{options.placeholder}}" ng-value="options.$$getValueLabel()" ng-disabled="options.$$disabled()"></div><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
+  $templateCache.put('form/formgroup/formgroup.dropdown.html', '<div class="form-group widgets-form-group-dropdown" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><select class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-options="options.getControl().getValue(option) as options.getControl().getLabel(option) for option in options.getControl().getDataSource()" ng-model="$parent.value" ng-disabled="options.$$disabled()"></select><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
+  $templateCache.put('form/formgroup/formgroup.email.html', '<div class="form-group widgets-form-group-email" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input type="email" class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-model="$parent.value" ng-disabled="options.$$disabled()"></div><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
+  $templateCache.put('form/formgroup/formgroup.string.html', '<div class="form-group widgets-form-group-string" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><input type="text" class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-model="$parent.value" ng-disabled="options.$$disabled()"> <span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
+  $templateCache.put('form/formgrouplabel/formgrouplabel.email.html', '<div class="form-group widgets-form-group-label-email" ng-class="options.appendClass"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div class="control-value-label" ng-class="options.$$appendControlClass()"><a ng-href="{{getEmailLink(value)}}" ng-if="value" ng-bind="value"></a></div></div>');
+  $templateCache.put('form/formgrouplabel/formgrouplabel.string.html', '<div class="form-group widgets-form-group-label-string" ng-class="options.appendClass"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div class="control-value-label" ng-class="options.$$appendControlClass()"><div ng-bind="options.$$getValueLabel()"></div></div></div>');
+  $templateCache.put('input/datalist/datalist.dialog.html', '<div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()"><div widgets-search-box="" options="vm.search"></div><div widgets-list-view="" options="vm.listView"></div><div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()"><div>\u52A0\u8F7D\u66F4\u591A...</div></div></div>');
+  $templateCache.put('input/datalist/datalist.html', '<div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-value="options.getInputText()"></div>');
+  $templateCache.put('input/dropdown/dropdown.html', '<select id="{{options.getId()}}" placeholder="{{options.getPlaceholder()}}" ng-options="options.getItemValue(option) as options.getItemLabel(option) for option in options.getDataSource()" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-style="options.getStyle()" control-name="{{options.getControlName()}}" ng-if="options.isVisibility()" ng-class="options.appendClass()" ng-model="$parent.options.$$value" widgets-events-input-changed=""></select>');
+  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
+  $templateCache.put('input/email/email.html', '<div class="input-group" has-error="{{options.hasError()}}"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('input/search/search.html', '<div class="form-group widgets-search-box"><div class="input-group"><input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed=""> <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span></div></div>');
+  $templateCache.put('input/text/text.html', '<input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""><div widgets-input-error="" options="options.getErrorControl()"></div>');
 }]);
 'use strict';
 
@@ -2079,67 +2380,6 @@ angular.module('huoyun.widget').directive('widgetsFormGroupString', [function ()
 }]);
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsFormGroupLabelEmail', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "=",
-      value: "=ngModel"
-    },
-    templateUrl: 'form/formgrouplabel/formgrouplabel.email.html',
-    link: function link($scope, ele, attrs) {
-
-      $scope.getEmailLink = function (value) {
-        return value && 'mailto:' + value;
-      };
-    }
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
-  $templateCache.put('breadcrumb/breadcrumb.html', '<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}"><ol class="breadcrumb"><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()"><i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i> <span ng-bind="$item.getText()"></span></li></ol></div>');
-  $templateCache.put('button/button.html', '<button class="btn" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-click="options.onClick()"><i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()"></i> <span ng-bind="options.getButtonText()"></span></button>');
-  $templateCache.put('checkbox/checkbox.html', '<div class="widgets-checkbox" ng-click="options.onClick($event)"><i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i> <span class="widgets-checkbox-content" ng-bind="options.getText()"></span></div>');
-  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container animated bounceInDown"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
-  $templateCache.put('form/form.html', '<div class="box widgets-form" form-readonly="{{options.isReadonly()}}"><div class="box-header" ng-if="options.getHeader().isVisibility()"><h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3><div class="box-tools pull-right"><div class="input-group input-group-sm"><div widgets-button="" options="button" ng-repeat="button in options.getHeader().getButtons()"></div></div></div></div><form ng-class="options.appendOrientationClass()"><div class="box-body" ng-if="!options.isReadonly()"><div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()"><div ng-if="$formGroup.isCustomizeTemplate()"><div ng-include="$formGroup.getTemplateUrl()"></div></div><div ng-if="!$formGroup.isCustomizeTemplate()"><div widgets-form-group="" options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div></div></div></div><div class="box-footer" ng-if="options.isFooterVisibility()"><div widgets-button="" options="button" ng-repeat="button in options.getFooter().getButtons()"></div></div></form></div>');
-  $templateCache.put('listview/checkbox.listviewitem.html', '<div class="checkbox-list-view-item"><div widgets-check-box="" options="$item.getCheckBox()"></div></div>');
-  $templateCache.put('listview/listview.html', '<div class="widgets-list-view"><div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-repeat="$item in options.getItems()" ng-click="options.onItemClicked($item)"><div ng-if="!options.hasItemTemplateUrl()" ng-bind="$item.getDisplayText()"></div><div ng-if="options.hasItemTemplateUrl()" ng-include="options.getItemTemplateUrl()"></div></div></div>');
-  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
-  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="$item in options.getItems()"><div widgets-side-bar-item="" options="$item"></div></div></aside></div>');
-  $templateCache.put('sidebar/sidebaritem.html', '<div class="side-bar-item"><div class="side-bar-group-header"><i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i> <span ng-bind="options.getText()"></span></div><ul class="side-bar-group-items-container" ng-if="options.hasChild()"><li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()"></li></ul></div>');
-  $templateCache.put('table/pagination.html', '<ul class="pagination pagination-sm no-margin pull-right widgets-pagination"><li ng-disabled="pageData.first"><span ng-click="onPagingClicked(pageData.number - 1)">\xAB</span></li><li ng-repeat="number in numbers" ng-class="{true: \'active\', false: \'\'}[number === pageData.number]"><span ng-bind="number + 1" ng-click="onPagingClicked(number)"></span></li><li ng-disabled="pageData.last"><span ng-click="onPagingClicked(pageData.number + 1)">\xBB</span></li></ul>');
-  $templateCache.put('table/table.html', '<div class="widgets-table"><table class="table" ng-class="options.appendClass()"><thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()"><tr><th ng-repeat="$column in options.getHeader().getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable="" drag-data="$column" drag-success="options.onColumnDragSuccess($event,$column)"></th></tr></thead><tbody><tr ng-repeat="$row in options.getItems()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)"><td ng-repeat="$column in options.getHeader().getColumns()"><div ng-bind="$column.getColumnValue($row)"></div></td></tr></tbody></table></div>');
-  $templateCache.put('tip/tip.html', '<div class="widgets-tip"><div id="{{options.getId()}}" class="alert alert-success alert-dismissible"><span ng-bind="options.getMessage()"></span></div></div>');
-  $templateCache.put('form/formgroup/form-group.html', '<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}"><div ng-if="options.hasLabelControl()"><div ng-if="options.getLabelControl().isCustomizeTemplate()"><div ng-include="options.getLabelControl().getTemplateUrl()"></div></div><div ng-if="!options.getLabelControl().isCustomizeTemplate()"><label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label></div></div><div ng-if="options.hasInputControl()"><div ng-if="options.getInputControl().isCustomizeTemplate()"><div ng-include="options.getInputControl().getTemplateUrl()"></div></div><div ng-if="!options.getInputControl().isCustomizeTemplate()" ng-switch="options.getType()"><div ng-switch-when="DATALIST" widgets-data-list="" options="options.getInputControl().getInput()"></div><div ng-switch-when="DROPDOWN" widgets-dropdown="" options="options.getInputControl().getInput()"></div><div ng-switch-when="EMAIL" widgets-email-box="" options="options.getInputControl().getInput()"></div><div ng-switch-default="" widgets-text-box="" options="options.getInputControl().getInput()"></div></div></div></div>');
-  $templateCache.put('form/formgroup/formgroup.datalist.html', '<div class="form-group widgets-form-group-data-list" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input type="text" class="form-control" id="{{options.name}}" readonly="" placeholder="{{options.placeholder}}" ng-value="options.$$getValueLabel()" ng-disabled="options.$$disabled()"></div><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
-  $templateCache.put('form/formgroup/formgroup.dropdown.html', '<div class="form-group widgets-form-group-dropdown" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><select class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-options="options.getControl().getValue(option) as options.getControl().getLabel(option) for option in options.getControl().getDataSource()" ng-model="$parent.value" ng-disabled="options.$$disabled()"></select><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
-  $templateCache.put('form/formgroup/formgroup.email.html', '<div class="form-group widgets-form-group-email" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input type="email" class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-model="$parent.value" ng-disabled="options.$$disabled()"></div><span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
-  $templateCache.put('form/formgroup/formgroup.string.html', '<div class="form-group widgets-form-group-string" mandatory="{{options.mandatory}}" ng-class="options.appendClass" has-error="{{options.hasError}}"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div ng-if="!options.$$readonly()" ng-class="options.$$appendControlClass()"><input type="text" class="form-control" id="{{options.name}}" placeholder="{{options.placeholder}}" ng-model="$parent.value" ng-disabled="options.$$disabled()"> <span class="help-block" ng-bind="options.errorMessage"></span></div><div ng-if="options.$$readonly()" ng-class="options.$$appendControlClass()"><div class="form-control" ng-bind="$parent.value" readonly=""></div></div></div>');
-  $templateCache.put('form/formgrouplabel/formgrouplabel.email.html', '<div class="form-group widgets-form-group-label-email" ng-class="options.appendClass"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div class="control-value-label" ng-class="options.$$appendControlClass()"><a ng-href="{{getEmailLink(value)}}" ng-if="value" ng-bind="value"></a></div></div>');
-  $templateCache.put('form/formgrouplabel/formgrouplabel.string.html', '<div class="form-group widgets-form-group-label-string" ng-class="options.appendClass"><label for="{{options.name}}" class="control-label" ng-bind="options.label" ng-class="options.$$appendLabelClass()"></label><div class="control-value-label" ng-class="options.$$appendControlClass()"><div ng-bind="options.$$getValueLabel()"></div></div></div>');
-  $templateCache.put('input/datalist/datalist.dialog.html', '<div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()"><div widgets-search-box="" options="vm.search"></div><div widgets-list-view="" options="vm.listView"></div><div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()"><div>\u52A0\u8F7D\u66F4\u591A...</div></div></div>');
-  $templateCache.put('input/datalist/datalist.html', '<div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-value="options.getInputText()"></div>');
-  $templateCache.put('input/dropdown/dropdown.html', '<select id="{{options.getId()}}" placeholder="{{options.getPlaceholder()}}" ng-options="options.getItemValue(option) as options.getItemLabel(option) for option in options.getDataSource()" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-style="options.getStyle()" control-name="{{options.getControlName()}}" ng-if="options.isVisibility()" ng-class="options.appendClass()" ng-model="$parent.options.$$value" widgets-events-input-changed=""></select>');
-  $templateCache.put('input/email/email.html', '<div class="input-group" has-error="{{options.hasError()}}"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
-  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
-  $templateCache.put('input/search/search.html', '<div class="form-group widgets-search-box"><div class="input-group"><input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed=""> <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span></div></div>');
-  $templateCache.put('input/text/text.html', '<input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""><div widgets-input-error="" options="options.getErrorControl()"></div>');
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsFormGroupLabelString', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'form/formgrouplabel/formgrouplabel.string.html',
-    link: function link($scope, ele, attrs) {}
-  };
-}]);
-'use strict';
-
 // angular.module('huoyun.widget').factory("EmailValidator", function() {
 
 //   const PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -2185,6 +2425,36 @@ angular.module('huoyun.widget').factory("MandatoryValidator", function () {
 
   return MandatoryValidator;
 });
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsFormGroupLabelEmail', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "=",
+      value: "=ngModel"
+    },
+    templateUrl: 'form/formgrouplabel/formgrouplabel.email.html',
+    link: function link($scope, ele, attrs) {
+
+      $scope.getEmailLink = function (value) {
+        return value && 'mailto:' + value;
+      };
+    }
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsFormGroupLabelString', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'form/formgrouplabel/formgrouplabel.string.html',
+    link: function link($scope, ele, attrs) {}
+  };
+}]);
 'use strict';
 
 angular.module('huoyun.widget').factory("DataListControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
@@ -2344,30 +2614,6 @@ angular.module('huoyun.widget').directive('widgetsDropdown', [function () {
 }]);
 'use strict';
 
-angular.module('huoyun.widget').factory("EmailControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
-
-  function EmailControl(options) {
-    InputControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(EmailControl, InputControl);
-
-  return EmailControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsEmailBox', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'input/email/email.html',
-    link: function link($scope, ele, attrs) {}
-  };
-}]);
-'use strict';
-
 angular.module('huoyun.widget').factory("InputErrorControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
 
   function InputErrorControl(ex) {
@@ -2412,6 +2658,30 @@ angular.module('huoyun.widget').directive('widgetsInputError', [function () {
     },
     templateUrl: 'input/error/input.error.html',
     link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("EmailControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
+
+  function EmailControl(options) {
+    InputControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(EmailControl, InputControl);
+
+  return EmailControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsEmailBox', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'input/email/email.html',
+    link: function link($scope, ele, attrs) {}
   };
 }]);
 'use strict';

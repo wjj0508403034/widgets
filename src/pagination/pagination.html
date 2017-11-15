@@ -1,0 +1,13 @@
+<div class="widgets-pagination">
+  <ul class="pagination pagination-sm no-margin pull-right" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()">
+    <li ng-disabled="options.isFirst()">
+      <span ng-click="options.onPerviousClick()">«</span>
+    </li>
+    <li ng-repeat="$page in options.getPages()" ng-class="options.activeClass($page)">
+      <span ng-bind="options.getPageText($page)" ng-click="options.onPageClick($page)"></span>
+    </li>
+    <li ng-disabled="options.isLast()">
+      <span ng-click="options.onNextClick()">»</span>
+    </li>
+  </ul>
+</div>

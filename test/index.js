@@ -10,23 +10,51 @@ angular.module('Demo').config(["displayProvider", function(displayProvider) {
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYunWidgets",
   function($scope, Dialog, HuoYunWidgets) {
 
+    $scope.datepicker = new HuoYunWidgets.Controls.DatePicker({
+      date: new Date()
+    });
+
+    $scope.tab = new HuoYunWidgets.Controls.Tab({
+      items: [{
+        header: "Tab A",
+        content: "AA"
+      }, {
+        header: "Tab B",
+        content: "BB"
+      }]
+    });
+
+    $scope.pagination = new HuoYunWidgets.Controls.Pagination({
+      first: true,
+      currentPage: 0,
+      totalPages: 10,
+      last: false
+    }).on("pageChanged", function(pageIndex, control) {
+      control.move(pageIndex);
+      // control.setData({
+      //   first: false,
+      //   currentPage: pageIndex,
+      //   totalPages: 10,
+      //   last: false
+      // });
+    });
+
     $scope.table = new HuoYunWidgets.Controls.Table({
       selection: "multiple",
-      header: {
-        columns: [{
-          name: "id",
-          text: "ID",
-          style: {
-            color: "red"
-          }
-        }, {
-          name: "firstName",
-          text: "First Name"
-        }, {
-          name: "lastName",
-          text: "Last Name"
-        }]
-      }
+      columns: [{
+        name: "id",
+        text: "ID",
+        style: {
+          color: "red"
+        }
+      }, {
+        name: "firstName",
+        text: "First Name"
+      }, {
+        name: "lastName",
+        text: "Last Name"
+      }],
+      header: {}
     }).setDataSource([{
       id: "x0001",
       firstName: "Jingjing",
@@ -35,7 +63,16 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
       id: "x0002",
       firstName: "Jingjing2",
       lastName: "Wang2"
-    }]);
+    }]).on("columnExchanged", function(sourceColumn, targetColumn, table) {
+      console.log("columnExchanged", arguments)
+      console.log("columnExchanged", table.getColumnNames())
+    }).on("sortChanged", function() {
+      console.log("sortChanged", arguments)
+    }).on("dataSourceChanged", function() {
+      console.log("dataSourceChanged", arguments)
+    }).on("selectedChanged", function() {
+      console.log("selectedChanged", arguments)
+    });
 
     $scope.listViewOption = new HuoYunWidgets.Controls.ListView({
       selection: "multiple",
