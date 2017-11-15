@@ -214,123 +214,6 @@ angular.module('huoyun.widget').directive('widgetsCheckBox', [function () {
 }]);
 'use strict';
 
-function Linq(array) {
-
-  this.getArray = function () {
-    return array;
-  };
-}
-
-Linq.prototype.join = function (cb, separator) {
-  if (typeof cb === "function") {
-    var res = [];
-    this.getArray().forEach(function (item) {
-      var temp = cb(item);
-      if (temp !== null && temp !== undefined && temp !== "") {
-        res.push(temp);
-      }
-    });
-
-    return res.join(separator);
-  }
-
-  return this.getArray().join(separator);
-};
-
-Linq.prototype.first = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return array[index];
-    }
-  }
-};
-
-Linq.prototype.exists = function (item, cb) {
-  if (!cb) {
-    return this.getArray().indexOf(item) !== -1;
-  }
-
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return true;
-    }
-  }
-};
-
-Linq.prototype.any = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (cb(array[index], index)) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-Linq.prototype.all = function (cb) {
-  if (typeof cb !== "function") {
-    throw new Error("cb is not function");
-  }
-
-  var array = this.getArray();
-  for (var index = 0; index < array.length; index++) {
-    if (!cb(array[index], index)) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-Linq.prototype.toMap = function (keyOrCallback) {
-  var map = {};
-  this.getArray().forEach(function (item, index) {
-    if (typeof keyOrCallback === "string") {
-      map[item[keyOrCallback]] = item;
-    } else if (typeof key === "function") {
-      map[keyOrCallback(item, index)] = item;
-    } else {
-      throw new Error("keyOrCallback is invalid");
-    }
-  });
-
-  return map;
-};
-
-Linq.prototype.toArray = function (keyOrCallback) {
-  var array = [];
-  this.getArray().forEach(function (item, index) {
-    if (typeof keyOrCallback === "string") {
-      array.push(item[keyOrCallback]);
-    } else if (typeof key === "function") {
-      array.push(keyOrCallback(item, index));
-    } else {
-      throw new Error("keyOrCallback is invalid");
-    }
-  });
-  return array;
-};
-
-Array.prototype.linq = function () {
-  return new Linq(this);
-};
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 angular.module('huoyun.widget').factory("Control", [function () {
@@ -543,6 +426,155 @@ angular.module('huoyun.widget').factory("DataStore", [function () {
   var store = new DataStore();
 
   return store;
+}]);
+'use strict';
+
+function Linq(array) {
+
+  this.getArray = function () {
+    return array;
+  };
+}
+
+Linq.prototype.join = function (cb, separator) {
+  if (typeof cb === "function") {
+    var res = [];
+    this.getArray().forEach(function (item) {
+      var temp = cb(item);
+      if (temp !== null && temp !== undefined && temp !== "") {
+        res.push(temp);
+      }
+    });
+
+    return res.join(separator);
+  }
+
+  return this.getArray().join(separator);
+};
+
+Linq.prototype.first = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return array[index];
+    }
+  }
+};
+
+Linq.prototype.exists = function (item, cb) {
+  if (!cb) {
+    return this.getArray().indexOf(item) !== -1;
+  }
+
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+};
+
+Linq.prototype.any = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (cb(array[index], index)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+Linq.prototype.all = function (cb) {
+  if (typeof cb !== "function") {
+    throw new Error("cb is not function");
+  }
+
+  var array = this.getArray();
+  for (var index = 0; index < array.length; index++) {
+    if (!cb(array[index], index)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+Linq.prototype.toMap = function (keyOrCallback) {
+  var map = {};
+  this.getArray().forEach(function (item, index) {
+    if (typeof keyOrCallback === "string") {
+      map[item[keyOrCallback]] = item;
+    } else if (typeof key === "function") {
+      map[keyOrCallback(item, index)] = item;
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+
+  return map;
+};
+
+Linq.prototype.toArray = function (keyOrCallback) {
+  var array = [];
+  this.getArray().forEach(function (item, index) {
+    if (typeof keyOrCallback === "string") {
+      array.push(item[keyOrCallback]);
+    } else if (typeof key === "function") {
+      array.push(keyOrCallback(item, index));
+    } else {
+      throw new Error("keyOrCallback is invalid");
+    }
+  });
+  return array;
+};
+
+Array.prototype.linq = function () {
+  return new Linq(this);
+};
+'use strict';
+
+angular.module('huoyun.widget').factory("DatePickerControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  function DatePickerControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(DatePickerControl, HuoYunWidgetCore.Control);
+
+  DatePickerControl.prototype.getDate = function () {
+    return this.getOptions().date || new Date();
+  };
+
+  DatePickerControl.prototype.getMonth = function () {
+    return this.getDate().getMonth();
+  };
+
+  return DatePickerControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsDatePicker', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'datepicker/date.picker.html',
+    link: function link($scope, ele, attrs) {}
+  };
 }]);
 'use strict';
 
@@ -1059,100 +1091,6 @@ angular.module('huoyun.widget').run(["InputValidatorProvider", "HuoYunWidgetsVal
 }]);
 'use strict';
 
-angular.module('huoyun.widget').factory("DatePickerControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
-
-  function DatePickerControl(options) {
-    HuoYunWidgetCore.Control.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(DatePickerControl, HuoYunWidgetCore.Control);
-
-  DatePickerControl.prototype.getDate = function () {
-    return this.getOptions().date || new Date();
-  };
-
-  DatePickerControl.prototype.getMonth = function () {
-    return this.getDate().getMonth();
-  };
-
-  return DatePickerControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsDatePicker', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'datepicker/date.picker.html',
-    link: function link($scope, ele, attrs) {}
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("CheckBoxListViewItemControl", ["HuoYunWidgetCore", "ListViewItemControl", "CheckBoxControl", function (HuoYunWidgetCore, ListViewItemControl, CheckBoxControl) {
-
-  function CheckBoxListViewItemControl() {
-    ListViewItemControl.apply(this, arguments);
-
-    var that = this;
-    this.$$checkBox = new CheckBoxControl();
-    this.$$checkBox.getText = function () {
-      return that.getDisplayText();
-    };
-  }
-
-  HuoYunWidgetCore.ClassExtend(CheckBoxListViewItemControl, ListViewItemControl);
-
-  CheckBoxListViewItemControl.prototype.getCheckBox = function () {
-    return this.$$checkBox;
-  };
-
-  return CheckBoxListViewItemControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsListView', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'listview/listview.html',
-    link: function link($scope, elem, attrs) {}
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("ListViewControl", ["HuoYunWidgetCore", "SelectorControl", "ListViewItemControl", function (HuoYunWidgetCore, SelectorControl, ListViewItemControl) {
-
-  function ListViewControl() {
-    SelectorControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(ListViewControl, SelectorControl);
-
-  ListViewControl.prototype.getItemTemplate = function () {
-    return this.$$itemTemplate || ListViewItemControl;
-  };
-
-  return ListViewControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("ListViewItemControl", ["HuoYunWidgetCore", "ItemControl", function (HuoYunWidgetCore, ItemControl) {
-
-  function ListViewItemControl() {
-    ItemControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(ListViewItemControl, ItemControl);
-
-  return ListViewItemControl;
-}]);
-'use strict';
-
 angular.module('huoyun.widget').factory("NavControl", ["HuoYunWidgetCore", "NavItemControl", function (HuoYunWidgetCore, NavItemControl) {
 
   function NavControl(options) {
@@ -1232,6 +1170,68 @@ angular.module('huoyun.widget').factory("NavItemControl", ["HuoYunWidgetCore", f
   };
 
   return NavItemControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("CheckBoxListViewItemControl", ["HuoYunWidgetCore", "ListViewItemControl", "CheckBoxControl", function (HuoYunWidgetCore, ListViewItemControl, CheckBoxControl) {
+
+  function CheckBoxListViewItemControl() {
+    ListViewItemControl.apply(this, arguments);
+
+    var that = this;
+    this.$$checkBox = new CheckBoxControl();
+    this.$$checkBox.getText = function () {
+      return that.getDisplayText();
+    };
+  }
+
+  HuoYunWidgetCore.ClassExtend(CheckBoxListViewItemControl, ListViewItemControl);
+
+  CheckBoxListViewItemControl.prototype.getCheckBox = function () {
+    return this.$$checkBox;
+  };
+
+  return CheckBoxListViewItemControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsListView', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'listview/listview.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("ListViewControl", ["HuoYunWidgetCore", "SelectorControl", "ListViewItemControl", function (HuoYunWidgetCore, SelectorControl, ListViewItemControl) {
+
+  function ListViewControl() {
+    SelectorControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(ListViewControl, SelectorControl);
+
+  ListViewControl.prototype.getItemTemplate = function () {
+    return this.$$itemTemplate || ListViewItemControl;
+  };
+
+  return ListViewControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("ListViewItemControl", ["HuoYunWidgetCore", "ItemControl", function (HuoYunWidgetCore, ItemControl) {
+
+  function ListViewItemControl() {
+    ItemControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(ListViewItemControl, ItemControl);
+
+  return ListViewItemControl;
 }]);
 'use strict';
 
@@ -1671,77 +1671,6 @@ angular.module('huoyun.widget').factory("SelectorControl", ["$q", "HuoYunWidgetC
 }]);
 'use strict';
 
-angular.module('huoyun.widget').factory("TabControl", ["HuoYunWidgetCore", "TabItemControl", function (HuoYunWidgetCore, TabItemControl) {
-
-  function TabControl(options) {
-    HuoYunWidgetCore.Control.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(TabControl, HuoYunWidgetCore.Control);
-
-  TabControl.prototype.getTabItems = function () {
-    if (!this.$$items) {
-      this.$$items = [];
-      var that = this;
-      (this.getOptions().items || []).forEach(function (item) {
-        var itemControl = new TabItemControl(item).setTab(that);
-        that.$$items.push(itemControl);
-      });
-    }
-    return this.$$items;
-  };
-
-  return TabControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
-
-  function TabItemControl(options) {
-    HuoYunWidgetCore.Control.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(TabItemControl, HuoYunWidgetCore.Control);
-
-  TabItemControl.prototype.setTab = function (tab) {
-    this.$$tab = tab;
-    return this;
-  };
-
-  TabItemControl.prototype.getContent = function () {
-    return this.getOptions().content;
-  };
-
-  return TabItemControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsTabItem', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'tab/tab.item.html',
-    link: function link($scope, elem, attrs, tabController) {
-      console.log(tabController);
-    }
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsTab', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'tab/tab.html',
-    link: function link($scope, elem, attrs) {}
-  };
-}]);
-'use strict';
-
 angular.module('huoyun.widget').factory("SidebarControl", ["HuoYunWidgetCore", "SidebarItemControl", function (HuoYunWidgetCore, SidebarItemControl) {
 
   function SidebarControl(options) {
@@ -1844,6 +1773,167 @@ angular.module('huoyun.widget').directive('widgetsSideBarItem', [function () {
       options: "="
     },
     templateUrl: 'sidebar/sidebaritem.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TabControl", ["HuoYunWidgetCore", "TabItemControl", function (HuoYunWidgetCore, TabItemControl) {
+
+  function TabControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TabControl, HuoYunWidgetCore.Control);
+
+  TabControl.prototype.getTabItems = function () {
+    if (!this.$$items) {
+      this.$$items = [];
+      var that = this;
+      (this.getOptions().items || []).forEach(function (item) {
+        var itemControl = new TabItemControl(item).setTab(that);
+        that.$$items.push(itemControl);
+      });
+
+      this.setTabSelected(0);
+    }
+    return this.$$items;
+  };
+
+  TabControl.prototype.setTabSelected = function (tabIndex) {
+    var items = this.getTabItems();
+    if (items.length > tabIndex) {
+      items[tabIndex].selected();
+    }
+  };
+
+  TabControl.prototype.getSelectedTabItem = function () {
+    var items = this.getTabItems();
+    for (var index = 0; index < items.length; index++) {
+      if (items[index].isSelected()) {
+        return items[index];
+      }
+    }
+  };
+
+  return TabControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", "TabItemHeaderControl", function (HuoYunWidgetCore, TabItemHeaderControl) {
+
+  function TabItemControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TabItemControl, HuoYunWidgetCore.Control);
+
+  TabItemControl.prototype.setTab = function (tab) {
+    this.$$tab = tab;
+    return this;
+  };
+
+  TabItemControl.prototype.getTab = function () {
+    return this.$$tab;
+  };
+
+  TabItemControl.prototype.getHeader = function () {
+    if (!this.$$header) {
+      this.$$header = new TabItemHeaderControl(this.getOptions().header).setTabItem(this);
+    }
+    return this.$$header;
+  };
+
+  TabItemControl.prototype.getContent = function () {
+    return this.getOptions().content;
+  };
+
+  TabItemControl.prototype.isSelected = function () {
+    return this.$$selected;
+  };
+
+  TabItemControl.prototype.selected = function () {
+    this.$$selected = true;
+    var that = this;
+    this.getTab().getTabItems().forEach(function (tabItem) {
+      if (that !== tabItem) {
+        tabItem.unselected();
+      }
+    });
+  };
+
+  TabItemControl.prototype.unselected = function () {
+    this.$$selected = false;
+  };
+
+  TabItemControl.prototype.onClick = function () {
+    if (!this.isSelected()) {
+      var oldSelectedItem = this.getTab().getSelectedTabItem();
+      this.selected();
+      this.getTab().raiseEvent("selectedChanged", [this, oldSelectedItem, this.getTab()]);
+    }
+  };
+
+  return TabItemControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').factory("TabItemHeaderControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
+
+  function TabItemHeaderControl(options) {
+    HuoYunWidgetCore.Control.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(TabItemHeaderControl, HuoYunWidgetCore.Control);
+
+  TabItemHeaderControl.prototype.setTabItem = function (tabItem) {
+    this.$$tabItem = tabItem;
+    return this;
+  };
+
+  TabItemHeaderControl.prototype.getTabItem = function () {
+    return this.$$tabItem;
+  };
+
+  TabItemHeaderControl.prototype.getContent = function () {
+    return this.getOptions().content;
+  };
+
+  return TabItemHeaderControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsTabItemHeader', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'tab/tab.item.header.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsTabItem', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'tab/tab.item.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsTab', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'tab/tab.html',
     link: function link($scope, elem, attrs) {}
   };
 }]);
@@ -2016,17 +2106,18 @@ angular.module('huoyun.widget').run(['$templateCache', function ($templateCache)
   $templateCache.put('breadcrumb/breadcrumb.html', '<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}"><ol class="breadcrumb"><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()"><i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i> <span ng-bind="$item.getText()"></span></li></ol></div>');
   $templateCache.put('button/button.html', '<button class="btn" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-click="options.onClick()"><i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()"></i> <span ng-bind="options.getButtonText()"></span></button>');
   $templateCache.put('checkbox/checkbox.html', '<div class="widgets-checkbox" ng-click="options.onClick($event)"><i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i> <span class="widgets-checkbox-content" ng-bind="options.getText()"></span></div>');
+  $templateCache.put('datepicker/date.picker.html', '<div class="widgets-date-picker"><div class="month" ng-bind="options.getMonth()"></div></div>');
   $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container animated bounceInDown"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
   $templateCache.put('form/form.html', '<div class="box widgets-form" form-readonly="{{options.isReadonly()}}"><div class="box-header" ng-if="options.getHeader().isVisibility()"><h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3><div class="box-tools pull-right"><div class="input-group input-group-sm"><div widgets-button="" options="button" ng-repeat="button in options.getHeader().getButtons()"></div></div></div></div><form ng-class="options.appendOrientationClass()"><div class="box-body" ng-if="!options.isReadonly()"><div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()"><div ng-if="$formGroup.isCustomizeTemplate()"><div ng-include="$formGroup.getTemplateUrl()"></div></div><div ng-if="!$formGroup.isCustomizeTemplate()"><div widgets-form-group="" options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div></div></div></div><div class="box-footer" ng-if="options.isFooterVisibility()"><div widgets-button="" options="button" ng-repeat="button in options.getFooter().getButtons()"></div></div></form></div>');
-  $templateCache.put('datepicker/date.picker.html', '<div class="widgets-date-picker"><div class="month" ng-bind="options.getMonth()"></div></div>');
+  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
   $templateCache.put('listview/checkbox.listviewitem.html', '<div class="checkbox-list-view-item"><div widgets-check-box="" options="$item.getCheckBox()"></div></div>');
   $templateCache.put('listview/listview.html', '<div class="widgets-list-view"><div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-repeat="$item in options.getItems()" ng-click="options.onItemClicked($item)"><div ng-if="!options.hasItemTemplateUrl()" ng-bind="$item.getDisplayText()"></div><div ng-if="options.hasItemTemplateUrl()" ng-include="options.getItemTemplateUrl()"></div></div></div>');
-  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
   $templateCache.put('pagination/pagination.html', '<div class="widgets-pagination"><ul class="pagination pagination-sm no-margin pull-right" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><li ng-disabled="options.isFirst()"><span ng-click="options.onPerviousClick()">\xAB</span></li><li ng-repeat="$page in options.getPages()" ng-class="options.activeClass($page)"><span ng-bind="options.getPageText($page)" ng-click="options.onPageClick($page)"></span></li><li ng-disabled="options.isLast()"><span ng-click="options.onNextClick()">\xBB</span></li></ul></div>');
-  $templateCache.put('tab/tab.html', '<div class="widgets-tab"><div class="widgets-tab-header"><div ng-repeat="$tabItem in options.getTabItems()"></div></div><div class="widgets-tab-panel"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item="" options="$tabItem"></div></div></div>');
-  $templateCache.put('tab/tab.item.html', '<div class="widgets-tab-item"><div ng-if="options.isCustomizeTemplate()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.isCustomizeTemplate()" ng-bind="options.getContent()"></div></div>');
   $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="$item in options.getItems()"><div widgets-side-bar-item="" options="$item"></div></div></aside></div>');
   $templateCache.put('sidebar/sidebaritem.html', '<div class="side-bar-item"><div class="side-bar-group-header"><i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i> <span ng-bind="options.getText()"></span></div><ul class="side-bar-group-items-container" ng-if="options.hasChild()"><li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()"></li></ul></div>');
+  $templateCache.put('tab/tab.html', '<div class="widgets-tab"><div class="widgets-tab-header"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item-header="" options="$tabItem.getHeader()"></div></div><div class="widgets-tab-panel"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item="" options="$tabItem"></div></div></div>');
+  $templateCache.put('tab/tab.item.header.html', '<div class="tab-item-header" data-selected="{{options.getTabItem().isSelected()}}" ng-click="options.getTabItem().onClick()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div class="widgets-tab-header-container"><div ng-if="options.isCustomizeTemplate()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.isCustomizeTemplate()" ng-bind="options.getContent()"></div></div></div>');
+  $templateCache.put('tab/tab.item.html', '<div class="widgets-tab-item" ng-if="options.isSelected()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div ng-if="options.isCustomizeTemplate()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.isCustomizeTemplate()" ng-bind="options.getContent()"></div></div>');
   $templateCache.put('table/table.html', '<div class="widgets-table"><table class="table" ng-class="options.appendClass()"><thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()"><tr><th ng-repeat="$column in options.getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable="" drag-data="$column" drag-success="options.onColumnDragSuccess($event,$dragData,$column)"></th></tr></thead><tbody><tr ng-repeat="$row in options.getRows()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)"><td ng-repeat="$column in options.getColumns()"><div ng-bind="$column.getColumnValue($row)"></div></td></tr></tbody></table></div>');
   $templateCache.put('tip/tip.html', '<div class="widgets-tip"><div id="{{options.getId()}}" class="alert alert-success alert-dismissible"><span ng-bind="options.getMessage()"></span></div></div>');
   $templateCache.put('form/formgroup/form-group.html', '<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}"><div ng-if="options.hasLabelControl()"><div ng-if="options.getLabelControl().isCustomizeTemplate()"><div ng-include="options.getLabelControl().getTemplateUrl()"></div></div><div ng-if="!options.getLabelControl().isCustomizeTemplate()"><label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label></div></div><div ng-if="options.hasInputControl()"><div ng-if="options.getInputControl().isCustomizeTemplate()"><div ng-include="options.getInputControl().getTemplateUrl()"></div></div><div ng-if="!options.getInputControl().isCustomizeTemplate()" ng-switch="options.getType()"><div ng-switch-when="DATALIST" widgets-data-list="" options="options.getInputControl().getInput()"></div><div ng-switch-when="DROPDOWN" widgets-dropdown="" options="options.getInputControl().getInput()"></div><div ng-switch-when="EMAIL" widgets-email-box="" options="options.getInputControl().getInput()"></div><div ng-switch-default="" widgets-text-box="" options="options.getInputControl().getInput()"></div></div></div></div>');
@@ -2039,8 +2130,8 @@ angular.module('huoyun.widget').run(['$templateCache', function ($templateCache)
   $templateCache.put('input/datalist/datalist.dialog.html', '<div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()"><div widgets-search-box="" options="vm.search"></div><div widgets-list-view="" options="vm.listView"></div><div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()"><div>\u52A0\u8F7D\u66F4\u591A...</div></div></div>');
   $templateCache.put('input/datalist/datalist.html', '<div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-value="options.getInputText()"></div>');
   $templateCache.put('input/dropdown/dropdown.html', '<select id="{{options.getId()}}" placeholder="{{options.getPlaceholder()}}" ng-options="options.getItemValue(option) as options.getItemLabel(option) for option in options.getDataSource()" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-style="options.getStyle()" control-name="{{options.getControlName()}}" ng-if="options.isVisibility()" ng-class="options.appendClass()" ng-model="$parent.options.$$value" widgets-events-input-changed=""></select>');
-  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
   $templateCache.put('input/email/email.html', '<div class="input-group" has-error="{{options.hasError()}}"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
   $templateCache.put('input/search/search.html', '<div class="form-group widgets-search-box"><div class="input-group"><input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed=""> <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span></div></div>');
   $templateCache.put('input/text/text.html', '<input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""><div widgets-input-error="" options="options.getErrorControl()"></div>');
 }]);
@@ -2380,53 +2471,6 @@ angular.module('huoyun.widget').directive('widgetsFormGroupString', [function ()
 }]);
 'use strict';
 
-// angular.module('huoyun.widget').factory("EmailValidator", function() {
-
-//   const PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-//   function EmailValidator(formGroupOption) {
-//     this.formGroupOption = formGroupOption;
-//   }
-
-//   EmailValidator.prototype.onValid = function(value) {
-//     if (PATTERN.test(value)) {
-//       return Promise.resolve();
-//     }
-
-//     this.formGroupOption.errorMessage = `邮箱地址格式不正确`
-//     return Promise.reject(this.formGroupOption);
-//   }
-
-//   return EmailValidator;
-// });
-'use strict';
-
-angular.module('huoyun.widget').factory("MandatoryValidator", function () {
-
-  function MandatoryValidator(formGroupOption) {
-    this.formGroupOption = formGroupOption;
-  }
-
-  MandatoryValidator.prototype.onValid = function (value) {
-    if (value === null || value === undefined) {
-      this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
-      return Promise.reject(this.formGroupOption);
-    }
-
-    if (typeof value === "string") {
-      if (value.trim() === "") {
-        this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
-        return Promise.reject(this.formGroupOption);
-      }
-    }
-
-    return Promise.resolve();
-  };
-
-  return MandatoryValidator;
-});
-'use strict';
-
 angular.module('huoyun.widget').directive('widgetsFormGroupLabelEmail', [function () {
   return {
     restrict: 'A',
@@ -2553,6 +2597,53 @@ angular.module('huoyun.widget').directive('widgetsDataList', ["Dialog", function
 }]);
 'use strict';
 
+// angular.module('huoyun.widget').factory("EmailValidator", function() {
+
+//   const PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+//   function EmailValidator(formGroupOption) {
+//     this.formGroupOption = formGroupOption;
+//   }
+
+//   EmailValidator.prototype.onValid = function(value) {
+//     if (PATTERN.test(value)) {
+//       return Promise.resolve();
+//     }
+
+//     this.formGroupOption.errorMessage = `邮箱地址格式不正确`
+//     return Promise.reject(this.formGroupOption);
+//   }
+
+//   return EmailValidator;
+// });
+'use strict';
+
+angular.module('huoyun.widget').factory("MandatoryValidator", function () {
+
+  function MandatoryValidator(formGroupOption) {
+    this.formGroupOption = formGroupOption;
+  }
+
+  MandatoryValidator.prototype.onValid = function (value) {
+    if (value === null || value === undefined) {
+      this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
+      return Promise.reject(this.formGroupOption);
+    }
+
+    if (typeof value === "string") {
+      if (value.trim() === "") {
+        this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
+        return Promise.reject(this.formGroupOption);
+      }
+    }
+
+    return Promise.resolve();
+  };
+
+  return MandatoryValidator;
+});
+'use strict';
+
 angular.module('huoyun.widget').factory("DropdownControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
 
   function DropdownControl(options) {
@@ -2614,6 +2705,30 @@ angular.module('huoyun.widget').directive('widgetsDropdown', [function () {
 }]);
 'use strict';
 
+angular.module('huoyun.widget').factory("EmailControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
+
+  function EmailControl(options) {
+    InputControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(EmailControl, InputControl);
+
+  return EmailControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsEmailBox', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'input/email/email.html',
+    link: function link($scope, ele, attrs) {}
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').factory("InputErrorControl", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
 
   function InputErrorControl(ex) {
@@ -2658,30 +2773,6 @@ angular.module('huoyun.widget').directive('widgetsInputError', [function () {
     },
     templateUrl: 'input/error/input.error.html',
     link: function link($scope, elem, attrs) {}
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("EmailControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
-
-  function EmailControl(options) {
-    InputControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(EmailControl, InputControl);
-
-  return EmailControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsEmailBox', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'input/email/email.html',
-    link: function link($scope, ele, attrs) {}
   };
 }]);
 'use strict';
@@ -2748,6 +2839,22 @@ angular.module('huoyun.widget').directive('widgetsTextBox', [function () {
 }]);
 'use strict';
 
+angular.module('huoyun.widget').directive('widgetsInputValidator', ["InputControl", function (InputControl) {
+  return {
+    restrict: 'A',
+    require: "ngModel",
+    link: function link($scope, ele, attrs, ngModelController) {
+      if ($scope.options instanceof InputControl) {
+        var inputControl = $scope.options;
+        ngModelController.$viewChangeListeners.push(function () {
+          inputControl.validator();
+        });
+      }
+    }
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').directive('widgetsEventsInputChanged', ["InputControl", function (InputControl) {
   return {
     restrict: 'A',
@@ -2762,22 +2869,6 @@ angular.module('huoyun.widget').directive('widgetsEventsInputChanged', ["InputCo
           newVal = inputControl.getValue();
           inputControl.raiseEvent("valueChanged", [newVal, oldVal]);
           oldVal = newVal;
-        });
-      }
-    }
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsInputValidator', ["InputControl", function (InputControl) {
-  return {
-    restrict: 'A',
-    require: "ngModel",
-    link: function link($scope, ele, attrs, ngModelController) {
-      if ($scope.options instanceof InputControl) {
-        var inputControl = $scope.options;
-        ngModelController.$viewChangeListeners.push(function () {
-          inputControl.validator();
         });
       }
     }

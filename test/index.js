@@ -16,12 +16,18 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
 
     $scope.tab = new HuoYunWidgets.Controls.Tab({
       items: [{
-        header: "Tab A",
+        header: {
+          content: "Tab AA"
+        },
         content: "AA"
       }, {
-        header: "Tab B",
+        header: {
+          content: "Tab BB"
+        },
         content: "BB"
       }]
+    }).on("selectedChanged", function() {
+      console.log(arguments)
     });
 
     $scope.pagination = new HuoYunWidgets.Controls.Pagination({

@@ -1,6 +1,6 @@
 <div class="widgets-tab">
   <div class="widgets-tab-header">
-    <div ng-repeat="$tabItem in options.getTabItems()"></div>
+    <div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item-header options="$tabItem.getHeader()"></div>
   </div>
   <div class="widgets-tab-panel">
     <div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item options="$tabItem"></div>

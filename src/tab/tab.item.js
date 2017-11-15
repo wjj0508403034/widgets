@@ -8,9 +8,7 @@ angular.module('huoyun.widget').directive('widgetsTabItem', [
         options: "="
       },
       templateUrl: 'tab/tab.item.html',
-      link: function($scope, elem, attrs, tabController) {
-        console.log(tabController);
-      }
+      link: function($scope, elem, attrs) {}
     }
   }
 ]);
