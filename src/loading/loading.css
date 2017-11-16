@@ -1,0 +1,23 @@
+.loading-wrapper {
+  position: relative;
+}
+
+.widgets-loading {
+  background: rgba(255, 255, 255, 0.7);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: table;
+}
+
+.widgets-loading .loading-content-container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.widgets-loading .loading-content {
+  margin-left: 10px;
+}

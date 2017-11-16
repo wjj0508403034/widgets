@@ -2810,6 +2810,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   background-color: #3c8dbc;
   border-color: #367fa9;
 }
+.loading-wrapper {
+  position: relative;
+}
+
+.widgets-loading {
+  background: rgba(255, 255, 255, 0.7);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: table;
+}
+
+.widgets-loading .loading-content-container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.widgets-loading .loading-content {
+  margin-left: 10px;
+}
 .widgets-nav {
   background: #3c8dbc;
 }

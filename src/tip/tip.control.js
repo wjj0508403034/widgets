@@ -44,11 +44,6 @@ angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope',
       }, that.getDuration());
     };
 
-    TipControl.show = function(options) {
-      var tip = new TipControl(options);
-      tip.pop();
-    };
-
     return TipControl;
   }
 ]);

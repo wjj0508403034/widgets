@@ -1,0 +1,7 @@
+<div id="{{options.getId()}}" class="widgets-loading" name="{{options.getName()}}" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-if="options.isVisibility()">
+
+  <div class="loading-content-container">
+    <i class="fa fa-refresh fa-spin"></i>
+    <span class="loading-content" ng-bind="options.getContent()"></span>
+  </div>
+</div>
