@@ -24,7 +24,7 @@ angular.module('huoyun.widget').factory("JsonProperty", [function() {
   };
 
   JsonProperty.prototype.isForeignKey = function() {
-    return this.getJsonModel().getForeignKey() === this.getName();
+    return this.getJsonModel().getForeignKey().indexOf(this.getName()) !== -1;
   };
 
   JsonProperty.prototype.getName = function() {
@@ -36,7 +36,7 @@ angular.module('huoyun.widget').factory("JsonProperty", [function() {
       return false;
     }
     var type = this.getType();
-    return ["string", "integer", "number"].indexOf(type) !== -1;
+    return ["string", "integer", "number", "boolean"].indexOf(type) !== -1;
   };
 
   JsonProperty.prototype.isObject = function() {
@@ -151,7 +151,11 @@ angular.module('huoyun.widget').factory("JsonModel", ["JsonProperty", function(J
   };
 
   JsonModel.prototype.getForeignKey = function() {
-    return this.getValue().foreignkey;
+    var foreignkey = this.getValue().foreignkey;
+    if (foreignkey) {
+      return foreignkey.split(",");
+    }
+    return [];
   };
 
   JsonModel.prototype.getPrimaryKey = function() {

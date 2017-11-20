@@ -12,6 +12,9 @@ angular.module('huoyun.widget').factory("JsonEditor", ["JsonModel", function(Jso
   }
 
   JsonEditor.prototype.isTabVisibility = function(tabName) {
+    if (!this.$$currentTab) {
+      this.$$currentTab = "Preview";
+    }
     return tabName === this.$$currentTab;
   };
 
@@ -42,7 +45,7 @@ angular.module('huoyun.widget').factory("JsonEditor", ["JsonModel", function(Jso
   };
 
   JsonEditor.prototype.getJsonModel = function() {
-    if (!this.$$jsonModel) {
+    if (!this.$$jsonModel && this.getFormGroup().getPropertyValue()) {
       this.$$jsonModel = new JsonModel(this.getFormGroup().getPropertyValue());
     }
 

@@ -2774,20 +2774,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   margin-left: 15px;
   min-width: 80px;
 }
-[widgets-story-board] {
-  position: relative;
-}
-
-.svg-story-board-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 .widgets-form .form-group .help-block {
   display: none;
 }
@@ -2839,6 +2825,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .widgets-head .widgets-head-tools {
   height: 100%;
   padding: 13px 0;
+}
+[widgets-story-board] {
+  position: relative;
+}
+
+.svg-story-board-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: transparent;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .widgets-form-group-json .widgets-json-editor {
   border: 1px solid #d2d6de;
