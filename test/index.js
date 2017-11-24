@@ -14,6 +14,8 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
 
     $scope.datepicker = new HuoYunWidgets.Controls.DatePicker({
       date: new Date()
+    }).on("valueChanged", function() {
+      console.log(arguments)
     });
 
     $scope.tab = new HuoYunWidgets.Controls.Tab({
