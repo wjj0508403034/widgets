@@ -1,11 +1,6 @@
 angular.module('Demo', ['huoyun.widget']);
 
-angular.module('Demo').config(["displayProvider", function(displayProvider) {
-  displayProvider.config({
-    date: "yyyy/MM/dd",
-    datetime: "yyyy/MM/dd HH:mm"
-  });
-}]);
+
 
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYunWidgets",
   function($scope, Dialog, HuoYunWidgets) {
@@ -177,6 +172,17 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
         },
         appendClass: "col-sm-4"
       }, {
+        name: "birthday",
+        type: "date",
+        label: {
+          text: "Birthday"
+        },
+        input: {
+          placeholder: "birthday"
+        },
+        mandatory: true,
+        appendClass: "col-sm-4"
+      }, {
         name: "email",
         type: "email",
         label: {
@@ -271,7 +277,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
     }).on("propertyValueChanged", function(propName, newVal, oldValue) {
       console.log("prop changed")
       console.log(arguments)
-      HuoYunWidgets.Controls.Tip.show({
+      HuoYunWidgets.ShowTip({
         message: `${propName}: ${newVal}`
       });
     });

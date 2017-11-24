@@ -270,8 +270,11 @@ angular.module('huoyun.widget').factory("DatePickerControl", ["HuoYunWidgetCore"
       return weekday["shortName"];
     };
 
-    DatePickerControl.prototype.onDayClicked = function(day) {
+    DatePickerControl.prototype.onDayClicked = function(event, day) {
+      event.preventDefault();
+      event.stopPropagation();
       this.setDate(day.getDate());
+      this.raiseEvent("dayClicked", [day, this.getDate(), this]);
     };
 
     DatePickerControl.prototype.getHeader = function() {

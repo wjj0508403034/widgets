@@ -2,29 +2,34 @@
 
 angular.module('huoyun.widget', ['ngDialog']);
 
-angular.module('huoyun.widget').provider("display", function() {
+angular.module('huoyun.widget').provider("Format", function() {
 
-  this.date = "yyyy-MM-dd";
-  this.datetime = "yyyy-MM-dd HH:mm";
-
-  /**
-   * options
-   *  - date
-   *  - datetime
-   */
-  this.config = function(options) {
+  this.configuration = function(options) {
     var that = this;
     ["date", "datetime"].forEach(function(prop) {
       if (options[prop]) {
         that[prop] = options[prop];
       }
     });
+    return this;
+  };
+
+  this.getValue = function(prop) {
+    return this[prop];
   };
 
   this.$get = function() {
     return this;
   };
 });
+
+angular.module('huoyun.widget').run(["Format", function(FormatProvider) {
+
+  FormatProvider.configuration({
+    date: "yyyy/MM/dd",
+    datetime: "yyyy/MM/dd HH:mm"
+  });
+}]);
 
 angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", "PaginationControl", "DatePickerControl", "TabControl", "LoadingControl",
   function(Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl, PaginationControl, DatePickerControl, TabControl, LoadingControl) {

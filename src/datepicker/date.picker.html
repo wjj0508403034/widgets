@@ -12,7 +12,7 @@
       </div>
       <div class="calendar-month-days-view-body">
         <div class="week-item" ng-repeat="$week in options.getWeeks()">
-          <div class="week-day-item" ng-repeat="$day in $week.getDays()" today="{{$day.isToday()}}" data-selected="{{$day.isSelected()}}" current-month="{{$day.inCurrentMonth()}}" ng-bind="$day.getDate().getDate()" ng-click="options.onDayClicked($day)">
+          <div class="week-day-item" ng-repeat="$day in $week.getDays()" today="{{$day.isToday()}}" data-selected="{{$day.isSelected()}}" current-month="{{$day.inCurrentMonth()}}" ng-bind="$day.getDate().getDate()" ng-click="options.onDayClicked($event,$day)">
           </div>
         </div>
       </div>

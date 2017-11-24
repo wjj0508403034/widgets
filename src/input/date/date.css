@@ -1,0 +1,27 @@
+.widgets-date-input input {
+  cursor: default;
+}
+
+.widgets-date-input .popup {
+  outline: 0;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 320px;
+  height: 300px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  padding: 1px 0 0 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  z-index: 1000;
+  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.widgets-date-input .popup:focus {
+  border: 1px solid red;
+}

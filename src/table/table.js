@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsTable', ["display",
-  function(displayProvider) {
+angular.module('huoyun.widget').directive('widgetsTable', [
+  function() {
     return {
       restrict: 'A',
       scope: {

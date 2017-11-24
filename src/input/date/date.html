@@ -1,0 +1,9 @@
+<div class="input-group widgets-date-input" has-error="{{options.hasError()}}">
+  <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}"
+    ng-click="options.onDateInputClick($event)" ng-style="options.getStyle()" ng-value="options.getFormatText()">
+  <span class="input-group-addon" ng-click="options.onDateInputClick($event)"><i class="fa fa-calendar"></i></span>
+  <div class="popup" ng-if="options.isShow()" ng-blur="options.onPopupBlur()">
+    <div widgets-date-picker options="options.getCalendar()"></div>
+  </div>
+</div>
+<div widgets-input-error options="options.getErrorControl()"></div>
