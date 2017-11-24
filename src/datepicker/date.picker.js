@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').directive('widgetsDatePicker', [
-  function() {
+angular.module('huoyun.widget').directive('widgetsDatePicker', ["DatePickerControl",
+  function(DatePickerControl) {
     return {
       restrict: 'A',
       scope: {

@@ -1,3 +1,35 @@
 <div class="widgets-date-picker">
-  <div class="month" ng-bind="options.getMonth()"></div>
+  <div class="widgets-date-picker-wrapper">
+    <div class="calendar-month-header">
+      <div class="last-button" ng-click="options.onLeftButtonClicked()"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+      <div class="calendar-month-header-content" ng-bind="options.getHeader()" ng-click="options.onViewModeButtonClicked()"></div>
+      <div class="next-button" ng-click="options.onRightButtonClicked()"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+    </div>
+
+    <div class="calendar-month-days-view" ng-if="options.isDayView()">
+      <div class="calendar-month-days-view-header">
+        <div class="week-day-item" ng-repeat="weekDay in options.getWeekDays()" ng-bind="options.getWeekDayName(weekDay)"></div>
+      </div>
+      <div class="calendar-month-days-view-body">
+        <div class="week-item" ng-repeat="$week in options.getWeeks()">
+          <div class="week-day-item" ng-repeat="$day in $week.getDays()" today="{{$day.isToday()}}" data-selected="{{$day.isSelected()}}" current-month="{{$day.inCurrentMonth()}}" ng-bind="$day.getDate().getDate()" ng-click="options.onDayClicked($day)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar-year-months-view" ng-if="options.isMonthView()">
+      <div class="month-item-wrapper" ng-repeat="$month in options.getMonths()">
+        <div class="month-item" ng-bind="options.getMonthName($month)" current-month="{{options.isCurrentMonth($month)}}" ng-click="options.onMonthButtonClicked($month)">
+        </div>
+      </div>
+    </div>
+
+    <div class="calendar-years-view" ng-if="options.isYearView()">
+      <div class="year-item-wrapper" ng-repeat="$year in options.getYears()">
+        <div class="year-item" ng-bind="$year" current-year="{{options.isCurrentYear($year)}}" ng-click="options.onYearButtonClicked($year)">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

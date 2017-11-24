@@ -1,0 +1,158 @@
+.widgets-date-picker {
+  height: 300px;
+  width: 320px;
+  border: 1px solid #d2d6de;
+  padding: 5px;
+}
+
+.widgets-date-picker-wrapper {
+  margin: 0 auto;
+  width: 294px;
+}
+
+.widgets-date-picker .calendar-month-header {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+}
+
+.widgets-date-picker .calendar-month-header .last-button,
+.widgets-date-picker .calendar-month-header .next-button {
+  position: absolute;
+  width: 30px;
+  text-align: center;
+  height: 100%;
+}
+
+.widgets-date-picker .calendar-month-header .last-button:hover,
+.widgets-date-picker .calendar-month-header .next-button:hover {
+  background: #d2d6de;
+}
+
+.widgets-date-picker .calendar-month-header i {
+  height: 100%;
+  line-height: 30px;
+}
+
+.widgets-date-picker .calendar-month-header .next-button {
+  right: 0;
+}
+
+.widgets-date-picker .calendar-month-header .calendar-month-header-content {
+  position: absolute;
+  height: 100%;
+  left: 30px;
+  right: 30px;
+  text-align: center;
+  cursor: default;
+}
+
+.widgets-date-picker .week-item,
+.widgets-date-picker .calendar-month-days-view-header {
+  line-height: 30px;
+}
+
+.widgets-date-picker .week-item::before,
+.widgets-date-picker .week-item::after,
+.widgets-date-picker .calendar-month-days-view-header::before,
+.widgets-date-picker .calendar-month-days-view-header::after {
+  display: table;
+  content: " ";
+  clear: both;
+}
+
+.widgets-date-picker .week-day-item {
+  float: left;
+  min-width: 30px;
+  padding: 0 5px;
+  text-align: center;
+  width: 40px;
+  border: 1px solid #d2d6de;
+  margin: 1px;
+  cursor: default;
+}
+
+.widgets-date-picker .calendar-year-months-view {
+  padding-top: 45px;
+}
+
+.widgets-date-picker .month-item-wrapper {
+  float: left;
+  width: 25%;
+  padding: 5px;
+  text-align: center;
+  height: 50px;
+}
+
+.widgets-date-picker .month-item-wrapper .month-item {
+  border: 1px solid #d2d6de;
+  cursor: default;
+  height: 100%;
+  line-height: 36px;
+}
+
+.widgets-date-picker .month-item-wrapper .month-item:hover {
+  background: #d2d6de;
+}
+
+.widgets-date-picker .month-item-wrapper .month-item[current-month="true"],
+.widgets-date-picker .month-item-wrapper .month-item[current-month="true"]:hover {
+  background: #337ab7;
+  border-color: #337ab7;
+}
+
+.widgets-date-picker .calendar-years-view {
+  padding-top: 30px;
+}
+
+.widgets-date-picker .year-item-wrapper {
+  float: left;
+  width: 20%;
+  padding: 5px;
+  text-align: center;
+  height: 40px;
+}
+
+.widgets-date-picker .year-item-wrapper .year-item {
+  border: 1px solid #d2d6de;
+  cursor: default;
+  height: 100%;
+  line-height: 26px;
+}
+
+.widgets-date-picker .year-item-wrapper .year-item:hover {
+  background: #d2d6de;
+}
+
+.widgets-date-picker .year-item-wrapper .year-item[current-year="true"],
+.widgets-date-picker .year-item-wrapper .year-item[current-year="true"]:hover {
+  background: #337ab7;
+  border-color: #337ab7;
+}
+
+.widgets-date-picker .calendar-month-days-view-body .week-day-item[today="true"] {
+  background: #d2d6de;
+}
+
+.widgets-date-picker .calendar-month-days-view-body .week-day-item[data-selected="true"] {
+  background: #337ab7;
+  border-color: #337ab7;
+}
+
+.widgets-date-picker .calendar-month-days-view-body .week-day-item[current-month="false"] {
+  color: #cccccc;
+  border-color: rgba(204, 204, 204, 0.25);
+}
+
+.widgets-date-picker .calendar-month-days-view-header .week-day-item {
+  border: none;
+}
+
+.widgets-date-picker .calendar-month-days-view-body .week-day-item:hover {
+  background: #d2d6de;
+}
+
+.widgets-date-picker .calendar-month-days-view-body .week-day-item[data-selected="true"]:hover {
+  background: #337ab7;
+  border-color: #337ab7;
+}
