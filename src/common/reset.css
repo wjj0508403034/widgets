@@ -1,0 +1,16 @@
+ol,
+ul {
+  margin: 0px;
+}
+
+ul,
+menu,
+dir {
+  -webkit-padding-start: 0px;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+}
+
+li {
+  list-style-type: none;
+}

@@ -93,6 +93,11 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this.$$eventMap[eventName];
   };
 
+  Control.prototype.clearEventListeners = function(eventName) {
+    this.$$eventMap[eventName] = [];
+    return this;
+  };
+
   Control.prototype.on = function(eventName, listener) {
     if (typeof listener !== "function") {
       throw new Event("Event listener must be function");
@@ -103,10 +108,10 @@ angular.module('huoyun.widget').factory("Control", [function() {
   };
 
   Control.prototype.off = function(eventName, listener) {
-    var listeners = this.getEventListeners();
+    var listeners = this.getEventListeners(eventName);
 
     if (listener === undefined) {
-      listeners = [];
+      return this.clearEventListeners(eventName);
     }
 
     if (typeof listener !== "function") {

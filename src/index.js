@@ -31,8 +31,8 @@ angular.module('huoyun.widget').run(["Format", function(FormatProvider) {
   });
 }]);
 
-angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", "PaginationControl", "DatePickerControl", "TabControl", "LoadingControl",
-  function(Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl, PaginationControl, DatePickerControl, TabControl, LoadingControl) {
+angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonControl", "FormControl", "HuoYunWidgetsInputs", "ListViewControl", "TableControl", "BreadCrumbControl", "NavControl", "SidebarControl", "TipControl", "PaginationControl", "DatePickerControl", "TabControl", "LoadingControl", "TimePickerControl",
+  function(Dialog, ButtonControl, FormControl, HuoYunWidgetsInputs, ListViewControl, TableControl, BreadCrumbControl, NavControl, SidebarControl, TipControl, PaginationControl, DatePickerControl, TabControl, LoadingControl, TimePickerControl) {
 
     return {
       Controls: {
@@ -47,6 +47,7 @@ angular.module('huoyun.widget').factory("HuoYunWidgets", ["Dialog", "ButtonContr
         ListView: ListViewControl,
         Pagination: PaginationControl,
         DatePicker: DatePickerControl,
+        TimePicker: TimePickerControl,
         Tab: TabControl
       },
       ShowLoading: function(options) {

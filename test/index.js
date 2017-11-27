@@ -7,6 +7,8 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
 
     $scope.storyBoard = null;
 
+    $scope.timepicker = new HuoYunWidgets.Controls.TimePicker({});
+
     $scope.datepicker = new HuoYunWidgets.Controls.DatePicker({
       date: new Date()
     }).on("valueChanged", function() {
