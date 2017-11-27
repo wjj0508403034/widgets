@@ -15,13 +15,11 @@
     </div>
     <div class="widgets-time-picker-item widgets-time-picker-minutes">
       <div class="widgets-time-picker-item-label">Minute</div>
-      <div class="arrow-button arrow-up-button" ng-click="options.Test()">
+      <div class="arrow-button arrow-up-button" ng-click="options.getMinuteControl().scrollToPerviousElement()">
         <i class="fa fa-angle-up" aria-hidden="true"></i>
       </div>
-      <ul class="widgets-time-picker-item-list list-mintus">
-        <li class="list-item" ng-repeat="$minute in options.getMinutes()" ng-bind="$minute"></li>
-      </ul>
-      <div class="arrow-button arrow-down-button">
+      <div widgets-slide-selector options="options.getMinuteControl()"></div>
+      <div class="arrow-button arrow-down-button" ng-click="options.getMinuteControl().scrollToNextElement()">
         <i class="fa fa-angle-down" aria-hidden="true"></i>
       </div>
     </div>

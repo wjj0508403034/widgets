@@ -37,6 +37,15 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this.constructor.name;
   };
 
+  Control.prototype.setElement = function(elem) {
+    this.$$elem = elem;
+    return this;
+  };
+
+  Control.prototype.getElement = function() {
+    return this.$$elem;
+  };
+
   Control.prototype.appendClass = function() {
     return this.getOptions().appendClass;
   };

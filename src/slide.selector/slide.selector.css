@@ -1,0 +1,33 @@
+.widgets-slide-selector {
+  position: relative;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.widgets-slide-selector::-webkit-scrollbar {
+  display: none;
+}
+
+.widgets-slide-selector .selector-item {
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  background: #cccccc;
+  margin-bottom: 2px;
+}
+
+.selector-box {
+  height: 28px;
+  border: 2px solid #367fa9;
+  background: #367fa9;
+  color: white;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-transition: top .1s linear;
+  -moz-transition: top .1s linear;
+  -o-transition: top .1s linear;
+  -ms-transition: top .1s linear;
+  transition: top .1s linear;
+}

@@ -50,6 +50,13 @@
   overflow-y: scroll;
 }
 
+.widgets-time-picker .widgets-time-picker-item .widgets-slide-selector {
+  position: absolute;
+  top: 65px;
+  bottom: 35px;
+  width: 100%;
+}
+
 .widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-list::-webkit-scrollbar {
   display: none;
 }

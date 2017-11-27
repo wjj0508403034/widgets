@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore", "$timeout",
-  function(HuoYunWidgetCore, $timeout) {
+angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore", "$timeout", "SlideSelectorControl",
+  function(HuoYunWidgetCore, $timeout, SlideSelectorControl) {
 
     const _12Hours = [{
       name: "1"
@@ -49,6 +49,17 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
       HuoYunWidgetCore.Control.apply(this, arguments);
 
       this.setDate(this.getOptions().date || new Date());
+
+      var minutes = [];
+      for (var index = 1; index < 60; index++) {
+        minutes.push(index);
+      }
+
+      this.$$minuteControl = new SlideSelectorControl({
+        items: minutes
+      }).on("selectedChanged", function(newVal, oldVal, control) {
+        console.log(arguments);
+      });
     }
 
     HuoYunWidgetCore.ClassExtend(TimePickerControl, HuoYunWidgetCore.Control);
@@ -214,6 +225,10 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
         var elem = this.getHourListBoxElement();
         this.__scrollElement(elem, this.$$_newPosition);
       }
+    };
+
+    TimePickerControl.prototype.getMinuteControl = function() {
+      return this.$$minuteControl;
     };
 
     return TimePickerControl;
