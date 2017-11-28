@@ -44,44 +44,66 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
       DOWN: "down"
     };
 
+    const HOURS = [];
+    for (let index = 1; index <= 12; index++) {
+      HOURS.push(index);
+    }
+
+    const MINUTES = [];
+    for (let index = 1; index < 60; index++) {
+      MINUTES.push(index);
+    }
 
     function TimePickerControl(options) {
       HuoYunWidgetCore.Control.apply(this, arguments);
 
+      var that = this;
+
       this.setDate(this.getOptions().date || new Date());
 
-      var minutes = [];
-      for (var index = 1; index < 60; index++) {
-        minutes.push(index);
-      }
-
-      this.$$minuteControl = new SlideSelectorControl({
-        items: minutes
+      this.$$hoursControl = new SlideSelectorControl({
+        items: HOURS,
+        selectedValue: this.getHours()
       }).on("selectedChanged", function(newVal, oldVal, control) {
-        console.log(arguments);
+        that.setHours(newVal);
       });
+
+      this.$$minutesControl = new SlideSelectorControl({
+        items: MINUTES,
+        selectedValue: this.getMinutes()
+      }).on("selectedChanged", function(newVal, oldVal, control) {
+        that.setMinutes(newVal);
+      });
+
+
     }
 
     HuoYunWidgetCore.ClassExtend(TimePickerControl, HuoYunWidgetCore.Control);
 
+    TimePickerControl.prototype.getMinutes = function() {
+      return this.getDate().getMinutes();
+    };
+
+    TimePickerControl.prototype.setMinutes = function(val) {
+      var oldValue = this.getMinutes();
+      if (oldValue !== val) {
+        this.getDate().setMinutes(val);
+      }
+    };
 
     TimePickerControl.prototype.getHours = function() {
-      if (!this.$$hours) {
-        this.$$hours = [].concat(_12Hours);
-      }
-      return this.$$hours;
+      var hours = this.getDate().getHours();
+      return hours > 12 ? hours - 12 : hours;
     };
 
-    TimePickerControl.prototype.getMinutes = function() {
-      if (!this.$$mintues) {
-        this.$$mintues = [];
-        for (var index = 1; index < 60; index++) {
-          this.$$mintues.push(index);
-        }
+    TimePickerControl.prototype.setHours = function(val) {
+      var oldValue = this.getHours();
+      if (oldValue !== val) {
+        this.getDate().setHours(val);
       }
-
-      return this.$$mintues;
     };
+
+
 
     TimePickerControl.prototype.getFormats = function() {
       return TimeFormats;
@@ -227,8 +249,12 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
       }
     };
 
-    TimePickerControl.prototype.getMinuteControl = function() {
-      return this.$$minuteControl;
+    TimePickerControl.prototype.getMinutesControl = function() {
+      return this.$$minutesControl;
+    };
+
+    TimePickerControl.prototype.getHoursControl = function() {
+      return this.$$hoursControl;
     };
 
     return TimePickerControl;

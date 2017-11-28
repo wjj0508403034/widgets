@@ -34,11 +34,16 @@
   float: right;
 }
 
-.widgets-time-picker .widgets-time-picker-item {
+.widgets-time-picker .widgets-time-picker-item-conatiner {
   width: 33.3333%;
-  padding: 0 2px;
   height: 100%;
   float: left;
+  padding: 0 10px;
+}
+
+.widgets-time-picker .widgets-time-picker-item {
+  padding: 0 2px;
+  height: 100%;
   position: relative;
 }
 
@@ -66,16 +71,6 @@
   height: 30px;
   line-height: 30px;
   margin: 5px 2px;
-}
-
-.widgets-time-picker .widgets-time-picker-item .selected-box {
-  position: absolute;
-  height: 30px;
-  line-height: 30px;
-  border: 2px solid #367fa9;
-  top: 140px;
-  left: 2px;
-  right: -2px;
 }
 
 .widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-list:hover .list-item {

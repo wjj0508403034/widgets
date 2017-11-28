@@ -1,6 +1,5 @@
 <div id="{{options.getId()}}" class="widgets-slide-selector" control-name="{{options.getControlName()}}">
   <ul>
-    <li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()"></li>
+    <li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" data-selected="{{options.isItemSelected($item,$index)}}" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()"></li>
   </ul>
-  <div class="selector-box" ng-style="options.getSelectorBoxStyle()" ng-bind="options.getSelectedValue()"></div>
 </div>

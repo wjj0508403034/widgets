@@ -16,18 +16,8 @@
   margin-bottom: 2px;
 }
 
-.selector-box {
-  height: 28px;
+.widgets-slide-selector .selector-item[data-selected="true"] {
   border: 2px solid #367fa9;
   background: #367fa9;
   color: white;
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  -webkit-transition: top .1s linear;
-  -moz-transition: top .1s linear;
-  -o-transition: top .1s linear;
-  -ms-transition: top .1s linear;
-  transition: top .1s linear;
 }

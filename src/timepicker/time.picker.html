@@ -1,38 +1,43 @@
 <div class="widgets-time-picker" id="{{options.getId()}}" control-name="{{options.getControlName()}}">
   <div class="widgets-time-picker-container">
-    <div class="widgets-time-picker-item widgets-time-picker-hours">
-      <div class="widgets-time-picker-item-label">Hour</div>
-      <div class="arrow-button arrow-up-button" ng-click="options.onHourArrowUpButtonClicked()">
-        <i class="fa fa-angle-up" aria-hidden="true"></i>
-      </div>
-      <ul class="widgets-time-picker-item-list list-hours">
-        <li id="{{options.getListItemId('hours',$index)}}" class="list-item" ng-repeat="$hour in options.getHours() track by $index" ng-bind="$hour.name" on-finish-render="options.onHoursRenderFinished()"></li>
-      </ul>
-      <div class="selected-box"></div>
-      <div class="arrow-button arrow-down-button" ng-click="options.onHourArrowDownButtonClicked()">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
-      </div>
-    </div>
-    <div class="widgets-time-picker-item widgets-time-picker-minutes">
-      <div class="widgets-time-picker-item-label">Minute</div>
-      <div class="arrow-button arrow-up-button" ng-click="options.getMinuteControl().scrollToPerviousElement()">
-        <i class="fa fa-angle-up" aria-hidden="true"></i>
-      </div>
-      <div widgets-slide-selector options="options.getMinuteControl()"></div>
-      <div class="arrow-button arrow-down-button" ng-click="options.getMinuteControl().scrollToNextElement()">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
+    <div class="widgets-time-picker-item-conatiner">
+      <div class="widgets-time-picker-item widgets-time-picker-hours">
+        <div class="widgets-time-picker-item-label">Hour</div>
+        <div class="arrow-button arrow-up-button" ng-click="options.getHoursControl().scrollToPerviousElement()">
+          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </div>
+        <div widgets-slide-selector options="options.getHoursControl()"></div>
+        <div class="arrow-button arrow-down-button" ng-click="options.getHoursControl().scrollToNextElement()">
+          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
-    <div class="widgets-time-picker-item widgets-time-picker-format">
-      <div class="widgets-time-picker-item-label">AM/PM</div>
-      <div class="arrow-button arrow-up-button">
-        <i class="fa fa-angle-up" aria-hidden="true"></i>
+
+    <div class="widgets-time-picker-item-conatiner">
+      <div class="widgets-time-picker-item widgets-time-picker-minutes">
+        <div class="widgets-time-picker-item-label">Minute</div>
+        <div class="arrow-button arrow-up-button" ng-click="options.getMinutesControl().scrollToPerviousElement()">
+          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </div>
+        <div widgets-slide-selector options="options.getMinutesControl()"></div>
+        <div class="arrow-button arrow-down-button" ng-click="options.getMinutesControl().scrollToNextElement()">
+          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </div>
       </div>
-      <ul class="widgets-time-picker-item-list list-format">
-        <li class="list-item" ng-repeat="$format in options.getFormats()" ng-bind="options.getFormatText($format)"></li>
-      </ul>
-      <div class="arrow-button arrow-down-button">
-        <i class="fa fa-angle-down" aria-hidden="true"></i>
+    </div>
+
+    <div class="widgets-time-picker-item-conatiner">
+      <div class="widgets-time-picker-item widgets-time-picker-format">
+        <div class="widgets-time-picker-item-label">AM/PM</div>
+        <div class="arrow-button arrow-up-button">
+          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </div>
+        <ul class="widgets-time-picker-item-list list-format">
+          <li class="list-item" ng-repeat="$format in options.getFormats()" ng-bind="options.getFormatText($format)"></li>
+        </ul>
+        <div class="arrow-button arrow-down-button">
+          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
   </div>
