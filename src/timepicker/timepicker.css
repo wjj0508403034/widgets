@@ -55,26 +55,11 @@
   overflow-y: scroll;
 }
 
-.widgets-time-picker .widgets-time-picker-item .widgets-slide-selector {
+.widgets-time-picker .widgets-time-picker-item .widgets-slide-selector-container {
   position: absolute;
-  top: 65px;
-  bottom: 35px;
+  top: 35px;
+  bottom: 0px;
   width: 100%;
-}
-
-.widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-list::-webkit-scrollbar {
-  display: none;
-}
-
-.widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-list .list-item {
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-  margin: 5px 2px;
-}
-
-.widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-list:hover .list-item {
-  background: #d2d6de;
 }
 
 .widgets-time-picker .widgets-time-picker-item .widgets-time-picker-item-label {
@@ -83,29 +68,4 @@
   text-align: center;
   line-height: 30px;
   width: 100%;
-}
-
-.widgets-time-picker .widgets-time-picker-item .arrow-button {
-  position: absolute;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.widgets-time-picker .widgets-time-picker-item .arrow-button:hover {
-  background: #d2d6de;
-}
-
-.widgets-time-picker .widgets-time-picker-item .arrow-button .fa {
-  line-height: 30px;
-}
-
-.widgets-time-picker .widgets-time-picker-item .arrow-up-button {
-  top: 40px;
-}
-
-.widgets-time-picker .widgets-time-picker-item .arrow-down-button {
-  bottom: 0px;
 }

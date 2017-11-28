@@ -1,5 +1,12 @@
-<div id="{{options.getId()}}" class="widgets-slide-selector" control-name="{{options.getControlName()}}">
-  <ul>
-    <li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" data-selected="{{options.isItemSelected($item,$index)}}" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()"></li>
+<div id="{{options.getId()}}" class="widgets-slide-selector" control-name="{{options.getControlName()}}" active="{{options.isActive()}}">
+  <div class="arrow-button arrow-up-button" ng-click="options.scrollToPerviousElement()">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+  </div>
+  <ul class="items-pannel">
+    <li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" data-selected="{{options.isItemSelected($item,$index)}}" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()"
+      ng-click="options.onItemClicked($item,$index)"></li>
   </ul>
+  <div class="arrow-button arrow-down-button" ng-click="options.scrollToNextElement()">
+    <i class="fa fa-angle-down" aria-hidden="true"></i>
+  </div>
 </div>

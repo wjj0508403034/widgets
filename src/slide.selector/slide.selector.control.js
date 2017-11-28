@@ -5,6 +5,7 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
 
     const ItemHeight = 30;
     const OffsetItemCount = 2;
+    const RepeatCount = 3;
 
     function SlideSelectorControl(options) {
       HuoYunWidgetCore.Control.apply(this, arguments);
@@ -18,11 +19,18 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
       if (!this.$$items) {
         var items = this.__getItems();
         if (Array.isArray(items)) {
-          this.$$items = [].concat(items).concat(items).concat(items);
+          this.$$items = [];
+          for (var index = 0; index < this.getRepeatCount(); index++) {
+            this.$$items = this.$$items.concat(items);
+          }
         }
       }
 
       return this.$$items;
+    };
+
+    SlideSelectorControl.prototype.getRepeatCount = function() {
+      return this.getOptions().repeatCount || RepeatCount;
     };
 
     SlideSelectorControl.prototype.__getItems = function() {
@@ -156,6 +164,25 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
 
     SlideSelectorControl.prototype.getOffsetItemCount = function() {
       return this.getOptions().offsetItemCount || OffsetItemCount;
+    };
+
+    SlideSelectorControl.prototype.isActive = function() {
+      return this.$$active === true;
+    };
+
+    SlideSelectorControl.prototype.setActive = function(val) {
+      if (this.$$active !== val) {
+        var oldValue = this.$$active;
+        this.$$active = val;
+        this.raiseEvent("activeChanged", [val, oldValue, this]);
+      }
+      return this;
+    };
+
+    SlideSelectorControl.prototype.onItemClicked = function(item, index) {
+      if (!this.isActive() && this.isItemSelected(item, index)) {
+        this.setActive(true);
+      }
     };
 
     return SlideSelectorControl;

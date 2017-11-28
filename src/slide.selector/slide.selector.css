@@ -1,23 +1,71 @@
 .widgets-slide-selector {
   position: relative;
-  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+}
+
+.widgets-slide-selector .items-pannel {
+  position: absolute;
+  top: 40px;
+  bottom: 40px;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
-.widgets-slide-selector::-webkit-scrollbar {
+.widgets-slide-selector .items-pannel::-webkit-scrollbar {
   display: none;
+}
+
+.widgets-slide-selector[active="true"] .items-pannel {
+  overflow-y: scroll;
 }
 
 .widgets-slide-selector .selector-item {
   height: 28px;
   line-height: 28px;
   text-align: center;
-  background: #cccccc;
+  background: transparent;
   margin-bottom: 2px;
+  opacity: 0;
 }
 
 .widgets-slide-selector .selector-item[data-selected="true"] {
   border: 2px solid #367fa9;
   background: #367fa9;
   color: white;
+  opacity: 1;
+}
+
+.widgets-slide-selector[active="true"] .selector-item {
+  background: #cccccc;
+  opacity: 1;
+  color: initial;
+}
+
+.widgets-slide-selector .arrow-button {
+  position: absolute;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.widgets-slide-selector[active="true"] .arrow-button {
+  opacity: 1;
+}
+
+.widgets-slide-selector .arrow-button:hover {
+  background: #d2d6de;
+}
+
+.widgets-slide-selector .arrow-button .fa {
+  line-height: 30px;
+}
+
+.widgets-slide-selector .arrow-down-button {
+  bottom: 0px;
 }

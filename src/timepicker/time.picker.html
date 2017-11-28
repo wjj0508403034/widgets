@@ -3,12 +3,8 @@
     <div class="widgets-time-picker-item-conatiner">
       <div class="widgets-time-picker-item widgets-time-picker-hours">
         <div class="widgets-time-picker-item-label">Hour</div>
-        <div class="arrow-button arrow-up-button" ng-click="options.getHoursControl().scrollToPerviousElement()">
-          <i class="fa fa-angle-up" aria-hidden="true"></i>
-        </div>
-        <div widgets-slide-selector options="options.getHoursControl()"></div>
-        <div class="arrow-button arrow-down-button" ng-click="options.getHoursControl().scrollToNextElement()">
-          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        <div class="widgets-slide-selector-container">
+          <div widgets-slide-selector options="options.getHoursControl()"></div>
         </div>
       </div>
     </div>
@@ -16,27 +12,18 @@
     <div class="widgets-time-picker-item-conatiner">
       <div class="widgets-time-picker-item widgets-time-picker-minutes">
         <div class="widgets-time-picker-item-label">Minute</div>
-        <div class="arrow-button arrow-up-button" ng-click="options.getMinutesControl().scrollToPerviousElement()">
-          <i class="fa fa-angle-up" aria-hidden="true"></i>
+        <div class="widgets-slide-selector-container">
+          <div widgets-slide-selector options="options.getMinutesControl()"></div>
         </div>
-        <div widgets-slide-selector options="options.getMinutesControl()"></div>
-        <div class="arrow-button arrow-down-button" ng-click="options.getMinutesControl().scrollToNextElement()">
-          <i class="fa fa-angle-down" aria-hidden="true"></i>
-        </div>
+
       </div>
     </div>
 
     <div class="widgets-time-picker-item-conatiner">
       <div class="widgets-time-picker-item widgets-time-picker-format">
         <div class="widgets-time-picker-item-label">AM/PM</div>
-        <div class="arrow-button arrow-up-button">
-          <i class="fa fa-angle-up" aria-hidden="true"></i>
-        </div>
-        <ul class="widgets-time-picker-item-list list-format">
-          <li class="list-item" ng-repeat="$format in options.getFormats()" ng-bind="options.getFormatText($format)"></li>
-        </ul>
-        <div class="arrow-button arrow-down-button">
-          <i class="fa fa-angle-down" aria-hidden="true"></i>
+        <div class="widgets-slide-selector-container">
+          <div widgets-slide-selector options="options.getTimeFormatControl()"></div>
         </div>
       </div>
     </div>
