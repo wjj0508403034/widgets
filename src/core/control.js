@@ -54,7 +54,7 @@ angular.module('huoyun.widget').factory("Control", [function() {
     return this.getOptions().templateUrl;
   };
 
-  Control.prototype.isCustomizeTemplate = function() {
+  Control.prototype.hasTemplateUrl = function() {
     return !!this.getTemplateUrl();
   };
 

@@ -1,6 +1,6 @@
 <div class="tab-item-header" data-selected="{{options.getTabItem().isSelected()}}" ng-click="options.getTabItem().onClick()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()">
   <div class="widgets-tab-header-container">
-    <div ng-if="options.isCustomizeTemplate()" ng-include="options.getTemplateUrl()"></div>
-    <div ng-if="!options.isCustomizeTemplate()" ng-bind="options.getContent()"></div>
+    <div ng-if="options.hasTemplateUrl()" ng-include="options.getTemplateUrl()"></div>
+    <div ng-if="!options.hasTemplateUrl()" ng-bind="options.getContent()"></div>
   </div>
 </div>

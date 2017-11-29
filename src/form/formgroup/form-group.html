@@ -1,18 +1,18 @@
 <div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}">
 
   <div ng-if="options.hasLabelControl()">
-    <div ng-if="options.getLabelControl().isCustomizeTemplate()">
+    <div ng-if="options.getLabelControl().hasTemplateUrl()">
       <div ng-include="options.getLabelControl().getTemplateUrl()"></div>
     </div>
-    <div ng-if="!options.getLabelControl().isCustomizeTemplate()">
+    <div ng-if="!options.getLabelControl().hasTemplateUrl()">
       <label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label>
     </div>
   </div>
   <div ng-if="options.hasInputControl()">
-    <div ng-if="options.getInputControl().isCustomizeTemplate()">
+    <div ng-if="options.getInputControl().hasTemplateUrl()">
       <div ng-include="options.getInputControl().getTemplateUrl()"></div>
     </div>
-    <div ng-if="!options.getInputControl().isCustomizeTemplate()" ng-switch="options.getType()">
+    <div ng-if="!options.getInputControl().hasTemplateUrl()" ng-switch="options.getType()">
       <div ng-switch-when="DATALIST" widgets-data-list options="options.getInputControl().getInput()"></div>
       <div ng-switch-when="DROPDOWN" widgets-dropdown options="options.getInputControl().getInput()"></div>
       <div ng-switch-when="EMAIL" widgets-email-box options="options.getInputControl().getInput()"></div>

@@ -10,11 +10,11 @@
   <form ng-class="options.appendOrientationClass()">
     <div class="box-body" ng-if="!options.isReadonly()">
       <div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()">
-        <div ng-if="$formGroup.isCustomizeTemplate()">
+        <div ng-if="$formGroup.hasTemplateUrl()">
           <div ng-include="$formGroup.getTemplateUrl()"></div>
         </div>
 
-        <div ng-if="!$formGroup.isCustomizeTemplate()">
+        <div ng-if="!$formGroup.hasTemplateUrl()">
           <div widgets-form-group options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div>
         </div>
       </div>

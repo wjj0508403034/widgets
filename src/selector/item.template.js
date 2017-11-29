@@ -54,6 +54,14 @@ angular.module('huoyun.widget').factory("ItemControl", ["HuoYunWidgetCore",
       return this.__getValueByPathFunc("getDisplayPath");
     };
 
+    ItemControl.prototype.hasTemplateUrl = function() {
+      return this.getSelector().hasItemTemplateUrl();
+    };
+
+    ItemControl.prototype.onClicked = function() {
+      this.getSelector().onItemClicked(this);
+    };
+
     ItemControl.prototype.__getValueByPathFunc = function(pathFuncName) {
       var data = this.getData();
 

@@ -33,7 +33,9 @@
   <div widgets-table options="table"></div>
   <div widgets-pagination options="pagination"></div>
 
-  <div widgets-list-view options="listViewOption"></div>
+  <div widgets-list-view options="listViewOption">
+    <item-template ng-bind="$item.getId()"></item-template>
+  </div>
   <div widgets-text-box options="textBoxOption"></div>
   <div widgets-dropdown options="dropdownOption" ng-model="dropdownSelected"></div>
 

@@ -36,7 +36,6 @@ angular.module('huoyun.widget').controller('DataListController', ["$scope", "Che
       .setSelectionMode(options.selection)
       .setDataSource($scope.vm.loadPageDataSource)
       .setItemTemplate(CheckBoxListViewItemControl)
-      .setItemTemplateUrl("listview/checkbox.listviewitem.html")
       .on("dataSourceChanged", function() {
         console.log(arguments)
       });

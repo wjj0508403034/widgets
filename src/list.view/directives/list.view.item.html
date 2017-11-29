@@ -1,0 +1,4 @@
+<div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-click="$item.onClicked()">
+  <div ng-if="!$item.hasTemplateUrl()" ng-bind="$item.getDisplayText()"></div>
+  <div ng-if="$item.hasTemplateUrl()" ng-include="$item.hasTemplateUrl()"></div>
+</div>

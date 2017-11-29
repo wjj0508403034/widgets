@@ -1,7 +1,11 @@
 <div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()">
   <div widgets-search-box options="vm.search"></div>
 
-  <div widgets-list-view options="vm.listView"></div>
+  <div widgets-list-view options="vm.listView">
+    <item-template>
+      <div widgets-check-box options="$item.getCheckBox()"></div>
+    </item-template>
+  </div>
 
   <div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()">
     <div>加载更多...</div>
