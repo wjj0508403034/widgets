@@ -35,7 +35,7 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
 
       this.$$hoursControl = new SlideSelectorControl({
         items: HOURS,
-        selectedValue: this.getHours()
+        selectedValue: this.getShortHours()
       }).on("selectedChanged", function(newVal, oldVal, control) {
         that.setHours(newVal);
       }).on("activeChanged", function(newVal, oldVal, control) {
@@ -64,7 +64,7 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
         valuePath: "name",
         repeatCount: 5
       }).on("selectedChanged", function(newVal, oldVal, control) {
-        //that.setMinutes(newVal);
+        that.setTimeFormat(newVal);
       }).on("activeChanged", function(newVal, oldVal, control) {
         if (newVal) {
           that.getMinutesControl().setActive(false);
@@ -82,25 +82,64 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
     TimePickerControl.prototype.setMinutes = function(val) {
       var oldValue = this.getMinutes();
       if (oldValue !== val) {
-        this.getDate().setMinutes(val);
+        var date = this.getDate();
+        this.setDate(new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours(),
+          val
+        ));
       }
     };
 
     TimePickerControl.prototype.getHours = function() {
-      var hours = this.getDate().getHours();
+      return this.getDate().getHours();
+    };
+
+    TimePickerControl.prototype.getShortHours = function() {
+      var hours = this.getHours();
       return hours > 12 ? hours - 12 : hours;
     };
 
     TimePickerControl.prototype.setHours = function(val) {
       var oldValue = this.getHours();
       if (oldValue !== val) {
-        this.getDate().setHours(val);
+        var date = this.getDate();
+        var hours = this.getTimeFormat() === "pm" ? val + 12 : val;
+        this.setDate(new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          hours,
+          date.getMinutes()
+        ));
       }
     };
 
     TimePickerControl.prototype.getTimeFormat = function() {
-      var hours = this.getDate().getHours();
+      var hours = this.getHours();
       return hours > 12 ? "pm" : "am";
+    };
+
+    TimePickerControl.prototype.setTimeFormat = function(val) {
+      var oldValue = this.getTimeFormat();
+      if (oldValue !== val) {
+        var shortHours = this.getShortHours();
+        var hours = val === "pm" ? shortHours + 12 : shortHours;
+        var date = this.getDate();
+        this.setDate(new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          hours,
+          date.getMinutes()
+        ));
+      }
+    };
+
+    TimePickerControl.prototype.__getFullYear = function() {
+      return this.getDate().getFullYear();
     };
 
     TimePickerControl.prototype.getDate = function() {
@@ -108,7 +147,9 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
     };
 
     TimePickerControl.prototype.setDate = function(date) {
+      var oldDate = this.$$date;
       this.$$date = date;
+      this.raiseEvent("timeChanged", [date, oldDate, this]);
     };
 
     TimePickerControl.prototype.getMinutesControl = function() {
@@ -121,6 +162,14 @@ angular.module('huoyun.widget').factory("TimePickerControl", ["HuoYunWidgetCore"
 
     TimePickerControl.prototype.getTimeFormatControl = function() {
       return this.$$timeFormatControl;
+    };
+
+    TimePickerControl.prototype.onOkButtonClicked = function() {
+      this.raiseEvent("picked", [this.getDate(), this]);
+    };
+
+    TimePickerControl.prototype.onCancelButtonClicked = function() {
+      this.raiseEvent("cancelled", [this]);
     };
 
     return TimePickerControl;

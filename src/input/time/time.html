@@ -1,0 +1,9 @@
+<div id="{{options.getId()}}" class="input-group widgets-time-input" control-name="{{options.getControlName()}}" has-error="{{options.hasError()}}">
+  <input type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" ng-click="options.onTimeInputClick($event)" ng-style="options.getStyle()"
+    ng-value="options.getFormatText()">
+  <span class="input-group-addon" ng-click="options.onTimeInputClick($event)"><i class="fa fa-clock-o"></i></span>
+  <div class="popup" ng-if="options.isShow()">
+    <div widgets-time-picker options="options.getTimePickerControl()"></div>
+  </div>
+</div>
+<div widgets-input-error options="options.getErrorControl()"></div>

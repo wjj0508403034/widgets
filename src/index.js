@@ -6,7 +6,7 @@ angular.module('huoyun.widget').provider("Format", function() {
 
   this.configuration = function(options) {
     var that = this;
-    ["date", "datetime"].forEach(function(prop) {
+    ["date", "datetime", "time"].forEach(function(prop) {
       if (options[prop]) {
         that[prop] = options[prop];
       }
@@ -27,7 +27,8 @@ angular.module('huoyun.widget').run(["Format", function(FormatProvider) {
 
   FormatProvider.configuration({
     date: "yyyy/MM/dd",
-    datetime: "yyyy/MM/dd HH:mm"
+    datetime: "yyyy/MM/dd HH:mm",
+    time: "HH:mm a"
   });
 }]);
 

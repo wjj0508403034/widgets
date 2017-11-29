@@ -75,7 +75,7 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
       return -1;
     };
 
-    SlideSelectorControl.prototype.__calcInitPosition = function() {
+    SlideSelectorControl.prototype.scrollToInit = function() {
       var index = this.indexOf(this.getSelectedValue());
       if (index === -1) {
         index = this.__getItems().length;
@@ -83,21 +83,28 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
         index += this.__getItems().length;
       }
 
-      return ItemHeight * (index - this.getOffsetItemCount());
+      this.scrollByItemIndex(index);
+    };
+
+    SlideSelectorControl.prototype.getItemPanelElement = function() {
+      if (!this.$$itemsPanelElem) {
+        this.$$itemsPanelElem = this.getElement().find(".items-pannel");
+      }
+
+      return this.$$itemsPanelElem;
     };
 
     SlideSelectorControl.prototype.onRepeatRendered = function() {
       var that = this;
       if (that.__$$calcScrollTop) {
-        this.getElement().scrollTop(that.__$$calcScrollTop);
+        this.getItemPanelElement().scrollTop(that.__$$calcScrollTop);
         return;
       }
 
-      var initPosition = this.__calcInitPosition();
-      this.getElement().scrollTop(initPosition);
+      this.scrollToInit();
 
       var timer = null;
-      this.getElement().off("scroll").on("scroll", function(event) {
+      this.getItemPanelElement().off("scroll").on("scroll", function(event) {
         var elem = this;
         var index = Math.ceil(elem.scrollTop / ItemHeight);
         if (timer) {
@@ -155,11 +162,11 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
     };
 
     SlideSelectorControl.prototype.scrollToNextElement = function() {
-      this.getElement().scrollTop(this.getScrollTop() + ItemHeight);
+      this.getItemPanelElement().scrollTop(this.getScrollTop() + ItemHeight);
     };
 
     SlideSelectorControl.prototype.scrollToPerviousElement = function() {
-      this.getElement().scrollTop(this.getScrollTop() - ItemHeight);
+      this.getItemPanelElement().scrollTop(this.getScrollTop() - ItemHeight);
     };
 
     SlideSelectorControl.prototype.getOffsetItemCount = function() {
@@ -174,12 +181,37 @@ angular.module('huoyun.widget').factory("SlideSelectorControl", ["HuoYunWidgetCo
       if (this.$$active !== val) {
         var oldValue = this.$$active;
         this.$$active = val;
+        var that = this;
+        if (val) {
+          $(document).on("click", that.onClick.bind(this));
+        } else {
+          $(document).off("click", that.onClick.bind(this));
+        }
         this.raiseEvent("activeChanged", [val, oldValue, this]);
       }
       return this;
     };
 
+    SlideSelectorControl.prototype.onClick = function(event) {
+      if ($(event.target).closest(`#${this.getId()}`).length === 0) {
+        var that = this;
+        $timeout(function() {
+          that.setActive(false);
+        });
+      }
+    };
+
+    SlideSelectorControl.prototype.scrollByItemIndex = function(index) {
+      var position = ItemHeight * (index - this.getOffsetItemCount());
+      this.getItemPanelElement().scrollTop(position);
+    };
+
     SlideSelectorControl.prototype.onItemClicked = function(item, index) {
+      if (this.isActive()) {
+        this.scrollByItemIndex(index);
+        return;
+      }
+
       if (!this.isActive() && this.isItemSelected(item, index)) {
         this.setActive(true);
       }

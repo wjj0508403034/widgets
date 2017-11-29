@@ -7,7 +7,10 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
 
     $scope.storyBoard = null;
 
-    $scope.timepicker = new HuoYunWidgets.Controls.TimePicker({});
+    $scope.timepicker = new HuoYunWidgets.Controls.TimePicker({})
+      .on("timeChanged", function() {
+        console.log(arguments)
+      });
 
     $scope.datepicker = new HuoYunWidgets.Controls.DatePicker({
       date: new Date()
@@ -181,6 +184,17 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
         },
         input: {
           placeholder: "birthday"
+        },
+        mandatory: true,
+        appendClass: "col-sm-4"
+      }, {
+        name: "time",
+        type: "time",
+        label: {
+          text: "Time"
+        },
+        input: {
+          placeholder: "time..."
         },
         mandatory: true,
         appendClass: "col-sm-4"

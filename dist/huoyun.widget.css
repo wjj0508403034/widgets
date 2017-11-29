@@ -6,9 +6,6 @@
   color: #cccccc;
   cursor: default;
 }
-div[widgets-button] {
-  display: inline-block;
-}
 .widgets-checkbox {
   cursor: pointer;
 }
@@ -23,6 +20,9 @@ div[widgets-button] {
 
 .widgets-checkbox .widgets-checkbox-content {
   margin-left: 5px;
+}
+div[widgets-button] {
+  display: inline-block;
 }
 @charset "UTF-8";
 
@@ -3133,6 +3133,7 @@ li {
   background: transparent;
   margin-bottom: 2px;
   opacity: 0;
+  cursor: default;
 }
 
 .widgets-slide-selector .selector-item[data-selected="true"] {
@@ -3146,6 +3147,7 @@ li {
   background: #cccccc;
   opacity: 1;
   color: initial;
+  cursor: pointer;
 }
 
 .widgets-slide-selector .arrow-button {
@@ -3172,14 +3174,6 @@ li {
 
 .widgets-slide-selector .arrow-down-button {
   bottom: 0px;
-}
-.widgets-table table tr {
-  cursor: pointer;
-}
-
-.widgets-table table tr[data-selected="true"] {
-  background-color: #3c8dbc;
-  border-color: #367fa9;
 }
 .widgets-tab {
   padding: 5px;
@@ -3236,6 +3230,14 @@ li {
 
 .widgets-tab .widgets-tab-panel {
   padding: 10px 5px;
+}
+.widgets-table table tr {
+  cursor: pointer;
+}
+
+.widgets-table table tr[data-selected="true"] {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
 }
 .widgets-time-picker {
   height: 300px;
@@ -3391,12 +3393,32 @@ li {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
-
-.widgets-date-input .popup:focus {
-  border: 1px solid red;
-}
 .widgets-input-error {
   color: red;
   font-size: 70%;
   margin-top: 5px;
+}
+
+.widgets-time-input input {
+  cursor: default;
+}
+
+.widgets-time-input .popup {
+  outline: 0;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 320px;
+  height: 300px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  padding: 1px 0 0 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  z-index: 1000;
+  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }

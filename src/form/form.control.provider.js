@@ -24,4 +24,5 @@ angular.module('huoyun.widget').run(["FormControlProvider", "HuoYunWidgetsInputs
   FormControlProvider.registerControl("STRING", HuoYunWidgetsInputs.TextBox);
   FormControlProvider.registerControl("DATALIST", HuoYunWidgetsInputs.DataList);
   FormControlProvider.registerControl("DATE", HuoYunWidgetsInputs.Date);
+  FormControlProvider.registerControl("TIME", HuoYunWidgetsInputs.Time);
 }]);

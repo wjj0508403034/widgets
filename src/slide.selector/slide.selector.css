@@ -29,6 +29,7 @@
   background: transparent;
   margin-bottom: 2px;
   opacity: 0;
+  cursor: default;
 }
 
 .widgets-slide-selector .selector-item[data-selected="true"] {
@@ -42,6 +43,7 @@
   background: #cccccc;
   opacity: 1;
   color: initial;
+  cursor: pointer;
 }
 
 .widgets-slide-selector .arrow-button {

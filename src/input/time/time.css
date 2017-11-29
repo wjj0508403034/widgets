@@ -1,8 +1,8 @@
-.widgets-date-input input {
+.widgets-time-input input {
   cursor: default;
 }
 
-.widgets-date-input .popup {
+.widgets-time-input .popup {
   outline: 0;
   position: absolute;
   top: 35px;
