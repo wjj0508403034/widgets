@@ -5,6 +5,7 @@ angular.module('huoyun.widget').directive('widgetsListViewItem', ["$templateCach
     const TemplateUrl = "list.view/directives/list.view.item.html";
 
     return {
+      replace: true,
       require: "^widgetsListView",
       restrict: 'A',
       link: function($scope, elem, attrs, control, $transclude) {
