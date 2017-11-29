@@ -12,13 +12,7 @@
     <div ng-if="options.getInputControl().hasTemplateUrl()">
       <div ng-include="options.getInputControl().getTemplateUrl()"></div>
     </div>
-    <div ng-if="!options.getInputControl().hasTemplateUrl()" ng-switch="options.getType()">
-      <div ng-switch-when="DATALIST" widgets-data-list options="options.getInputControl().getInput()"></div>
-      <div ng-switch-when="DROPDOWN" widgets-dropdown options="options.getInputControl().getInput()"></div>
-      <div ng-switch-when="EMAIL" widgets-email-box options="options.getInputControl().getInput()"></div>
-      <div ng-switch-when="DATE" widgets-date-box options="options.getInputControl().getInput()"></div>
-      <div ng-switch-when="TIME" widgets-time-input-box options="options.getInputControl().getInput()"></div>
-      <div ng-switch-default widgets-text-box options="options.getInputControl().getInput()"></div>
+    <div class="input-control-template" ng-if="!options.getInputControl().hasTemplateUrl()" ng-init="renderInputControl()">
     </div>
   </div>
 </div>

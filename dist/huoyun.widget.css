@@ -2778,6 +2778,22 @@ dir {
 li {
   list-style-type: none;
 }
+.huoyun-dialog-container.ngdialog .ngdialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.huoyun-dialog-content-container.box>.box-body {
+  min-height: 100px;
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.huoyun-dialog-content-container.box>.box-footer .btn {
+  margin-left: 15px;
+  min-width: 80px;
+}
 .widgets-date-picker {
   height: 300px;
   width: 320px;
@@ -2936,22 +2952,6 @@ li {
 .widgets-date-picker .calendar-month-days-view-body .week-day-item[data-selected="true"]:hover {
   background: #337ab7;
   border-color: #337ab7;
-}
-.huoyun-dialog-container.ngdialog .ngdialog-content {
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.huoyun-dialog-content-container.box>.box-body {
-  min-height: 100px;
-  max-height: 450px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.huoyun-dialog-content-container.box>.box-footer .btn {
-  margin-left: 15px;
-  min-width: 80px;
 }
 .widgets-form .input-group[has-error="true"] .form-control,
 .widgets-form .input-group[has-error="true"] .input-group-addon {
