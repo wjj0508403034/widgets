@@ -3088,43 +3088,6 @@ angular.module('huoyun.widget').factory("TipControl", ['$compile', '$rootScope',
 }]);
 'use strict';
 
-angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
-  $templateCache.put('breadcrumb/breadcrumb.html', '<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}"><ol class="breadcrumb"><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()"><i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i> <span ng-bind="$item.getText()"></span></li></ol></div>');
-  $templateCache.put('button/button.html', '<button class="btn" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-click="options.onClick()"><i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()"></i> <span ng-bind="options.getButtonText()"></span></button>');
-  $templateCache.put('checkbox/checkbox.html', '<div class="widgets-checkbox" ng-click="options.onClick($event)"><i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i> <span class="widgets-checkbox-content" ng-bind="options.getText()"></span></div>');
-  $templateCache.put('datepicker/date.picker.html', '<div class="widgets-date-picker"><div class="widgets-date-picker-wrapper"><div class="calendar-month-header"><div class="last-button" ng-click="options.onLeftButtonClicked()"><i class="fa fa-angle-left" aria-hidden="true"></i></div><div class="calendar-month-header-content" ng-bind="options.getHeader()" ng-click="options.onViewModeButtonClicked()"></div><div class="next-button" ng-click="options.onRightButtonClicked()"><i class="fa fa-angle-right" aria-hidden="true"></i></div></div><div class="calendar-month-days-view" ng-if="options.isDayView()"><div class="calendar-month-days-view-header"><div class="week-day-item" ng-repeat="weekDay in options.getWeekDays()" ng-bind="options.getWeekDayName(weekDay)"></div></div><div class="calendar-month-days-view-body"><div class="week-item" ng-repeat="$week in options.getWeeks()"><div class="week-day-item" ng-repeat="$day in $week.getDays()" today="{{$day.isToday()}}" data-selected="{{$day.isSelected()}}" current-month="{{$day.inCurrentMonth()}}" ng-bind="$day.getDate().getDate()" ng-click="options.onDayClicked($event,$day)"></div></div></div></div><div class="calendar-year-months-view" ng-if="options.isMonthView()"><div class="month-item-wrapper" ng-repeat="$month in options.getMonths()"><div class="month-item" ng-bind="options.getMonthName($month)" current-month="{{options.isCurrentMonth($month)}}" ng-click="options.onMonthButtonClicked($month)"></div></div></div><div class="calendar-years-view" ng-if="options.isYearView()"><div class="year-item-wrapper" ng-repeat="$year in options.getYears()"><div class="year-item" ng-bind="$year" current-year="{{options.isCurrentYear($year)}}" ng-click="options.onYearButtonClicked($year)"></div></div></div></div></div>');
-  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container animated bounceInDown"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
-  $templateCache.put('form/form.html', '<div class="box widgets-form" form-readonly="{{options.isReadonly()}}"><div class="box-header" ng-if="options.getHeader().isVisibility()"><h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3><div class="box-tools pull-right"><div class="input-group input-group-sm"><div widgets-button="" options="button" ng-repeat="button in options.getHeader().getButtons()"></div></div></div></div><form ng-class="options.appendOrientationClass()"><div class="box-body" ng-if="!options.isReadonly()"><div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()"><div ng-if="$formGroup.hasTemplateUrl()"><div ng-include="$formGroup.getTemplateUrl()"></div></div><div ng-if="!$formGroup.hasTemplateUrl()"><div widgets-form-group="" options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div></div></div></div><div class="box-footer" ng-if="options.isFooterVisibility()"><div widgets-button="" options="button" ng-repeat="button in options.getFooter().getButtons()"></div></div></form></div>');
-  $templateCache.put('loading/loading.html', '<div id="{{options.getId()}}" class="widgets-loading" name="{{options.getName()}}" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-if="options.isVisibility()"><div class="loading-content-container"><i class="fa fa-refresh fa-spin"></i> <span class="loading-content" ng-bind="options.getContent()"></span></div></div>');
-  $templateCache.put('loading/loading.template.html', '<div widgets-loading="" options="loading"></div>');
-  $templateCache.put('loading/loading.wrapper.html', '<div class="loading-wrapper"></div>');
-  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
-  $templateCache.put('pagination/pagination.html', '<div class="widgets-pagination"><ul class="pagination pagination-sm no-margin pull-right" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><li ng-disabled="options.isFirst()"><span ng-click="options.onPerviousClick()">\xAB</span></li><li ng-repeat="$page in options.getPages()" ng-class="options.activeClass($page)"><span ng-bind="options.getPageText($page)" ng-click="options.onPageClick($page)"></span></li><li ng-disabled="options.isLast()"><span ng-click="options.onNextClick()">\xBB</span></li></ul></div>');
-  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="$item in options.getItems()"><div widgets-side-bar-item="" options="$item"></div></div></aside></div>');
-  $templateCache.put('sidebar/sidebaritem.html', '<div class="side-bar-item"><div class="side-bar-group-header"><i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i> <span ng-bind="options.getText()"></span></div><ul class="side-bar-group-items-container" ng-if="options.hasChild()"><li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()"></li></ul></div>');
-  $templateCache.put('slide.selector/slide.selector.html', '<div id="{{options.getId()}}" class="widgets-slide-selector" control-name="{{options.getControlName()}}" active="{{options.isActive()}}"><div class="arrow-button arrow-up-button" ng-click="options.scrollToPerviousElement()"><i class="fa fa-angle-up" aria-hidden="true"></i></div><ul class="items-pannel"><li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" data-selected="{{options.isItemSelected($item,$index)}}" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()" ng-click="options.onItemClicked($item,$index)"></li></ul><div class="arrow-button arrow-down-button" ng-click="options.scrollToNextElement()"><i class="fa fa-angle-down" aria-hidden="true"></i></div></div>');
-  $templateCache.put('tab/tab.item.header.html', '<div class="tab-item-header" data-selected="{{options.getTabItem().isSelected()}}" ng-click="options.getTabItem().onClick()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div class="widgets-tab-header-container"><div ng-if="options.hasTemplateUrl()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.hasTemplateUrl()" ng-bind="options.getContent()"></div></div></div>');
-  $templateCache.put('tab/tab.item.html', '<div class="widgets-tab-item" ng-if="options.isSelected()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div ng-if="options.hasTemplateUrl()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.hasTemplateUrl()" ng-bind="options.getContent()"></div></div>');
-  $templateCache.put('table/table.html', '<div class="widgets-table"><table class="table" ng-class="options.appendClass()"><thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()"><tr><th ng-repeat="$column in options.getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable="" drag-data="$column" drag-success="options.onColumnDragSuccess($event,$dragData,$column)"></th></tr></thead><tbody><tr ng-repeat="$row in options.getRows()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)"><td ng-repeat="$column in options.getColumns()"><div ng-bind="$column.getColumnValue($row)"></div></td></tr></tbody></table></div>');
-  $templateCache.put('timepicker/time.picker.html', '<div class="widgets-time-picker" id="{{options.getId()}}" control-name="{{options.getControlName()}}"><div class="widgets-time-picker-container"><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-hours"><div class="widgets-time-picker-item-label">Hour</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getHoursControl()"></div></div></div></div><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-minutes"><div class="widgets-time-picker-item-label">Minute</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getMinutesControl()"></div></div></div></div><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-format"><div class="widgets-time-picker-item-label">AM/PM</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getTimeFormatControl()"></div></div></div></div></div><div class="widgets-time-picker-footer"><div class="btn btn-default btn-sm huoyun-margin-left-10" ng-click="options.onCancelButtonClicked()">Cancel</div><div class="btn btn-primary btn-sm" ng-click="options.onOkButtonClicked()">OK</div></div></div>');
-  $templateCache.put('tip/tip.html', '<div class="widgets-tip"><div id="{{options.getId()}}" class="alert alert-success alert-dismissible"><span ng-bind="options.getMessage()"></span></div></div>');
-  $templateCache.put('form/formgroup/form-group.html', '<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}"><div ng-if="options.hasLabelControl()"><div ng-if="options.getLabelControl().hasTemplateUrl()"><div ng-include="options.getLabelControl().getTemplateUrl()"></div></div><div ng-if="!options.getLabelControl().hasTemplateUrl()"><label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label></div></div><div ng-if="options.hasInputControl()"><div ng-if="options.getInputControl().hasTemplateUrl()"><div ng-include="options.getInputControl().getTemplateUrl()"></div></div><div class="input-control-template" ng-if="!options.getInputControl().hasTemplateUrl()" ng-init="renderInputControl()"></div></div></div>');
-  $templateCache.put('input/date/date.html', '<div class="input-group widgets-date-input" has-error="{{options.hasError()}}"><input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-click="options.onDateInputClick($event)" ng-style="options.getStyle()" ng-value="options.getFormatText()"> <span class="input-group-addon" ng-click="options.onDateInputClick($event)"><i class="fa fa-calendar"></i></span><div class="popup" ng-if="options.isShow()" ng-blur="options.onPopupBlur()"><div widgets-date-picker="" options="options.getCalendar()"></div></div></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
-  $templateCache.put('input/datalist/datalist.dialog.html', '<div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()"><div widgets-search-box="" options="vm.search"></div><div widgets-list-view="" options="vm.listView"><item-template><div widgets-check-box="" options="$item.getCheckBox()"></div></item-template></div><div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()"><div>\u52A0\u8F7D\u66F4\u591A...</div></div></div>');
-  $templateCache.put('input/datalist/datalist.html', '<div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-value="options.getInputText()"></div>');
-  $templateCache.put('input/dropdown/dropdown.html', '<select id="{{options.getId()}}" placeholder="{{options.getPlaceholder()}}" ng-options="options.getItemValue(option) as options.getItemLabel(option) for option in options.getDataSource()" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-style="options.getStyle()" control-name="{{options.getControlName()}}" ng-if="options.isVisibility()" ng-class="options.appendClass()" ng-model="$parent.options.$$value" widgets-events-input-changed=""></select>');
-  $templateCache.put('input/email/email.html', '<div class="input-group" has-error="{{options.hasError()}}"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
-  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
-  $templateCache.put('input/text/text.html', '<input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""><div widgets-input-error="" options="options.getErrorControl()"></div>');
-  $templateCache.put('input/time/time.html', '<div id="{{options.getId()}}" class="input-group widgets-time-input" control-name="{{options.getControlName()}}" has-error="{{options.hasError()}}"><input type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" ng-click="options.onTimeInputClick($event)" ng-style="options.getStyle()" ng-value="options.getFormatText()"> <span class="input-group-addon" ng-click="options.onTimeInputClick($event)"><i class="fa fa-clock-o"></i></span><div class="popup" ng-if="options.isShow()"><div widgets-time-picker="" options="options.getTimePickerControl()"></div></div></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
-  $templateCache.put('input/search/search.html', '<div class="form-group widgets-search-box"><div class="input-group"><input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed=""> <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span></div></div>');
-  $templateCache.put('list.view/directives/list.view.html', '<div class="widgets-list-view"><div class="list-view-item" widgets-list-view-item="" ng-repeat="$item in options.getItems()"></div></div>');
-  $templateCache.put('list.view/directives/list.view.item.html', '<div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-click="$item.onClicked()"><div ng-if="!$item.hasTemplateUrl()" ng-bind="$item.getDisplayText()"></div><div ng-if="$item.hasTemplateUrl()" ng-include="$item.hasTemplateUrl()"></div></div>');
-  $templateCache.put('tab/directives/tab.html', '<div id="{{options.getId()}}" class="widgets-tab" control-name="{{options.getControlName()}}"><div class="widgets-tab-header"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item-header="" options="$tabItem.getHeader()"></div></div><div class="widgets-tab-panel"><div class="tab-item" widgets-tab-item="" ng-repeat="$tabItem in options.getTabItems()"></div></div></div>');
-  $templateCache.put('tab/directives/tab.item.html', '<div id="{{$tabItem.getId()}}" control-name="{{$tabItem.getControlName()}}" class="widgets-tab-item" ng-if="$tabItem.isSelected()" ng-disabled="$tabItem.isDisabled()" ng-class="$tabItem.appendClass()" ng-style="$tabItem.getStyle()" ng-init="onTabItemRender()"><div class="content-presenter"></div></div>');
-}]);
-'use strict';
-
 angular.module('huoyun.widget').factory("EmailValidator", ["HuoYunWidgetCore", function (HuoYunWidgetCore) {
 
   var PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -3155,6 +3118,43 @@ angular.module('huoyun.widget').factory("HuoYunWidgetsValidators", ["EmailValida
   return {
     Email: EmailValidator
   };
+}]);
+'use strict';
+
+angular.module('huoyun.widget').run(['$templateCache', function ($templateCache) {
+  $templateCache.put('breadcrumb/breadcrumb.html', '<div class="widgets-breadcrumb" ng-class="options.appendClass()" control-name="{{options.getControlName()}}"><ol class="breadcrumb"><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()"><i class="fa" ng-class="$item.getIcon()" aria-hidden="true"></i> <span ng-bind="$item.getText()"></span></li></ol></div>');
+  $templateCache.put('button/button.html', '<button class="btn" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-click="options.onClick()"><i class="fa" aria-hidden="true" ng-class="options.getButtonIcon()" ng-if="options.isButtonIconVisibility()"></i> <span ng-bind="options.getButtonText()"></span></button>');
+  $templateCache.put('checkbox/checkbox.html', '<div class="widgets-checkbox" ng-click="options.onClick($event)"><i class="fa fa-check-square-o" aria-hidden="true" ng-class="options.getIconClass()"></i> <span class="widgets-checkbox-content" ng-bind="options.getText()"></span></div>');
+  $templateCache.put('datepicker/date.picker.html', '<div class="widgets-date-picker"><div class="widgets-date-picker-wrapper"><div class="calendar-month-header"><div class="last-button" ng-click="options.onLeftButtonClicked()"><i class="fa fa-angle-left" aria-hidden="true"></i></div><div class="calendar-month-header-content" ng-bind="options.getHeader()" ng-click="options.onViewModeButtonClicked()"></div><div class="next-button" ng-click="options.onRightButtonClicked()"><i class="fa fa-angle-right" aria-hidden="true"></i></div></div><div class="calendar-month-days-view" ng-if="options.isDayView()"><div class="calendar-month-days-view-header"><div class="week-day-item" ng-repeat="weekDay in options.getWeekDays()" ng-bind="options.getWeekDayName(weekDay)"></div></div><div class="calendar-month-days-view-body"><div class="week-item" ng-repeat="$week in options.getWeeks()"><div class="week-day-item" ng-repeat="$day in $week.getDays()" today="{{$day.isToday()}}" data-selected="{{$day.isSelected()}}" current-month="{{$day.inCurrentMonth()}}" ng-bind="$day.getDate().getDate()" ng-click="options.onDayClicked($event,$day)"></div></div></div></div><div class="calendar-year-months-view" ng-if="options.isMonthView()"><div class="month-item-wrapper" ng-repeat="$month in options.getMonths()"><div class="month-item" ng-bind="options.getMonthName($month)" current-month="{{options.isCurrentMonth($month)}}" ng-click="options.onMonthButtonClicked($month)"></div></div></div><div class="calendar-years-view" ng-if="options.isYearView()"><div class="year-item-wrapper" ng-repeat="$year in options.getYears()"><div class="year-item" ng-bind="$year" current-year="{{options.isCurrentYear($year)}}" ng-click="options.onYearButtonClicked($year)"></div></div></div></div></div>');
+  $templateCache.put('dialog/dialog.html', '<div class="box box-primary huoyun-dialog-content-container animated bounceInDown"><div class="box-header with-border"><h3 class="box-title"><i class="fa fa-info" aria-hidden="true"></i> <span ng-bind="ngDialogData.title"></span></h3></div><div class="box-body"><div ng-if="!ngDialogData.templateUrl" ng-bind="ngDialogData.content"></div><div ng-if="ngDialogData.templateUrl" ng-include="ngDialogData.templateUrl"></div></div><div class="box-footer"><button type="submit" ng-if="ngDialogData.cancelButtonVisibility" class="btn btn-default pull-right" ng-click="onCancelButtonClicked()" ng-bind="ngDialogData.cancelButtonText"></button> <button type="submit" ng-if="ngDialogData.confirmButtonVisibility" class="btn btn-primary pull-right" ng-click="onConfirmButtonClicked()" ng-bind="ngDialogData.confirmButtonText"></button></div></div>');
+  $templateCache.put('form/form.html', '<div class="box widgets-form" form-readonly="{{options.isReadonly()}}"><div class="box-header" ng-if="options.getHeader().isVisibility()"><h3 class="box-title" ng-bind="options.getHeader().getTitle()"></h3><div class="box-tools pull-right"><div class="input-group input-group-sm"><div widgets-button="" options="button" ng-repeat="button in options.getHeader().getButtons()"></div></div></div></div><form ng-class="options.appendOrientationClass()"><div class="box-body" ng-if="!options.isReadonly()"><div ng-repeat="$formGroup in options.getGroups()" prop-name="{{$formGroup.getName()}}" prop-type="{{$formGroup.getType()}}" ng-if="$formGroup.isVisibility()"><div ng-if="$formGroup.hasTemplateUrl()"><div ng-include="$formGroup.getTemplateUrl()"></div></div><div ng-if="!$formGroup.hasTemplateUrl()"><div widgets-form-group="" options="$formGroup" ng-model="options.$$data[$formGroup.getName()]"></div></div></div></div><div class="box-footer" ng-if="options.isFooterVisibility()"><div widgets-button="" options="button" ng-repeat="button in options.getFooter().getButtons()"></div></div></form></div>');
+  $templateCache.put('loading/loading.html', '<div id="{{options.getId()}}" class="widgets-loading" name="{{options.getName()}}" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-if="options.isVisibility()"><div class="loading-content-container"><i class="fa fa-refresh fa-spin"></i> <span class="loading-content" ng-bind="options.getContent()"></span></div></div>');
+  $templateCache.put('loading/loading.template.html', '<div widgets-loading="" options="loading"></div>');
+  $templateCache.put('loading/loading.wrapper.html', '<div class="loading-wrapper"></div>');
+  $templateCache.put('nav/nav.html', '<div class="row widgets-nav"><nav><ul><li ng-repeat="$item in options.getItems()" name="{{$item.getName()}}" ng-if="$item.isVisibility()" ng-bind="$item.getText()" ng-click="$item.onClick()" ng-style="$item.getStyle()" ng-class="$item.appendClass()" ng-disabled="$item.isDisabled()" data-selected="{{$item.isSelected()}}"></li></ul></nav></div>');
+  $templateCache.put('pagination/pagination.html', '<div class="widgets-pagination"><ul class="pagination pagination-sm no-margin pull-right" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><li ng-disabled="options.isFirst()"><span ng-click="options.onPerviousClick()">\xAB</span></li><li ng-repeat="$page in options.getPages()" ng-class="options.activeClass($page)"><span ng-bind="options.getPageText($page)" ng-click="options.onPageClick($page)"></span></li><li ng-disabled="options.isLast()"><span ng-click="options.onNextClick()">\xBB</span></li></ul></div>');
+  $templateCache.put('sidebar/sidebar.html', '<div class="widgets-side-bar"><aside><div ng-repeat="$item in options.getItems()"><div widgets-side-bar-item="" options="$item"></div></div></aside></div>');
+  $templateCache.put('sidebar/sidebaritem.html', '<div class="side-bar-item"><div class="side-bar-group-header"><i class="fa" ng-class="options.getIcon()" aria-hidden="true"></i> <span ng-bind="options.getText()"></span></div><ul class="side-bar-group-items-container" ng-if="options.hasChild()"><li ng-repeat="$item in options.getItems()" ng-bind="$item.getText()" ng-class="$item.getExpandClass()" ng-click="$item.onClick()"></li></ul></div>');
+  $templateCache.put('slide.selector/slide.selector.html', '<div id="{{options.getId()}}" class="widgets-slide-selector" control-name="{{options.getControlName()}}" active="{{options.isActive()}}"><div class="arrow-button arrow-up-button" ng-click="options.scrollToPerviousElement()"><i class="fa fa-angle-up" aria-hidden="true"></i></div><ul class="items-pannel"><li id="{{options.getItemId($index)}}" class="selector-item" ng-repeat="$item in options.getItems() track by $index" data-selected="{{options.isItemSelected($item,$index)}}" ng-bind="options.getItemDisplayText($item)" on-finish-render="options.onRepeatRendered()" ng-click="options.onItemClicked($item,$index)"></li></ul><div class="arrow-button arrow-down-button" ng-click="options.scrollToNextElement()"><i class="fa fa-angle-down" aria-hidden="true"></i></div></div>');
+  $templateCache.put('tab/tab.item.header.html', '<div class="tab-item-header" data-selected="{{options.getTabItem().isSelected()}}" ng-click="options.getTabItem().onClick()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div class="widgets-tab-header-container"><div ng-if="options.hasTemplateUrl()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.hasTemplateUrl()" ng-bind="options.getContent()"></div></div></div>');
+  $templateCache.put('tab/tab.item.html', '<div class="widgets-tab-item" ng-if="options.isSelected()" ng-disabled="options.isDisabled()" ng-class="options.appendClass()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()"><div ng-if="options.hasTemplateUrl()" ng-include="options.getTemplateUrl()"></div><div ng-if="!options.hasTemplateUrl()" ng-bind="options.getContent()"></div></div>');
+  $templateCache.put('table/table.html', '<div class="widgets-table"><table class="table" ng-class="options.appendClass()"><thead ng-if="options.getHeader().isVisibility()" ng-style="options.getHeader().getStyle()"><tr><th ng-repeat="$column in options.getColumns()" column-name="{{$column.getName()}}" ng-style="$column.getStyle()" ng-bind="$column.getHeaderText()" widgets-draggable="" drag-data="$column" drag-success="options.onColumnDragSuccess($event,$dragData,$column)"></th></tr></thead><tbody><tr ng-repeat="$row in options.getRows()" data-selected="{{$row.isSelected()}}" ng-click="options.onItemClicked($row)"><td ng-repeat="$column in options.getColumns()"><div ng-bind="$column.getColumnValue($row)"></div></td></tr></tbody></table></div>');
+  $templateCache.put('timepicker/time.picker.html', '<div class="widgets-time-picker" id="{{options.getId()}}" control-name="{{options.getControlName()}}"><div class="widgets-time-picker-container"><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-hours"><div class="widgets-time-picker-item-label">Hour</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getHoursControl()"></div></div></div></div><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-minutes"><div class="widgets-time-picker-item-label">Minute</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getMinutesControl()"></div></div></div></div><div class="widgets-time-picker-item-conatiner"><div class="widgets-time-picker-item widgets-time-picker-format"><div class="widgets-time-picker-item-label">AM/PM</div><div class="widgets-slide-selector-container"><div widgets-slide-selector="" options="options.getTimeFormatControl()"></div></div></div></div></div><div class="widgets-time-picker-footer"><div class="btn btn-default btn-sm huoyun-margin-left-10" ng-click="options.onCancelButtonClicked()">Cancel</div><div class="btn btn-primary btn-sm" ng-click="options.onOkButtonClicked()">OK</div></div></div>');
+  $templateCache.put('tip/tip.html', '<div class="widgets-tip"><div id="{{options.getId()}}" class="alert alert-success alert-dismissible"><span ng-bind="options.getMessage()"></span></div></div>');
+  $templateCache.put('form/formgroup/form-group.html', '<div class="form-group widgets-form-group" mandatory="{{options.isMandatory()}}" ng-class="options.appendClass()" has-error="{{options.hasError}}"><div ng-if="options.hasLabelControl()"><div ng-if="options.getLabelControl().hasTemplateUrl()"><div ng-include="options.getLabelControl().getTemplateUrl()"></div></div><div ng-if="!options.getLabelControl().hasTemplateUrl()"><label for="{{options.getName()}}" class="control-label" ng-bind="options.getLabelControl().getText()" ng-class="options.getLabelControl().appendClass()"></label></div></div><div ng-if="options.hasInputControl()"><div ng-if="options.getInputControl().hasTemplateUrl()"><div ng-include="options.getInputControl().getTemplateUrl()"></div></div><div class="input-control-template" ng-if="!options.getInputControl().hasTemplateUrl()" ng-init="renderInputControl()"></div></div></div>');
+  $templateCache.put('input/date/date.html', '<div class="input-group widgets-date-input" has-error="{{options.hasError()}}"><input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-click="options.onDateInputClick($event)" ng-style="options.getStyle()" ng-value="options.getFormatText()"> <span class="input-group-addon" ng-click="options.onDateInputClick($event)"><i class="fa fa-calendar"></i></span><div class="popup" ng-if="options.isShow()" ng-blur="options.onPopupBlur()"><div widgets-date-picker="" options="options.getCalendar()"></div></div></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('input/datalist/datalist.dialog.html', '<div class="widgets-data-list-dialog" ng-controller="DataListController" ng-class="vm.getSelectionModeClass()"><div widgets-search-box="" options="vm.search"></div><div widgets-list-view="" options="vm.listView"><item-template><div widgets-check-box="" options="$item.getCheckBox()"></div></item-template></div><div class="item-template load-more" ng-click="vm.loadMore()" ng-if="vm.getDataListControl().isLoadMoreVisibility()"><div>\u52A0\u8F7D\u66F4\u591A...</div></div></div>');
+  $templateCache.put('input/datalist/datalist.html', '<div class="input-group" ng-click="onButtonClicked()"><span class="input-group-addon"><i class="fa fa-link"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-value="options.getInputText()"></div>');
+  $templateCache.put('input/dropdown/dropdown.html', '<select id="{{options.getId()}}" placeholder="{{options.getPlaceholder()}}" ng-options="options.getItemValue(option) as options.getItemLabel(option) for option in options.getDataSource()" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-style="options.getStyle()" control-name="{{options.getControlName()}}" ng-if="options.isVisibility()" ng-class="options.appendClass()" ng-model="$parent.options.$$value" widgets-events-input-changed=""></select>');
+  $templateCache.put('input/email/email.html', '<div class="input-group" has-error="{{options.hasError()}}"><span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('input/error/input.error.html', '<div class="widgets-input-error" ng-if="options.hasError()"><div class="error-message" ng-bind="options.getErrorMessage()"></div></div>');
+  $templateCache.put('input/search/search.html', '<div class="form-group widgets-search-box"><div class="input-group"><input id="{{options.getId()}}" type="text" class="form-control" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed=""> <span class="input-group-addon" ng-click="options.onSearchBoxButtonClicked()"><i class="fa" ng-class="options.appendSearchIconClass()"></i></span></div></div>');
+  $templateCache.put('input/text/text.html', '<input id="{{options.getId()}}" type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" control-name="{{options.getControlName()}}" ng-style="options.getStyle()" ng-model="$parent.options.$$value" widgets-events-input-changed="" widgets-input-validator=""><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('input/time/time.html', '<div id="{{options.getId()}}" class="input-group widgets-time-input" control-name="{{options.getControlName()}}" has-error="{{options.hasError()}}"><input type="text" placeholder="{{options.getPlaceholder()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()" ng-click="options.onTimeInputClick($event)" ng-style="options.getStyle()" ng-value="options.getFormatText()"> <span class="input-group-addon" ng-click="options.onTimeInputClick($event)"><i class="fa fa-clock-o"></i></span><div class="popup" ng-if="options.isShow()"><div widgets-time-picker="" options="options.getTimePickerControl()"></div></div></div><div widgets-input-error="" options="options.getErrorControl()"></div>');
+  $templateCache.put('list.view/directives/list.view.html', '<div class="widgets-list-view"><div class="list-view-item" widgets-list-view-item="" ng-repeat="$item in options.getItems()"></div></div>');
+  $templateCache.put('list.view/directives/list.view.item.html', '<div class="list-view-item" data-selected="{{$item.isSelected()}}" ng-click="$item.onClicked()"><div ng-if="!$item.hasTemplateUrl()" ng-bind="$item.getDisplayText()"></div><div ng-if="$item.hasTemplateUrl()" ng-include="$item.hasTemplateUrl()"></div></div>');
+  $templateCache.put('tab/directives/tab.html', '<div id="{{options.getId()}}" class="widgets-tab" control-name="{{options.getControlName()}}" ng-init="$tab = options"><div class="widgets-tab-header"><div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item-header="" options="$tabItem.getHeader()"></div></div><div class="widgets-tab-panel"><div class="tab-item" widgets-tab-item="" ng-repeat="$tabItem in options.getTabItems()"></div></div></div>');
+  $templateCache.put('tab/directives/tab.item.html', '<div id="{{$tabItem.getId()}}" control-name="{{$tabItem.getControlName()}}" class="widgets-tab-item" ng-if="$tabItem.isSelected()" ng-disabled="$tabItem.isDisabled()" ng-class="$tabItem.appendClass()" ng-style="$tabItem.getStyle()" ng-init="onTabItemRender()"><div class="content-presenter"></div></div>');
 }]);
 'use strict';
 
@@ -3196,53 +3196,6 @@ angular.module('huoyun.widget').factory("Validator", ["$q", function ($q) {
 
   return Validator;
 }]);
-'use strict';
-
-// angular.module('huoyun.widget').factory("EmailValidator", function() {
-
-//   const PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-//   function EmailValidator(formGroupOption) {
-//     this.formGroupOption = formGroupOption;
-//   }
-
-//   EmailValidator.prototype.onValid = function(value) {
-//     if (PATTERN.test(value)) {
-//       return Promise.resolve();
-//     }
-
-//     this.formGroupOption.errorMessage = `邮箱地址格式不正确`
-//     return Promise.reject(this.formGroupOption);
-//   }
-
-//   return EmailValidator;
-// });
-'use strict';
-
-angular.module('huoyun.widget').factory("MandatoryValidator", function () {
-
-  function MandatoryValidator(formGroupOption) {
-    this.formGroupOption = formGroupOption;
-  }
-
-  MandatoryValidator.prototype.onValid = function (value) {
-    if (value === null || value === undefined) {
-      this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
-      return Promise.reject(this.formGroupOption);
-    }
-
-    if (typeof value === "string") {
-      if (value.trim() === "") {
-        this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
-        return Promise.reject(this.formGroupOption);
-      }
-    }
-
-    return Promise.resolve();
-  };
-
-  return MandatoryValidator;
-});
 'use strict';
 
 angular.module('huoyun.widget').factory("FormGroupControl", ["$log", "HuoYunWidgetCore", "FormGroupLabelControl", "FormGroupInputControl", function ($log, HuoYunWidgetCore, FormGroupLabelControl, FormGroupInputControl) {
@@ -3394,6 +3347,53 @@ angular.module('huoyun.widget').directive('widgetsFormGroup', ["FormControlProvi
     }
   };
 }]);
+'use strict';
+
+// angular.module('huoyun.widget').factory("EmailValidator", function() {
+
+//   const PATTERN = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+//   function EmailValidator(formGroupOption) {
+//     this.formGroupOption = formGroupOption;
+//   }
+
+//   EmailValidator.prototype.onValid = function(value) {
+//     if (PATTERN.test(value)) {
+//       return Promise.resolve();
+//     }
+
+//     this.formGroupOption.errorMessage = `邮箱地址格式不正确`
+//     return Promise.reject(this.formGroupOption);
+//   }
+
+//   return EmailValidator;
+// });
+'use strict';
+
+angular.module('huoyun.widget').factory("MandatoryValidator", function () {
+
+  function MandatoryValidator(formGroupOption) {
+    this.formGroupOption = formGroupOption;
+  }
+
+  MandatoryValidator.prototype.onValid = function (value) {
+    if (value === null || value === undefined) {
+      this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
+      return Promise.reject(this.formGroupOption);
+    }
+
+    if (typeof value === "string") {
+      if (value.trim() === "") {
+        this.formGroupOption.errorMessage = '\u5B57\u6BB5' + this.formGroupOption.label + '\u4E0D\u80FD\u4E3A\u7A7A';
+        return Promise.reject(this.formGroupOption);
+      }
+    }
+
+    return Promise.resolve();
+  };
+
+  return MandatoryValidator;
+});
 'use strict';
 
 angular.module('huoyun.widget').factory("DateControl", ["HuoYunWidgetCore", "InputControl", "DatePickerControl", "$filter", "Format", function (HuoYunWidgetCore, InputControl, DatePickerControl, $filter, FormatProvider) {
@@ -3724,6 +3724,44 @@ angular.module('huoyun.widget').directive('widgetsInputError', [function () {
 }]);
 'use strict';
 
+angular.module('huoyun.widget').factory("SearchControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
+
+  function SearchControl(options) {
+    InputControl.apply(this, arguments);
+  }
+
+  HuoYunWidgetCore.ClassExtend(SearchControl, InputControl);
+
+  SearchControl.prototype.isSearching = function () {
+    return !!this.getValue();
+  };
+
+  SearchControl.prototype.appendSearchIconClass = function () {
+    return this.isSearching() ? "fa-times" : "fa-search";
+  };
+
+  SearchControl.prototype.onSearchBoxButtonClicked = function () {
+    if (this.isSearching()) {
+      this.setValue(null);
+    }
+  };
+
+  return SearchControl;
+}]);
+'use strict';
+
+angular.module('huoyun.widget').directive('widgetsSearchBox', [function () {
+  return {
+    restrict: 'A',
+    scope: {
+      options: "="
+    },
+    templateUrl: 'input/search/search.html',
+    link: function link($scope, elem, attrs) {}
+  };
+}]);
+'use strict';
+
 angular.module('huoyun.widget').factory("TextControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
 
   function TextControl(options) {
@@ -3835,44 +3873,6 @@ angular.module('huoyun.widget').directive('widgetsTimeInputBox', ["$timeout", fu
         }
       }
     }
-  };
-}]);
-'use strict';
-
-angular.module('huoyun.widget').factory("SearchControl", ["HuoYunWidgetCore", "InputControl", function (HuoYunWidgetCore, InputControl) {
-
-  function SearchControl(options) {
-    InputControl.apply(this, arguments);
-  }
-
-  HuoYunWidgetCore.ClassExtend(SearchControl, InputControl);
-
-  SearchControl.prototype.isSearching = function () {
-    return !!this.getValue();
-  };
-
-  SearchControl.prototype.appendSearchIconClass = function () {
-    return this.isSearching() ? "fa-times" : "fa-search";
-  };
-
-  SearchControl.prototype.onSearchBoxButtonClicked = function () {
-    if (this.isSearching()) {
-      this.setValue(null);
-    }
-  };
-
-  return SearchControl;
-}]);
-'use strict';
-
-angular.module('huoyun.widget').directive('widgetsSearchBox', [function () {
-  return {
-    restrict: 'A',
-    scope: {
-      options: "="
-    },
-    templateUrl: 'input/search/search.html',
-    link: function link($scope, elem, attrs) {}
   };
 }]);
 'use strict';

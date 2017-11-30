@@ -5,6 +5,7 @@ angular.module('Demo', ['huoyun.widget']);
 angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYunWidgets",
   function($scope, Dialog, HuoYunWidgets) {
 
+    $scope.AA = "aa"
     $scope.storyBoard = null;
 
     $scope.timepicker = new HuoYunWidgets.Controls.TimePicker({})
