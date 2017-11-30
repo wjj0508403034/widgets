@@ -8,6 +8,10 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
     $scope.AA = "aa"
     $scope.storyBoard = null;
 
+    $scope.button = new HuoYunWidgets.Controls.Button({
+      text: "AA"
+    });
+
     $scope.timepicker = new HuoYunWidgets.Controls.TimePicker({})
       .on("timeChanged", function() {
         console.log(arguments)
@@ -109,10 +113,6 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
     }).on("selectedChanged", function() {
       console.log(arguments)
       console.log($scope.listViewOption.getSelectedValue())
-    });
-
-    $scope.button = new HuoYunWidgets.Controls.Button({
-      text: "Hello"
     });
 
     $scope.textBoxOption = new HuoYunWidgets.Controls.Inputs.TextBox({

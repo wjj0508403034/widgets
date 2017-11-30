@@ -1,144 +1,167 @@
 'use strict';
 
-angular.module('huoyun.widget').factory("Control", [function() {
-  function Control(options) {
-    this.$$eventMap = {};
+angular.module('huoyun.widget').factory("Control", ["$templateRequest",
+  function($templateRequest) {
+    function Control(options) {
+      this.$$eventMap = {};
 
-    this.getOptions = function() {
-      if (options === null || options === undefined) {
-        options = {};
+      this.getOptions = function() {
+        if (options === null || options === undefined) {
+          options = {};
+        }
+        return options;
+      };
+    }
+
+    Control.prototype.getId = function() {
+      if (!this.$$id) {
+        if (this.getOptions().id) {
+          this.$$id = this.getOptions().id;
+        } else {
+          var now = new Date();
+          this.$$id = now.getTime();
+        }
       }
-      return options;
+
+      return this.$$id;
     };
-  }
 
-  Control.prototype.getId = function() {
-    if (!this.$$id) {
-      if (this.getOptions().id) {
-        this.$$id = this.getOptions().id;
-      } else {
-        var now = new Date();
-        this.$$id = now.getTime();
+    Control.prototype.callSuperMethod = function(method, args) {
+      this.constructor.super.prototype[method].apply(this, args);
+    };
+
+    Control.prototype.getName = function() {
+      return this.getOptions().name;
+    };
+
+    Control.prototype.getControlName = function() {
+      return this.constructor.name;
+    };
+
+    Control.prototype.setElement = function(elem) {
+      this.$$elem = elem;
+      return this;
+    };
+
+    Control.prototype.getElement = function() {
+      return this.$$elem;
+    };
+
+    Control.prototype.appendClass = function() {
+      return this.getOptions().appendClass;
+    };
+
+    Control.prototype.setTemplate = function(template) {
+      this.$$template = template;
+      return this;
+    };
+
+    Control.prototype.getTemplate = function() {
+      if (this.$$template) {
+        return this.$$template;
       }
-    }
 
-    return this.$$id;
-  };
+      var templateUrl = this.getTemplateUrl();
+      if (templateUrl) {
+        return $templateRequest(templateUrl);
+      }
+    };
 
-  Control.prototype.callSuperMethod = function(method, args) {
-    this.constructor.super.prototype[method].apply(this, args);
-  };
+    Control.prototype.getTemplateUrl = function() {
+      return this.getOptions().templateUrl;
+    };
 
-  Control.prototype.getName = function() {
-    return this.getOptions().name;
-  };
+    Control.prototype.hasTemplateUrl = function() {
+      return !!this.getTemplateUrl();
+    };
 
-  Control.prototype.getControlName = function() {
-    return this.constructor.name;
-  };
+    Control.prototype.setTemplateUrl = function(templateUrl) {
+      this.getOptions().templateUrl = templateUrl;
+      return this;
+    };
 
-  Control.prototype.setElement = function(elem) {
-    this.$$elem = elem;
-    return this;
-  };
+    Control.prototype.getStyle = function() {
+      var style = this.getOptions().style;
+      if (typeof style === "object") {
+        return style;
+      }
 
-  Control.prototype.getElement = function() {
-    return this.$$elem;
-  };
+      if (typeof style === "function") {
+        return style.apply(this);
+      }
+    };
 
-  Control.prototype.appendClass = function() {
-    return this.getOptions().appendClass;
-  };
+    Control.prototype.isVisibility = function() {
+      return this.__isTrue("visibility");
+    };
 
-  Control.prototype.getTemplateUrl = function() {
-    return this.getOptions().templateUrl;
-  };
+    Control.prototype.isDisabled = function() {
+      return this.__isFalse("disabled");
+    };
 
-  Control.prototype.hasTemplateUrl = function() {
-    return !!this.getTemplateUrl();
-  };
+    Control.prototype.__isTrue = function(propName) {
+      return !this.__isFalse(propName);
+    };
 
-  Control.prototype.getStyle = function() {
-    var style = this.getOptions().style;
-    if (typeof style === "object") {
-      return style;
-    }
+    Control.prototype.__isFalse = function(propName) {
+      var propValue = this.getOptions()[propName];
 
-    if (typeof style === "function") {
-      return style.apply(this);
-    }
-  };
+      if (typeof propValue === "boolean") {
+        return propValue;
+      }
 
-  Control.prototype.isVisibility = function() {
-    return this.__isTrue("visibility");
-  };
+      if (typeof propValue === "function") {
+        return propValue.apply(this);
+      }
 
-  Control.prototype.isDisabled = function() {
-    return this.__isFalse("disabled");
-  };
+      return false;
+    };
 
-  Control.prototype.__isTrue = function(propName) {
-    return !this.__isFalse(propName);
-  };
+    Control.prototype.getEventListeners = function(eventName) {
+      if (!this.$$eventMap[eventName]) {
+        this.$$eventMap[eventName] = [];
+      }
+      return this.$$eventMap[eventName];
+    };
 
-  Control.prototype.__isFalse = function(propName) {
-    var propValue = this.getOptions()[propName];
-
-    if (typeof propValue === "boolean") {
-      return propValue;
-    }
-
-    if (typeof propValue === "function") {
-      return propValue.apply(this);
-    }
-
-    return false;
-  };
-
-  Control.prototype.getEventListeners = function(eventName) {
-    if (!this.$$eventMap[eventName]) {
+    Control.prototype.clearEventListeners = function(eventName) {
       this.$$eventMap[eventName] = [];
-    }
-    return this.$$eventMap[eventName];
-  };
+      return this;
+    };
 
-  Control.prototype.clearEventListeners = function(eventName) {
-    this.$$eventMap[eventName] = [];
-    return this;
-  };
+    Control.prototype.on = function(eventName, listener) {
+      if (typeof listener !== "function") {
+        throw new Event("Event listener must be function");
+      }
+      this.getEventListeners(eventName).push(listener);
 
-  Control.prototype.on = function(eventName, listener) {
-    if (typeof listener !== "function") {
-      throw new Event("Event listener must be function");
-    }
-    this.getEventListeners(eventName).push(listener);
+      return this;
+    };
 
-    return this;
-  };
+    Control.prototype.off = function(eventName, listener) {
+      var listeners = this.getEventListeners(eventName);
 
-  Control.prototype.off = function(eventName, listener) {
-    var listeners = this.getEventListeners(eventName);
+      if (listener === undefined) {
+        return this.clearEventListeners(eventName);
+      }
 
-    if (listener === undefined) {
-      return this.clearEventListeners(eventName);
-    }
+      if (typeof listener !== "function") {
+        throw new Event("Event listener must be function");
+      }
 
-    if (typeof listener !== "function") {
-      throw new Event("Event listener must be function");
-    }
+      var index = listeners.indexOf(listener);
+      listeners.splice(index, 1);
+      return this;
+    };
 
-    var index = listeners.indexOf(listener);
-    listeners.splice(index, 1);
-    return this;
-  };
+    Control.prototype.raiseEvent = function(eventName, args) {
+      var that = this;
+      var listeners = this.getEventListeners(eventName);
+      listeners.forEach(function(listener) {
+        listener.apply(that, args);
+      });
+    };
 
-  Control.prototype.raiseEvent = function(eventName, args) {
-    var that = this;
-    var listeners = this.getEventListeners(eventName);
-    listeners.forEach(function(listener) {
-      listener.apply(that, args);
-    });
-  };
-
-  return Control;
-}]);
+    return Control;
+  }
+]);

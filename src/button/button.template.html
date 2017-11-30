@@ -1,0 +1,7 @@
+<button id="{{options.getId()}}" class="btn" control-name="{{options.getControlName()}}" name="{{options.getName()}}" ng-disabled="options.isDisabled()" ng-readonly="options.isReadonly()" ng-class="options.appendClass()" ng-if="options.isVisibility()"
+  ng-style="options.getStyle()" ng-click="options.onClick()">
+  <div class="content-presenter" widgets-content-presenter slot="content" ng-init="$content = $parent.options">
+    <i class="fa" aria-hidden="true" ng-class="$content.getButtonIcon()" ng-if="$content.isButtonIconVisibility()" ></i>
+    <span ng-bind="$content.getButtonText()"></span>
+  </div>
+</button>

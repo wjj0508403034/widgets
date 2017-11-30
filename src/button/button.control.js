@@ -22,7 +22,6 @@ angular.module('huoyun.widget').factory("ButtonControl", ["$log", "HuoYunWidgetC
       return this.getOptions().text;
     };
 
-
     ButtonControl.prototype.onClick = function() {
       if (!this.isDisabled()) {
         this.raiseEvent("click", [this]);
