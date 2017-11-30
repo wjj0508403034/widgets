@@ -56,6 +56,15 @@ angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", "
       }
     };
 
+    TabItemControl.prototype.setTemplate = function(template) {
+      this.$$template = template;
+      return this;
+    };
+
+    TabItemControl.prototype.getTemplate = function() {
+      return this.$$template;
+    };
+
 
     return TabItemControl;
   }

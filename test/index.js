@@ -31,9 +31,7 @@ angular.module('Demo').controller("DemoController", ["$scope", "Dialog", "HuoYun
         content: "BB"
       }]
     }).on("selectedChanged", function() {
-      $scope.storyBoard.createLine().setPoint1(100, 200).setPoint2(200, 300).draw();
-      $scope.storyBoard.createRect().setStartPoint(100, 200).setEndPoint(200, 300).draw();
-      console.log($scope.storyBoard)
+
     });
 
     $scope.pagination = new HuoYunWidgets.Controls.Pagination({

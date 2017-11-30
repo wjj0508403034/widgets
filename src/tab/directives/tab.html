@@ -1,8 +1,8 @@
-<div class="widgets-tab">
+<div id="{{options.getId()}}" class="widgets-tab" control-name="{{options.getControlName()}}">
   <div class="widgets-tab-header">
     <div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item-header options="$tabItem.getHeader()"></div>
   </div>
   <div class="widgets-tab-panel">
-    <div ng-repeat="$tabItem in options.getTabItems()" widgets-tab-item options="$tabItem"></div>
+    <div class="tab-item" widgets-tab-item ng-repeat="$tabItem in options.getTabItems()"></div>
   </div>
 </div>
