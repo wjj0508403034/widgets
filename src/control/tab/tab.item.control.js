@@ -26,10 +26,6 @@ angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", "
       return this.$$header;
     };
 
-    TabItemControl.prototype.getContent = function() {
-      return this.getOptions().content;
-    };
-
     TabItemControl.prototype.isSelected = function() {
       return this.$$selected;
     };
@@ -54,6 +50,19 @@ angular.module('huoyun.widget').factory("TabItemControl", ["HuoYunWidgetCore", "
         this.selected();
         this.getTab().raiseEvent("selectedChanged", [this, oldSelectedItem, this.getTab()]);
       }
+    };
+
+    TabItemControl.prototype.setHeaderTemplate = function(template) {
+      this.$$headerTemplate = template;
+      return this;
+    };
+
+    TabItemControl.prototype.getHeaderTemplate = function() {
+      return this.$$headerTemplate;
+    };
+
+    TabItemControl.prototype.setContentTemplate = function(template) {
+      return this.$$contentTemplate = template;
     };
 
     return TabItemControl;

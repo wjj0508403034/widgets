@@ -23,16 +23,16 @@
   <script src="./index.js"></script>
 </head>
 
-<body ng-controller="DemoController">
+<body ng-controller="DemoController" ng-init="test1 = 'xxx'">
   <div widgets-button>
 
   </div>
-  <div widgets-tab options="tab">
+  <div options="tab" widgets-tab-template widgets-tab>
     <tab-item-template tab-item-index="0">
-      <span>World 2</span> <span ng-bind="$options.getControlName()"></span>
+      <span>World 2</span> <span ng-bind="options.getControlName()"></span><span ng-bind="$parent.$parent.test1"></span>
     </tab-item-template>
     <tab-item-template tab-item-index="1">
-      <span>World 2</span> <span ng-bind="$tabItem.getControlName()"></span> <span ng-bind="$parent.AA"></span>
+      <span>World 2</span> <span ng-bind="$tabItem.getControlName()"></span> <span ng-bind="AA"></span>
     </tab-item-template>
     <div>xxx</div>
   </div>

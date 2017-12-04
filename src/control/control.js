@@ -56,14 +56,18 @@ angular.module('huoyun.widget').factory("Control", ["$templateRequest",
       return this;
     };
 
-    Control.prototype.getTemplate = function() {
+    Control.prototype.getTemplate = function(callback) {
       if (this.$$template) {
-        return this.$$template;
+        return callback && callback(this.$$template);
       }
+
 
       var templateUrl = this.getTemplateUrl();
       if (templateUrl) {
-        return $templateRequest(templateUrl);
+        return $templateRequest(templateUrl)
+          .then(function(template) {
+            return callback && callback(template);
+          });
       }
     };
 

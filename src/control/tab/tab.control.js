@@ -47,6 +47,13 @@ angular.module('huoyun.widget').factory("TabControl", ["HuoYunWidgetCore", "TabI
       }
     };
 
+    TabControl.prototype.setTabItemHeaderTemplate = function(index, template) {
+      var tabItem = this.getTabItems()[index];
+      if (tabItem) {
+        tabItem.setHeaderTemplate(template);
+      }
+    };
+
     return TabControl;
   }
 ]);
